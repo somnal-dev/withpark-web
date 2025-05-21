@@ -6,6 +6,7 @@ import {InternalErrorPage} from "../pages/internal-error/InternalErrorPage.tsx";
 import {Home} from "../pages/home/Home.tsx";
 import {ThemeProvider} from "@emotion/react";
 import {theme} from "../styles/theme.ts";
+import {MobileView} from "#/templates/mobile-view/MobileView.tsx";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -19,9 +20,12 @@ const queryClient = new QueryClient({
 const InitializedDataProvider = () => (
     <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
-                <ReactQueryDevtools />
-                <GlobalStyle />
+            <ReactQueryDevtools />
+            <GlobalStyle />
+
+            <MobileView>
                 <Outlet />
+            </MobileView>
         </ThemeProvider>
     </QueryClientProvider>
 );

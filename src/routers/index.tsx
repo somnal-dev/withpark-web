@@ -7,6 +7,7 @@ import {Home} from "../pages/home/Home.tsx";
 import {ThemeProvider} from "@emotion/react";
 import {theme} from "../styles/theme.ts";
 import {MobileView} from "#/templates/mobile-view/MobileView.tsx";
+import {NotFoundPage} from "#/pages/not-found/NotFoundPage.tsx";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -18,6 +19,7 @@ const queryClient = new QueryClient({
 });
 
 const InitializedDataProvider = () => (
+    // 리액트 쿼리 클라이언트 프로바이더 제공
     <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
             <ReactQueryDevtools />
@@ -46,7 +48,7 @@ export const applicationRouter: ReturnType<typeof createBrowserRouter> =
             errorElement: (
                 <>
                     <GlobalStyle />
-                    <InternalErrorPage />
+                    <NotFoundPage />
                 </>
             )
         },

@@ -29,7 +29,7 @@
       "#/*": ["./src/*"]
     },
 
-    "types": ["vite-plugin-svgr/client", "navermaps"]
+    "types": ["vite-plugin-svgr/client"]
   },
   "include": ["src", "svg.d.ts"]
 }

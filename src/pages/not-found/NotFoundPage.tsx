@@ -1,8 +1,8 @@
 import {useNavigate} from "react-router-dom";
-import {MobileView} from "#/templates/mobile-view/MobileView.tsx";
 
 import * as S from './NotFoundPage.style';
-import {theme} from "#/styles/theme.ts";
+import {MobileView} from "@withpark/template/mobile-view/MobileView.tsx";
+import {theme} from "@withpark/style/theme.ts";
 
 export const NotFoundPage = () => {
     const navigate = useNavigate();

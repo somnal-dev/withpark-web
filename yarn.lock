@@ -3307,6 +3307,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-kakao-login@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "react-kakao-login@npm:2.1.1"
+  peerDependencies:
+    react: ">= 15.3.0"
+  checksum: 10c0/696ae174e3dd77f38eebfeace99f39b795725958c9412191926ef31b8d757d0d10c85acc5f5b52150b75f7443140e6015d1676142afe924f5eb770719fa1ba2d
+  languageName: node
+  linkType: hard
+
 "react-router-dom@npm:^7.6.0":
   version: 7.6.1
   resolution: "react-router-dom@npm:7.6.1"
@@ -3945,6 +3954,7 @@ __metadata:
     react: "npm:^18.3.1"
     react-dom: "npm:^18.3.1"
     react-error-boundary: "npm:^6.0.0"
+    react-kakao-login: "npm:^2.1.1"
     react-router-dom: "npm:^7.6.0"
     typescript: "npm:^5.5.3"
     typescript-eslint: "npm:^8.0.1"

@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
-
-import { FlexBox } from '#/components/flex-box';
-import { theme } from '#/styles/theme';
+import {theme} from "@withpark/style/theme.ts";
+import {FlexBox} from "@withpark/component/flex-box";
 
 export const Container = styled(FlexBox)`
     height: 100dvh;

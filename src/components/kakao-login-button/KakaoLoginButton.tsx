@@ -1,5 +1,4 @@
 import {ComponentProps} from "react";
-import {Button} from "@withpark/component/button";
 import KakaoLogin from "react-kakao-login";
 
 export interface KakaoLoginButtonProps extends ComponentProps<'button'> {

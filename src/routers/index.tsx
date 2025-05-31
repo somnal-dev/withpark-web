@@ -6,8 +6,8 @@ import {InternalErrorPage} from "../pages/internal-error/InternalErrorPage.tsx";
 import {Home} from "../pages/home/Home.tsx";
 import {ThemeProvider} from "@emotion/react";
 import {theme} from "../styles/theme.ts";
-import {MobileView} from "#/templates/mobile-view/MobileView.tsx";
-import {NotFoundPage} from "#/pages/not-found/NotFoundPage.tsx";
+import {MobileView} from "@withpark/template/mobile-view/MobileView.tsx";
+import {NotFoundPage} from "@withpark/page/not-found/NotFoundPage.tsx";
 
 const queryClient = new QueryClient({
     defaultOptions: {

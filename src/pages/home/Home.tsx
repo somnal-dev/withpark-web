@@ -1,16 +1,13 @@
-import {PreviousButton} from "#/pages/not-found/NotFoundPage.style.tsx";
+import {KakaoLoginButton} from "@withpark/component/kakao-login-button/KakaoLoginButton.tsx";
 
 export const Home = () => {
-
-
-
-  return (
-      <>
+    return (
+        <>
             <h1>Home</h1>
 
-          <PreviousButton>
-              카카오 로그인
-          </PreviousButton>
-      </>
-  )
+            <KakaoLoginButton>
+                카카오 로그인
+            </KakaoLoginButton>
+        </>
+    )
 }

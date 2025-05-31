@@ -26,7 +26,15 @@
     /* Absolute Path - Yarn Berry 방식 */
     "baseUrl": ".",
     "paths": {
-      "#/*": ["./src/*"]
+      "@withpark/api/*": ["./src/apis/*"],
+      "@withpark/router/*": ["./src/routers/*"],
+      "@withpark/page/*": ["./src/pages/*"],
+      "@withpark/template/*": ["./src/templates/*"],
+      "@withpark/component/*": ["./src/components/*"],
+      "@withpark/style/*": ["./src/styles/*"],
+      "@withpark/util/*": ["./src/utils/*"],
+
+
     },
 
     "types": ["vite-plugin-svgr/client"]

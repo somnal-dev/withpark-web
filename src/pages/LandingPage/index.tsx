@@ -38,9 +38,9 @@ import {
   FooterContent,
   FooterSection,
   FooterBottom
-} from './LandingPage.styles.ts';
+} from './LandingPage.styles';
 import {useNavigate} from "react-router-dom";
-import {PATH} from "../../constants/routes.ts";
+import {PATH} from "../../constants/routes";
 
 const LandingPage = () => {
     const navigate = useNavigate();

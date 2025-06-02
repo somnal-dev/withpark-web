@@ -1,17 +1,25 @@
 import {PATH} from "../constants/routes.ts";
+import {LandingPage, LoginPage} from "../pages";
+import {Suspense} from "react";
+import {Outlet} from "react-router-dom";
 
 export const publicRoutes = [
     {
         element: (
-            <></>
+            <>
+                <Suspense fallback={null}>
+                    <Outlet />
+                </Suspense>
+            </>
         ),
         children: [
             {
                 path: PATH.INDEX,
-                element: (
-                    <>
-                    </>
-                )
+                element: <LandingPage />
+            },
+            {
+                path: PATH.LOGIN,
+                element: <LoginPage />
             }
         ]
     }

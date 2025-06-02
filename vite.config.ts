@@ -8,6 +8,7 @@ export default defineConfig({
     resolve: {
         alias: [
             {find: '@withpark/api/', replacement: '/src/api/'},
+            {find: '@withpark/pages/', replacement: '/src/pages/'},
             {find: '@withpark/ui/', replacement: '/src/ui/'},
         ],
     },

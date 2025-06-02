@@ -27,6 +27,7 @@
     "baseUrl": ".",
     "paths": {
       "@withpark/api/*": ["./src/api/*"],
+      "@withpark/pages/*": ["./src/pages/*"],
       "@withpark/ui/*": ["./src/ui/*"],
     },
 

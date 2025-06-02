@@ -1,4 +1,4 @@
-import {RouteObject} from "react-router-dom";
+import {Outlet, RouteObject} from "react-router-dom";
 import {QueryClientProvider} from "@withpark/api/QueryClientProvider.tsx";
 import {publicRoutes} from "./publicRoutes.tsx";
 import {privateRoutes} from "./privateRoutes.tsx";
@@ -8,7 +8,7 @@ export const routes: RouteObject[] = [
     {
         element: (
             <QueryClientProvider>
-
+                <Outlet />
             </QueryClientProvider>
         ),
         errorElement: <GlobalErrorBoundary />,

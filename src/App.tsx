@@ -1,7 +1,7 @@
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import {routes} from "./routes/routes.tsx";
 import {Suspense} from "react";
-
+import "./index.css";
 
 const router = createBrowserRouter(routes)
 

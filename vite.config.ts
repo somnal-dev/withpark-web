@@ -7,13 +7,8 @@ import svgr from 'vite-plugin-svgr';
 export default defineConfig({
     resolve: {
         alias: [
-            {find: '@withpark/api/', replacement: '/src/apis/'},
-            {find: '@withpark/router/', replacement: '/src/routers/'},
-            {find: '@withpark/page/', replacement: '/src/pages/'},
-            {find: '@withpark/template/', replacement: '/src/templates/'},
-            {find: '@withpark/component/', replacement: '/src/components/'},
-            {find: '@withpark/style/', replacement: '/src/styles/'},
-            {find: '@withpark/util/', replacement: '/src/utils/'},
+            {find: '@withpark/api/', replacement: '/src/api/'},
+            {find: '@withpark/ui/', replacement: '/src/ui/'},
         ],
     },
     plugins: [

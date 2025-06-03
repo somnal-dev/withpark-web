@@ -3,6 +3,7 @@ import {Navigate, Outlet} from "react-router-dom";
 import {PATH} from "@withpark/constants/routes.ts";
 import {Suspense} from "react";
 import {DashboardPage} from "@withpark/pages/index.ts";
+import Navbar from "@withpark/ui/components/Navbar";
 
 const PrivateRoute = () => {
     const { isLogin } = useAuthAtom();
@@ -13,6 +14,7 @@ const PrivateRoute = () => {
 
     return (
         <>
+            <Navbar />
             <Suspense fallback={null}>
                 <Outlet />
             </Suspense>
@@ -22,11 +24,7 @@ const PrivateRoute = () => {
 
 export const privateRoutes = [
     {
-        element: (
-            <>
-                <PrivateRoute />
-            </>
-        ),
+        element: <PrivateRoute />,
         children: [
             {
                 path: PATH.INDEX,

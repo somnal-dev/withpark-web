@@ -3,9 +3,18 @@ import {AnimatePresence} from 'framer-motion';
 import Styled from './Navbar.styles';
 import ProfileImage from "@withpark/ui/components/ProfileImage";
 import useUserInfo from "@withpark/api/queries/useUserInfo";
+import {PATH} from "@withpark/constants/routes.ts";
+import useLogoutMutation from "@withpark/api/mutations/useLogoutMutation.ts";
+import useAuthAtom from "@withpark/hooks/useAuthAtom.ts";
+import {useNavigate} from "react-router-dom";
 
 const Navbar = () => {
+    const navigate = useNavigate();
+
     const {data: userInfo, isLoading: isUserInfoLoading} = useUserInfo();
+    const { removeToken } = useAuthAtom();
+
+    const logoutMuation = useLogoutMutation();
 
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -25,22 +34,24 @@ const Navbar = () => {
     }, []);
 
     const menuItems = [
-        {path: '/dashboard', label: '대시보드'},
+        {path: PATH.INDEX, label: '대시보드'},
         {path: '/golf-courses', label: '골프장'},
         {path: '/community', label: '커뮤니티'},
         {path: '/games', label: '게임'},
     ];
 
     const handleLogout = () => {
-        // 로그아웃 로직 구현
-        console.log('로그아웃');
+        logoutMuation.mutate();
+        removeToken();
+
+        navigate(PATH.INTRO, { replace: true });
     };
 
     return (
         <Styled.NavContainer>
             <Styled.NavContent>
                 <Styled.LeftSection>
-                    <Styled.Logo to="/dashboard">
+                    <Styled.Logo to={PATH.INDEX}>
                         ⛳ 위드파크
                     </Styled.Logo>
 

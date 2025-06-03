@@ -1,5 +1,4 @@
 import Styled from './DashboardPage.styles';
-import Navbar from "@withpark/ui/components/Navbar";
 
 // 더미 데이터
 const golfCourses = [
@@ -39,7 +38,6 @@ const DashboardPage = () => {
 
   return (
     <Styled.DashboardContainer>
-      <Navbar />
       <Styled.MainContent>
         <Styled.PageTitle>대시보드</Styled.PageTitle>
         

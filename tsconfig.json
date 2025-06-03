@@ -30,6 +30,7 @@
       "@withpark/assets/*": ["./src/assets/*"],
       "@withpark/constants/*": ["./src/constants/*"],
       "@withpark/pages/*": ["./src/pages/*"],
+      "@withpark/hooks/*": ["./src/hooks/*"],
       "@withpark/types/*": ["./src/types/*"],
       "@withpark/ui/*": ["./src/ui/*"],
     },

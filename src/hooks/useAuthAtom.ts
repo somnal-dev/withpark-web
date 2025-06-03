@@ -1,15 +1,21 @@
 import { atom, useAtom } from 'jotai';
-import useLocalStorage from "./useLocalStorage.ts";
 import {LOCAL_STORAGE} from "@withpark/constants/storages.ts";
 
-const localStorage = useLocalStorage();
+// atom을 컴포넌트 외부에서 초기화하여 안정성 보장
+const getInitialToken = (key: string): string | null => {
+    try {
+        return window.localStorage.getItem(key);
+    } catch {
+        return null;
+    }
+};
 
 const accessTokenAtom = atom<string | null>(
-    localStorage.get(LOCAL_STORAGE.ACCESS_TOKEN, null)
+    getInitialToken(LOCAL_STORAGE.ACCESS_TOKEN)
 );
 
 const refreshTokenAtom = atom<string | null>(
-    localStorage.get(LOCAL_STORAGE.REFRESH_TOKEN, null)
+    getInitialToken(LOCAL_STORAGE.REFRESH_TOKEN)
 );
 
 const useAuthAtom = () => {
@@ -18,8 +24,12 @@ const useAuthAtom = () => {
 
     // 토큰 설정
     const setToken = (accessToken: string, refreshToken: string) => {
-        localStorage.set(LOCAL_STORAGE.ACCESS_TOKEN, accessToken);
-        localStorage.set(LOCAL_STORAGE.REFRESH_TOKEN, refreshToken);
+        try {
+            window.localStorage.setItem(LOCAL_STORAGE.ACCESS_TOKEN, accessToken);
+            window.localStorage.setItem(LOCAL_STORAGE.REFRESH_TOKEN, refreshToken);
+        } catch (error) {
+            console.error('토큰 저장 실패:', error);
+        }
 
         setAccessToken(accessToken);
         setRefreshToken(refreshToken);
@@ -27,8 +37,12 @@ const useAuthAtom = () => {
 
     // 토큰 삭제
     const removeToken = () => {
-        localStorage.remove(LOCAL_STORAGE.ACCESS_TOKEN);
-        localStorage.remove(LOCAL_STORAGE.REFRESH_TOKEN);
+        try {
+            window.localStorage.removeItem(LOCAL_STORAGE.ACCESS_TOKEN);
+            window.localStorage.removeItem(LOCAL_STORAGE.REFRESH_TOKEN);
+        } catch (error) {
+            console.error('토큰 삭제 실패:', error);
+        }
 
         setAccessToken(null);
         setRefreshToken(null);
@@ -37,6 +51,8 @@ const useAuthAtom = () => {
     const isLogin = () => !!accessToken && !!refreshToken;
 
     return {
+        accessToken,
+        refreshToken,
         setToken,
         removeToken,
         isLogin

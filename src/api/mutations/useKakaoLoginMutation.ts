@@ -1,5 +1,5 @@
 import ky from "ky";
-import {baseUrl} from "@withpark/api/config.ts";
+import {API_URL} from "@withpark/constants/config.ts";
 import {useMutation} from "@tanstack/react-query";
 
 interface PostKakaoLoginRequest {
@@ -13,15 +13,15 @@ interface PostKakaoLoginResponse {
 }
 
 const postKakaoLogin = ({accessToken}: PostKakaoLoginRequest) =>
-    ky.post(`${baseUrl}/auth/login/kakao`, {
+    ky.post(`${API_URL}/auth/login/kakao`, {
         json: { accessToken },
     })
     .json<PostKakaoLoginResponse>();
 
-const useKakaoLogin = () =>
+const useKakaoLoginMutation = () =>
     useMutation({
         mutationFn: ({accessToken}: PostKakaoLoginRequest) =>
             postKakaoLogin({accessToken})
     });
 
-export default useKakaoLogin;
+export default useKakaoLoginMutation;

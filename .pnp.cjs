@@ -38,6 +38,7 @@ const RAW_RUNTIME_STATE =
           ["@types/react-dom", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:18.3.7"],\
           ["@typescript-eslint/eslint-plugin", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:8.33.0"],\
           ["@vitejs/plugin-react-swc", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:3.10.0"],\
+          ["async-mutex", "npm:0.5.0"],\
           ["axios", "npm:1.9.0"],\
           ["dayjs", "npm:1.11.13"],\
           ["eslint", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:9.28.0"],\
@@ -2194,6 +2195,16 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../../.yarn/berry/cache/argparse-npm-2.0.1-faff7999e6-10c0.zip/node_modules/argparse/",\
         "packageDependencies": [\
           ["argparse", "npm:2.0.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["async-mutex", [\
+      ["npm:0.5.0", {\
+        "packageLocation": "../../../.yarn/berry/cache/async-mutex-npm-0.5.0-cc288ce63d-10c0.zip/node_modules/async-mutex/",\
+        "packageDependencies": [\
+          ["async-mutex", "npm:0.5.0"],\
+          ["tslib", "npm:2.8.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4972,6 +4983,7 @@ const RAW_RUNTIME_STATE =
           ["@types/react-dom", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:18.3.7"],\
           ["@typescript-eslint/eslint-plugin", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:8.33.0"],\
           ["@vitejs/plugin-react-swc", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:3.10.0"],\
+          ["async-mutex", "npm:0.5.0"],\
           ["axios", "npm:1.9.0"],\
           ["dayjs", "npm:1.11.13"],\
           ["eslint", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:9.28.0"],\

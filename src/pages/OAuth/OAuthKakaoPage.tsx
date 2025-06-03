@@ -1,8 +1,8 @@
 import {useCallback, useEffect} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import {PATH} from "@withpark/constants/routes.ts";
-import useKakaoToken from "@withpark/api/mutations/useKakaoToken.ts";
-import useKakaoLogin from "@withpark/api/mutations/useKakaoLogin.ts";
+import useKakaoTokenMutation from "@withpark/api/mutations/useKakaoTokenMutation.ts";
+import useKakaoLoginMutation from "@withpark/api/mutations/useKakaoLoginMutation.ts";
 import useAuthAtom from "../../hooks/useAuthAtom.ts";
 
 const OAuthKakaoPage = () => {
@@ -10,8 +10,8 @@ const OAuthKakaoPage = () => {
     const navigate = useNavigate();
 
     const { setToken } = useAuthAtom();
-    const kakaoTokenMutation = useKakaoToken();
-    const kakaoLoginMutation = useKakaoLogin() 
+    const kakaoTokenMutation = useKakaoTokenMutation();
+    const kakaoLoginMutation = useKakaoLoginMutation();
 
     const kakaoLogin = useCallback(async () => {
         const code = new URLSearchParams(location.search).get('code');

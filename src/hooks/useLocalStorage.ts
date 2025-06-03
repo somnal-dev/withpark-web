@@ -1,5 +1,5 @@
 const useLocalStorage = () => {
-    const get = (key: string, defaultValue: string | null) => {
+    const get = (key: string, defaultValue: string | null = null) => {
         return window.localStorage.getItem(key) ?? defaultValue;
     };
 

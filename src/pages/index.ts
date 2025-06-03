@@ -5,3 +5,6 @@ export const LandingPage =
 
 export const LoginPage =
     lazy(() => import('./LoginPage'))
+
+export const OAuthKakaoPage =
+    lazy(() => import('./OAuth/OAuthKakaoPage'))

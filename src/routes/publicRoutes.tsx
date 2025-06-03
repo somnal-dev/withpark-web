@@ -1,5 +1,5 @@
 import {PATH} from "../constants/routes.ts";
-import {LandingPage, LoginPage, OAuthKakaoPage} from "../pages";
+import {IntroPage, LoginPage, OAuthKakaoPage} from "../pages";
 import {Suspense} from "react";
 import {Outlet} from "react-router-dom";
 
@@ -14,8 +14,8 @@ export const publicRoutes = [
         ),
         children: [
             {
-                path: PATH.INDEX,
-                element: <LandingPage />
+                path: PATH.INTRO,
+                element: <IntroPage />
             },
             {
                 path: PATH.LOGIN,

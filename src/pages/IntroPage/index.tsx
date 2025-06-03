@@ -1,15 +1,15 @@
-import Styled from './LandingPage.styles';
+import Styled from './IntroPage.styles.ts';
 
-import MainSection from "@withpark/pages/LandingPage/components/Sections/MainSection";
+import MainSection from "@withpark/pages/IntroPage/components/Sections/MainSection";
 import Footer from "@withpark/ui/components/Footer";
-import FeatureSection from "@withpark/pages/LandingPage/components/Sections/FeatureSection";
-import CommunitySection from "@withpark/pages/LandingPage/components/Sections/CommunitySection";
-import CTASection from "@withpark/pages/LandingPage/components/Sections/CTASection";
-import Header from "@withpark/pages/LandingPage/components/Header";
+import FeatureSection from "@withpark/pages/IntroPage/components/Sections/FeatureSection";
+import CommunitySection from "@withpark/pages/IntroPage/components/Sections/CommunitySection";
+import CTASection from "@withpark/pages/IntroPage/components/Sections/CTASection";
+import Header from "@withpark/pages/IntroPage/components/Header";
 import {useNavigate} from "react-router-dom";
 import {PATH} from "@withpark/constants/routes.ts";
 
-const LandingPage = () => {
+const IntroPage = () => {
 
     const navigate = useNavigate();
 
@@ -46,4 +46,4 @@ const LandingPage = () => {
     )
 }
 
-export default LandingPage;
+export default IntroPage;

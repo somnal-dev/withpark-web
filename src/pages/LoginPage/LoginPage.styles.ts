@@ -116,7 +116,7 @@ export const SocialButtonsSection = styled.div`
   gap: 1rem;
 `;
 
-export const SocialButton = styled.button<{ provider: 'kakao' | 'google' }>`
+export const SocialButton = styled.button<{ provider: 'kakao' | 'naver' }>`
   width: 100%;
   padding: 1rem 1.5rem;
   border: none;
@@ -140,12 +140,11 @@ export const SocialButton = styled.button<{ provider: 'kakao' | 'google' }>`
       box-shadow: 0 8px 25px rgba(254, 229, 0, 0.3);
     }
   ` : `
-    background: white;
-    color: #333;
-    border: 2px solid #e0e0e0;
+    background: #03C75A;
+    color: white;
     
     &:hover {
-      background: #f8f9fa;
+      background: #03C75A;
       border-color: #d0d0d0;
       transform: translateY(-2px);
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
@@ -161,18 +160,8 @@ export const SocialButton = styled.button<{ provider: 'kakao' | 'google' }>`
   }
 `;
 
-export const SocialIcon = styled.span<{ provider: 'kakao' | 'google' }>`
+export const SocialIcon = styled.span`
   font-size: 1.2rem;
-  
-  ${props => props.provider === 'kakao' ? `
-    &::before {
-      content: '💬';
-    }
-  ` : `
-    &::before {
-      content: '🌐';
-    }
-  `}
 `;
 
 // 하단 정보

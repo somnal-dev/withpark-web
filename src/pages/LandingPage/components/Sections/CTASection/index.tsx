@@ -1,7 +1,14 @@
 import Styled from './CTASection.styles';
 import Button from "@withpark/ui/components/Button";
 
-const CTASection = () => {
+export type CTASectionProps = {
+    goLogin: () => void;
+}
+
+const CTASection = ({
+    goLogin
+}: CTASectionProps) => {
+
     return (
         <Styled.CTASection>
             <Styled.SectionContainer>
@@ -10,6 +17,7 @@ const CTASection = () => {
                     파크골프의 새로운 경험이 여러분을 기다리고 있습니다.
                 </Styled.CTADescription>
                 <Button
+                    onClick={goLogin}
                     variant="primary"
                     style={{
                         background: 'white',
@@ -18,7 +26,7 @@ const CTASection = () => {
                         padding: '1rem 2rem'
                     }}
                 >
-                    무료로 시작하기
+                    시작하기
                 </Button>
             </Styled.SectionContainer>
         </Styled.CTASection>

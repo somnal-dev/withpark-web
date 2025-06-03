@@ -44,11 +44,12 @@ const RAW_RUNTIME_STATE =
           ["eslint-plugin-react-hooks", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:5.2.0"],\
           ["eslint-plugin-react-refresh", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:0.4.20"],\
           ["framer-motion", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:12.15.0"],\
+          ["jotai", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:2.12.5"],\
+          ["ky", "npm:1.8.1"],\
           ["prettier", "npm:3.5.3"],\
           ["react", "npm:18.3.1"],\
           ["react-dom", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:18.3.1"],\
           ["react-error-boundary", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:6.0.0"],\
-          ["react-kakao-login", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:2.1.1"],\
           ["react-router-dom", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:7.6.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
           ["typescript-eslint", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:8.33.0"],\
@@ -3509,6 +3510,28 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["jotai", [\
+      ["npm:2.12.5", {\
+        "packageLocation": "../../../.yarn/berry/cache/jotai-npm-2.12.5-e324fc3398-10c0.zip/node_modules/jotai/",\
+        "packageDependencies": [\
+          ["jotai", "npm:2.12.5"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:2.12.5", {\
+        "packageLocation": "./.yarn/__virtual__/jotai-virtual-2deb9a7087/4/.yarn/berry/cache/jotai-npm-2.12.5-e324fc3398-10c0.zip/node_modules/jotai/",\
+        "packageDependencies": [\
+          ["@types/react", "npm:18.3.23"],\
+          ["jotai", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:2.12.5"],\
+          ["react", "npm:18.3.1"]\
+        ],\
+        "packagePeers": [\
+          "@types/react",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["js-tokens", [\
       ["npm:4.0.0", {\
         "packageLocation": "../../../.yarn/berry/cache/js-tokens-npm-4.0.0-0ac852e9e2-10c0.zip/node_modules/js-tokens/",\
@@ -3597,6 +3620,15 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["json-buffer", "npm:3.0.1"],\
           ["keyv", "npm:4.5.4"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["ky", [\
+      ["npm:1.8.1", {\
+        "packageLocation": "../../../.yarn/berry/cache/ky-npm-1.8.1-b1028c4433-10c0.zip/node_modules/ky/",\
+        "packageDependencies": [\
+          ["ky", "npm:1.8.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4252,28 +4284,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../../.yarn/berry/cache/react-is-npm-16.13.1-a9b9382b4f-10c0.zip/node_modules/react-is/",\
         "packageDependencies": [\
           ["react-is", "npm:16.13.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["react-kakao-login", [\
-      ["npm:2.1.1", {\
-        "packageLocation": "../../../.yarn/berry/cache/react-kakao-login-npm-2.1.1-3ecb0298cf-10c0.zip/node_modules/react-kakao-login/",\
-        "packageDependencies": [\
-          ["react-kakao-login", "npm:2.1.1"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:2.1.1", {\
-        "packageLocation": "./.yarn/__virtual__/react-kakao-login-virtual-d61af2e4e1/4/.yarn/berry/cache/react-kakao-login-npm-2.1.1-3ecb0298cf-10c0.zip/node_modules/react-kakao-login/",\
-        "packageDependencies": [\
-          ["@types/react", "npm:18.3.23"],\
-          ["react", "npm:18.3.1"],\
-          ["react-kakao-login", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:2.1.1"]\
-        ],\
-        "packagePeers": [\
-          "@types/react",\
-          "react"\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4968,11 +4978,12 @@ const RAW_RUNTIME_STATE =
           ["eslint-plugin-react-hooks", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:5.2.0"],\
           ["eslint-plugin-react-refresh", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:0.4.20"],\
           ["framer-motion", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:12.15.0"],\
+          ["jotai", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:2.12.5"],\
+          ["ky", "npm:1.8.1"],\
           ["prettier", "npm:3.5.3"],\
           ["react", "npm:18.3.1"],\
           ["react-dom", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:18.3.1"],\
           ["react-error-boundary", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:6.0.0"],\
-          ["react-kakao-login", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:2.1.1"],\
           ["react-router-dom", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:7.6.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
           ["typescript-eslint", "virtual:722ee550560e42177a75af7cf4f17a268323f4920a17af8bbb01e68703b0a256741bc2a2265bbdd3376e85b5416935ddb4cf9bb6c304ee30c3cbd9677c00c11a#npm:8.33.0"],\

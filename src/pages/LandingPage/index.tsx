@@ -1,11 +1,11 @@
 import Styled from './LandingPage.styles';
 
-import Header from "src/pages/LandingPage/components/Header";
 import MainSection from "@withpark/pages/LandingPage/components/Sections/MainSection";
 import Footer from "@withpark/ui/components/Footer";
 import FeatureSection from "@withpark/pages/LandingPage/components/Sections/FeatureSection";
 import CommunitySection from "@withpark/pages/LandingPage/components/Sections/CommunitySection";
 import CTASection from "@withpark/pages/LandingPage/components/Sections/CTASection";
+import Header from "@withpark/pages/LandingPage/components/Header";
 
 const LandingPage = () => {
 

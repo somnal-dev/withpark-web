@@ -25,8 +25,6 @@ const OAuthKakaoPage = () => {
         const {access_token: kakaoAccessToken} =
             await kakaoTokenMutation.mutateAsync({ code });
 
-        console.log('accessToken : ', kakaoAccessToken);
-
         // 획득한 엑세스토큰으로 로그인
         const { accessToken, refreshToken, signUpRequired } =
             await kakaoLoginMutation.mutateAsync({

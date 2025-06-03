@@ -13,7 +13,8 @@ export function QueryClientProvider({children}: React.PropsWithChildren) {
                     queries: {
                         refetchOnWindowFocus: false,
                         retry: false,
-                        staleTime: 5000,
+                        staleTime: 30 * 1000,
+                        gcTime: 5 * 60 * 1000,
                     },
                 }
             })

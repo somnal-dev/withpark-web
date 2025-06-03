@@ -11,6 +11,7 @@ export default defineConfig({
             {find: '@withpark/assets/', replacement: '/src/assets/'},
             {find: '@withpark/constants/', replacement: '/src/constants/'},
             {find: '@withpark/pages/', replacement: '/src/pages/'},
+            {find: '@withpark/hooks/', replacement: '/src/hooks/'},
             {find: '@withpark/types/', replacement: '/src/types/'},
             {find: '@withpark/ui/', replacement: '/src/ui/'},
         ],

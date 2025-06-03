@@ -27,7 +27,10 @@
     "baseUrl": ".",
     "paths": {
       "@withpark/api/*": ["./src/api/*"],
+      "@withpark/assets/*": ["./src/assets/*"],
+      "@withpark/constants/*": ["./src/constants/*"],
       "@withpark/pages/*": ["./src/pages/*"],
+      "@withpark/types/*": ["./src/types/*"],
       "@withpark/ui/*": ["./src/ui/*"],
     },
 

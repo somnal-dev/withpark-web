@@ -1,7 +1,13 @@
 import Styled from './MainSection.styles.ts';
 import Button from "@withpark/ui/components/Button";
 
-const MainSection = () => {
+export type MainSectionProps = {
+    goLogin: () => void;
+}
+
+const MainSection = ({
+    goLogin,
+}: MainSectionProps) => {
     return (
         <>
             <Styled.MainSection id="home">
@@ -16,8 +22,8 @@ const MainSection = () => {
                             함께 성장하는 파크골프 전용 커뮤니티입니다.
                         </Styled.MainSubtitle>
                         <Styled.MainButtons>
-                            <Button variant="primary">지금 시작하기</Button>
-                            <Button variant="secondary">더 알아보기</Button>
+                            <Button onClick={goLogin} variant="primary">지금 시작하기</Button>
+                            {/*<Button variant="secondary">더 알아보기</Button>*/}
                         </Styled.MainButtons>
                     </Styled.MainText>
                     <Styled.MainImage>

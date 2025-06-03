@@ -6,16 +6,28 @@ import FeatureSection from "@withpark/pages/LandingPage/components/Sections/Feat
 import CommunitySection from "@withpark/pages/LandingPage/components/Sections/CommunitySection";
 import CTASection from "@withpark/pages/LandingPage/components/Sections/CTASection";
 import Header from "@withpark/pages/LandingPage/components/Header";
+import {useNavigate} from "react-router-dom";
+import {PATH} from "@withpark/constants/routes.ts";
 
 const LandingPage = () => {
+
+    const navigate = useNavigate();
+
+    const goLogin = () => {
+        navigate(PATH.LOGIN, { replace: true });
+    }
 
     return (
         <Styled.Container>
             {/* 헤더 */}
-            <Header />
+            <Header
+                goLogin={goLogin}
+            />
 
             {/* 메인 섹션 */}
-            <MainSection />
+            <MainSection
+                goLogin={goLogin}
+            />
 
             {/* 특징 섹션 */}
             <FeatureSection />
@@ -24,7 +36,9 @@ const LandingPage = () => {
             <CommunitySection />
 
             {/* CTA 섹션 */}
-            <CTASection />
+            <CTASection
+                goLogin={goLogin}
+            />
 
             {/* 푸터 */}
             <Footer />

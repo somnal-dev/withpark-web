@@ -13,7 +13,7 @@ interface PostKakaoLoginResponse {
 }
 
 const postKakaoLogin = ({accessToken}: PostKakaoLoginRequest) =>
-    ky.post(`${baseUrl}/login/kakao`, {
+    ky.post(`${baseUrl}/auth/login/kakao`, {
         json: { accessToken },
     })
     .json<PostKakaoLoginResponse>();

@@ -20,7 +20,7 @@ const postKakaoToken = ({ code }: PostKakaoTokenRequest) => {
     const body = new URLSearchParams();
 
     body.set('grant_type', 'authorization_code');
-    body.set('client_id', import.meta.env.VITE_KAKAO_CLIENT_ID);
+    body.set('client_id', import.meta.env.VITE_KAKAO_REST_API_KEY ?? '');
     body.set('redirect_uri', `${window.location.origin}/oauth/kakao`);
     body.set('code', code);
 
@@ -36,8 +36,9 @@ const postKakaoToken = ({ code }: PostKakaoTokenRequest) => {
 }
 
 const useKakaoToken = () =>
-    useMutation<PostKakaoTokenResponse, Error, PostKakaoTokenRequest>({
-        mutationFn: ({ code }) => postKakaoToken({ code }),
+    useMutation({
+        mutationFn: ({ code }: PostKakaoTokenRequest) =>
+            postKakaoToken({ code }),
         retry: false,
     });
 

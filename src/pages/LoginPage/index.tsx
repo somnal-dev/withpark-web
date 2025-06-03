@@ -28,7 +28,6 @@ const LoginPage = () => {
         setLoading('kakao');
 
         try {
-
             window.Kakao?.Auth.authorize({
                 redirectUri: kakaoLoginRedirectUri
             });

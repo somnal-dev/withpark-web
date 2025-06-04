@@ -1,12 +1,12 @@
 import Styled from './ProfileImage.styles';
 
-export type ProfileImageProps = {
+type Props = {
     imgUrl: string;
 }
 
 const ProfileImage = ({
     imgUrl
-}: ProfileImageProps) => {
+}: Props) => {
     return (
         <Styled.ProfileImage src={imgUrl}/>
     )

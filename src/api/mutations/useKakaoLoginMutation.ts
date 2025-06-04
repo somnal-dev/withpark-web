@@ -9,7 +9,7 @@ interface PostKakaoLoginRequest {
 interface PostKakaoLoginResponse {
     accessToken: string;
     refreshToken: string;
-    signUpRequired: boolean;
+    isOnboardingDone: boolean;
 }
 
 const postKakaoLogin = ({accessToken}: PostKakaoLoginRequest) =>

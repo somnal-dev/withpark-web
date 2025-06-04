@@ -35,11 +35,11 @@ const postKakaoToken = ({ code }: PostKakaoTokenRequest) => {
         .json<PostKakaoTokenResponse>();
 }
 
-const useKakaoTokenMutation = () =>
+const useGetKakaoTokenMutation = () =>
     useMutation({
         mutationFn: ({ code }: PostKakaoTokenRequest) =>
             postKakaoToken({ code }),
         retry: false,
     });
 
-export default useKakaoTokenMutation;
+export default useGetKakaoTokenMutation;

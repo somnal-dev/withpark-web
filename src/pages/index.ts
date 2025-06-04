@@ -12,3 +12,14 @@ export const OAuthKakaoPage =
 export const DashboardPage =
     lazy(() => import('./DashboardPage'))
 
+export const OnboardingPage =
+    lazy(() => import('./OnboardingPage'))
+
+export const PlacePage =
+    lazy(() => import('./PlacePage'))
+
+export const CommunityPage =
+    lazy(() => import('./CommunityPage'))
+
+export const GamePage =
+    lazy(() => import('./GamePage'))

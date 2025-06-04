@@ -1,7 +1,7 @@
 import {useCallback, useEffect} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import {PATH} from "@withpark/constants/routes.ts";
-import useKakaoTokenMutation from "@withpark/api/mutations/useKakaoTokenMutation.ts";
+import useGetKakaoTokenMutation from "@withpark/api/mutations/useGetKakaoTokenMutation.ts";
 import useKakaoLoginMutation from "@withpark/api/mutations/useKakaoLoginMutation.ts";
 import useAuthAtom from "../../hooks/useAuthAtom.ts";
 
@@ -10,7 +10,7 @@ const OAuthKakaoPage = () => {
     const navigate = useNavigate();
 
     const { setToken } = useAuthAtom();
-    const kakaoTokenMutation = useKakaoTokenMutation();
+    const kakaoTokenMutation = useGetKakaoTokenMutation();
     const kakaoLoginMutation = useKakaoLoginMutation();
 
     const kakaoLogin = useCallback(async () => {
@@ -26,19 +26,23 @@ const OAuthKakaoPage = () => {
             await kakaoTokenMutation.mutateAsync({ code });
 
         // 획득한 엑세스토큰으로 로그인
-        const { accessToken, refreshToken, signUpRequired } =
+        const { accessToken, refreshToken, isOnboardingDone } =
             await kakaoLoginMutation.mutateAsync({
                 accessToken: kakaoAccessToken
             });
 
-        console.log(accessToken, refreshToken, signUpRequired)
-
-        if(signUpRequired) {
-            // TODO 회원가입 시키기
-        }
+        console.log(accessToken, refreshToken, isOnboardingDone)
 
         setToken(accessToken, refreshToken);
-        navigate(PATH.INDEX, { replace: true });
+
+        // 온보딩 필요여부 판단
+        if(!isOnboardingDone) {
+            navigate(PATH.ONBOARDING, { replace: true });
+        } else {
+            navigate(PATH.INDEX, { replace: true });
+        }
+
+
     }, []);
 
     useEffect(() => {

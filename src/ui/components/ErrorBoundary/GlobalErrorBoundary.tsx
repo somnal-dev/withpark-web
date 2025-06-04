@@ -5,6 +5,8 @@ import {PATH} from "../../../constants/routes.ts";
 const GlobalErrorBoundary = () => {
     const error = useRouteError();
 
+    console.log(error);
+
     useEffect(() => {
         if(error instanceof Error) {
             const errorMessage = `[HTTP 에러] ${error.message}`;
@@ -12,7 +14,7 @@ const GlobalErrorBoundary = () => {
 
             return;
         }
-    });
+    }, []);
 
     return <Navigate to={PATH.INDEX} replace />;
 }

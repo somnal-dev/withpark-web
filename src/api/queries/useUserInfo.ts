@@ -9,6 +9,7 @@ interface UserInfoResponse {
     photo: string,
     userCode: string,
     introduction: string,
+    isOnboardingDone: boolean,
 }
 
 const useUserInfo = (): UseQueryResult<UserInfoResponse> => {

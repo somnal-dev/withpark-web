@@ -19,12 +19,26 @@ const NavContent = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 64px;
+  
+  @media (max-width: 768px) {
+    padding: 0 0.75rem;
+    height: 56px;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0 0.5rem;
+  }
 `;
 
 const LeftSection = styled.div`
   display: flex;
   align-items: center;
   gap: 2rem;
+  flex-shrink: 0;
+  
+  @media (max-width: 768px) {
+    gap: 1rem;
+  }
 `;
 
 const Logo = styled(Link)`
@@ -35,9 +49,19 @@ const Logo = styled(Link)`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  white-space: nowrap;
   
   &:hover {
     color: #4299e1;
+  }
+  
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+    gap: 0.25rem;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 1.125rem;
   }
 `;
 
@@ -68,10 +92,23 @@ const RightSection = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
+  flex-shrink: 0;
+  
+  @media (max-width: 768px) {
+    gap: 0.5rem;
+  }
 `;
 
 const ProfileSection = styled.div`
   position: relative;
+  
+  @media (max-width: 768px) {
+    max-width: 200px;
+  }
+  
+  @media (max-width: 480px) {
+    max-width: 150px;
+  }
 `;
 
 const ProfileButton = styled.button`
@@ -84,9 +121,29 @@ const ProfileButton = styled.button`
   padding: 0.5rem;
   border-radius: 8px;
   transition: background-color 0.2s;
+  max-width: 100%;
   
   &:hover {
     background-color: #f7fafc;
+  }
+  
+  span {
+    @media (max-width: 768px) {
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    
+    @media (max-width: 480px) {
+      max-width: 80px;
+      font-size: 0.8rem !important;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    padding: 0.25rem;
+    gap: 0.25rem;
   }
 `;
 
@@ -129,6 +186,7 @@ const MobileMenuButton = styled.button`
   cursor: pointer;
   padding: 0.5rem;
   border-radius: 6px;
+  flex-shrink: 0;
   
   &:hover {
     background-color: #f7fafc;
@@ -136,6 +194,7 @@ const MobileMenuButton = styled.button`
   
   @media (max-width: 768px) {
     display: block;
+    padding: 0.25rem;
   }
 `;
 
@@ -144,6 +203,11 @@ const HamburgerIcon = styled.div<{ isOpen: boolean }>`
   height: 18px;
   position: relative;
   cursor: pointer;
+  
+  @media (max-width: 768px) {
+    width: 20px;
+    height: 16px;
+  }
   
   span {
     display: block;
@@ -159,18 +223,26 @@ const HamburgerIcon = styled.div<{ isOpen: boolean }>`
     
     &:nth-of-type(1) {
       top: 0px;
-      transform: ${props => props.isOpen ? 'rotate(45deg)' : 'rotate(0deg)'};
+      transform: ${(props: { isOpen: boolean }) => props.isOpen ? 'rotate(45deg)' : 'rotate(0deg)'};
     }
     
     &:nth-of-type(2) {
       top: 8px;
-      opacity: ${props => props.isOpen ? '0' : '1'};
-      left: ${props => props.isOpen ? '-60px' : '0'};
+      opacity: ${(props: { isOpen: boolean }) => props.isOpen ? '0' : '1'};
+      left: ${(props: { isOpen: boolean }) => props.isOpen ? '-60px' : '0'};
+      
+      @media (max-width: 768px) {
+        top: 7px;
+      }
     }
     
     &:nth-of-type(3) {
       top: 16px;
-      transform: ${props => props.isOpen ? 'rotate(-45deg)' : 'rotate(0deg)'};
+      transform: ${(props: { isOpen: boolean }) => props.isOpen ? 'rotate(-45deg)' : 'rotate(0deg)'};
+      
+      @media (max-width: 768px) {
+        top: 14px;
+      }
     }
   }
 `;

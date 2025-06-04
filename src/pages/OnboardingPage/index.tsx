@@ -16,7 +16,11 @@ type UserInfo = {
 
 const OnboardingPage = () => {
     const navigate = useNavigate();
-    const { data: userInfo, isLoading: isUserInfoLoading, refetch } = useUserInfo();
+    const {
+        data: userInfo,
+        isLoading: isUserInfoLoading,
+        refetch: refetchUserInfo
+    } = useUserInfo();
     const updateUserInfo = useUpdateUserInfoMutation();
 
     const [currentStep, setCurrentStep] = useState(0);
@@ -95,7 +99,7 @@ const OnboardingPage = () => {
             isOnboardingDone: true
         });
 
-        refetch();
+        await refetchUserInfo();
 
         navigate(PATH.INDEX, { replace: true });
     };

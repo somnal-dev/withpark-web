@@ -11,6 +11,10 @@ const Header = styled.header`
     z-index: 1000;
     padding: 1rem 2rem;
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+
+    @media (max-width: 768px) {
+        padding: 0.8rem 1rem;
+    }
 `;
 
 const Nav = styled.nav`
@@ -19,6 +23,11 @@ const Nav = styled.nav`
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    @media (max-width: 768px) {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
 `;
 
 const Logo = styled.div`
@@ -33,6 +42,14 @@ const Logo = styled.div`
         content: '⛳';
         font-size: 1.5rem;
     }
+
+    @media (max-width: 768px) {
+        font-size: 1.4rem;
+        
+        &::before {
+            font-size: 1.2rem;
+        }
+    }
 `;
 
 const NavMenu = styled.ul`
@@ -41,6 +58,10 @@ const NavMenu = styled.ul`
     gap: 2rem;
     margin: 0;
     padding: 0;
+
+    @media (max-width: 768px) {
+        display: none;
+    }
 `;
 
 const NavItem = styled.li`
@@ -59,6 +80,29 @@ const NavItem = styled.li`
 const AuthButtons = styled.div`
     display: flex;
     gap: 1rem;
+
+    @media (max-width: 768px) {
+        gap: 0.5rem;
+        
+        button {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.9rem;
+        }
+    }
+`;
+
+const MobileMenuButton = styled.button`
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #333;
+    cursor: pointer;
+    padding: 0.5rem;
+
+    @media (max-width: 768px) {
+        display: block;
+    }
 `;
 
 export default {
@@ -68,4 +112,5 @@ export default {
     NavMenu,
     NavItem,
     AuthButtons,
+    MobileMenuButton,
 }

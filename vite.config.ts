@@ -37,11 +37,7 @@ export default defineConfig({
     ],
     server: {
         proxy: {
-            '/tmap': {
-                target: 'https://apis.openapi.sk.com',
-                changeOrigin: true,
-                rewrite: (path) => path.replace(/^\/api/, ''),
-            },
+            // 프록시 할 정보
         },
     },
 });

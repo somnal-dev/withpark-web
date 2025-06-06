@@ -17,12 +17,15 @@ const localStorage = useLocalStorage();
 
 export const instance = ky.create({
     prefixUrl: API_URL,
-    headers: {
-        'content-type': 'application/json',
-    },
     hooks: {
         beforeRequest: [
             async (request) => {
+                // 기본적으로 Content-Type을 application/json으로 설정하되,
+                // 이미 다른 Content-Type이 설정되어 있으면 덮어쓰지 않음
+                if (!request.headers.get('Content-Type')) {
+                    request.headers.set('Content-Type', 'application/json');
+                }
+
                 // 리프레시 토큰으로 새로운 엑세스토큰 받기
                 const accessToken = await refreshAccessToken();
 

@@ -7,6 +7,8 @@ import {PATH} from "@withpark/constants/routes.ts";
 import useLogoutMutation from "@withpark/api/mutations/useLogoutMutation.ts";
 import useAuthAtom from "@withpark/hooks/useAuthAtom.ts";
 import {useNavigate} from "react-router-dom";
+import useDialog from "@withpark/hooks/useDialog.ts";
+import {SettingPage} from "@withpark/pages/index.ts";
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -19,6 +21,8 @@ const Navbar = () => {
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const profileRef = useRef<HTMLDivElement>(null);
+
+    const settingsDialog = useDialog();
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -39,6 +43,15 @@ const Navbar = () => {
         {path: PATH.COMMUNITY, label: '커뮤니티'},
         {path: PATH.GAME, label: '게임'},
     ];
+
+    const handleClickSettings = () => {
+        setIsProfileOpen(false);
+
+        settingsDialog.open({
+            title: '설정',
+            content: <SettingPage />
+        })
+    }
 
     const handleLogout = () => {
         logoutMuation.mutate();
@@ -103,7 +116,7 @@ const Navbar = () => {
                                         exit={{opacity: 0, scale: 0.95, y: -10}}
                                         transition={{duration: 0.15}}
                                     >
-                                        <Styled.DropdownItem onClick={() => setIsProfileOpen(false)}>
+                                        <Styled.DropdownItem onClick={handleClickSettings}>
                                             ⚙️ 설정
                                         </Styled.DropdownItem>
                                         <Styled.DropdownItem onClick={handleLogout}>

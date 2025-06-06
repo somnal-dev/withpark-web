@@ -1,9 +1,14 @@
-import {useState, useRef, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Styled from './OnboardingPage.styles';
 import Card from "@withpark/ui/components/Card";
 import ProgressBar from "@withpark/ui/components/ProgressBar";
 import Button from "@withpark/ui/components/Button";
+import Input from "@withpark/ui/components/Input";
+import Textarea from "@withpark/ui/components/Textarea";
+import Label from "@withpark/ui/components/Label";
+import FormGroup from "@withpark/ui/components/FormGroup";
+import ProfileImageUpload from "@withpark/ui/components/ProfileImageUpload";
 import useUserInfo from "@withpark/api/queries/useUserInfo.ts";
 import useUpdateUserInfoMutation from "@withpark/api/mutations/useUpdateUserInfoMutation.ts";
 import {PATH} from "@withpark/constants/routes.ts";
@@ -29,7 +34,6 @@ const OnboardingPage = () => {
         photo: '',
         introduction: ''
     });
-    const fileInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         setOnboardingUserInfo(prev => ({
@@ -68,17 +72,6 @@ const OnboardingPage = () => {
         }));
     };
 
-    const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                handleInputChange('photo', e.target?.result as string);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-
     const handleNext = () => {
         if (currentStep < onboardingSteps.length - 1) {
             setCurrentStep(prev => prev + 1);
@@ -92,15 +85,15 @@ const OnboardingPage = () => {
     };
 
     const handleComplete = async () => {
-        console.log('사용자 정보:', onboardingUserInfo);
-
         await updateUserInfo.mutateAsync({
             ...onboardingUserInfo,
             isOnboardingDone: true
         });
 
+        // 사용자 정보를 다시 가져온다.
         await refetchUserInfo();
 
+        // 페이지를 이동한다.
         navigate(PATH.INDEX, { replace: true });
     };
 
@@ -127,9 +120,9 @@ const OnboardingPage = () => {
             case 0:
                 return (
                     <Styled.FormContainer>
-                        <Styled.FormGroup>
-                            <Styled.Label htmlFor="nickname">닉네임</Styled.Label>
-                            <Styled.Input
+                        <FormGroup>
+                            <Label htmlFor="nickname">닉네임</Label>
+                            <Input
                                 id="nickname"
                                 type="text"
                                 placeholder="2글자 이상 입력해주세요"
@@ -140,44 +133,27 @@ const OnboardingPage = () => {
                             <div style={{ fontSize: '0.75rem', color: '#a0aec0', marginTop: '0.25rem' }}>
                                 {onboardingUserInfo?.nickname.length}/20글자
                             </div>
-                        </Styled.FormGroup>
+                        </FormGroup>
                     </Styled.FormContainer>
                 );
 
             case 1:
                 return (
                     <Styled.FormContainer>
-                        <Styled.PhotoUploadContainer>
-                            {onboardingUserInfo.photo ? (
-                                <Styled.PhotoPreviewImage 
-                                    src={onboardingUserInfo.photo}
-                                    alt="프로필 사진" 
-                                    onClick={() => fileInputRef.current?.click()}
-                                />
-                            ) : (
-                                <Styled.PhotoPreview onClick={() => fileInputRef.current?.click()}>
-                                    📸
-                                </Styled.PhotoPreview>
-                            )}
-                            <Styled.UploadButton onClick={() => fileInputRef.current?.click()}>
-                                {onboardingUserInfo.photo ? '사진 변경' : '사진 업로드'}
-                            </Styled.UploadButton>
-                            <Styled.HiddenFileInput
-                                ref={fileInputRef}
-                                type="file"
-                                accept="image/*"
-                                onChange={handlePhotoUpload}
-                            />
-                        </Styled.PhotoUploadContainer>
+                        <ProfileImageUpload 
+                            imageUrl={onboardingUserInfo.photo}
+                            onImageChange={(imageUrl) => handleInputChange('photo', imageUrl)}
+                            size="large"
+                        />
                     </Styled.FormContainer>
                 );
 
             case 2:
                 return (
                     <Styled.FormContainer>
-                        <Styled.FormGroup>
-                            <Styled.Label htmlFor="introduction">자기소개</Styled.Label>
-                            <Styled.Textarea
+                        <FormGroup>
+                            <Label htmlFor="introduction">자기소개</Label>
+                            <Textarea
                                 id="introduction"
                                 placeholder="파크골프에 대한 열정이나 목표를 간단히 소개해주세요 (최소 10글자)"
                                 value={onboardingUserInfo.introduction}
@@ -187,7 +163,7 @@ const OnboardingPage = () => {
                             <div style={{ fontSize: '0.75rem', color: '#a0aec0', marginTop: '0.25rem' }}>
                                 {onboardingUserInfo.introduction.length}/200글자
                             </div>
-                        </Styled.FormGroup>
+                        </FormGroup>
                     </Styled.FormContainer>
                 );
 
@@ -197,11 +173,11 @@ const OnboardingPage = () => {
                         <div style={{ textAlign: 'center', color: '#4a5568' }}>
                             <div style={{ marginBottom: '1.5rem' }}>
                                 {onboardingUserInfo.photo && (
-                                    <div style={{ marginBottom: '0.5rem' }}>
-                                        <Styled.PhotoPreviewImage 
+                                    <div style={{ marginBottom: '0.5rem', display: 'flex', justifyContent: 'center' }}>
+                                        <img 
                                             src={onboardingUserInfo.photo}
                                             alt="프로필 사진"
-                                            style={{ width: '80px', height: '80px' }}
+                                            style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover', border: '3px solid #4A7C59' }}
                                         />
                                     </div>
                                 )}

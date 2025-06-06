@@ -23,3 +23,6 @@ export const CommunityPage =
 
 export const GamePage =
     lazy(() => import('./GamePage'))
+
+export const SettingPage =
+    lazy(() => import('./SettingPage'))

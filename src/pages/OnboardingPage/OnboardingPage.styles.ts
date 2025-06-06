@@ -44,61 +44,6 @@ const FormContainer = styled.div`
     margin-bottom: 2rem;
 `;
 
-const FormGroup = styled.div`
-    margin-bottom: 1.5rem;
-`;
-
-const Label = styled.label`
-    display: block;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #2d3748;
-    margin-bottom: 0.5rem;
-`;
-
-const Input = styled.input`
-    width: 100%;
-    padding: 0.875rem 1rem;
-    border: 2px solid #e2e8f0;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    box-sizing: border-box;
-    
-    &:focus {
-        outline: none;
-        border-color: #4A7C59;
-        box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.1);
-    }
-    
-    &::placeholder {
-        color: #a0aec0;
-    }
-`;
-
-const Textarea = styled.textarea`
-    width: 100%;
-    padding: 0.875rem 1rem;
-    border: 2px solid #e2e8f0;
-    border-radius: 8px;
-    font-size: 1rem;
-    min-height: 100px;
-    resize: vertical;
-    transition: all 0.3s ease;
-    font-family: inherit;
-    box-sizing: border-box;
-    
-    &:focus {
-        outline: none;
-        border-color: #4A7C59;
-        box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.1);
-    }
-    
-    &::placeholder {
-        color: #a0aec0;
-    }
-`;
-
 const PhotoUploadContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -234,10 +179,6 @@ export default {
     Title,
     Subtitle,
     FormContainer,
-    FormGroup,
-    Label,
-    Input,
-    Textarea,
     PhotoUploadContainer,
     PhotoPreview,
     PhotoPreviewImage,

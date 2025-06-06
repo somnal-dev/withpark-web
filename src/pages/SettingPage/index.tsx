@@ -1,0 +1,129 @@
+import { useState, useEffect } from 'react';
+import Styled from './SettingPage.styles';
+import Card from "@withpark/ui/components/Card";
+import Button from "@withpark/ui/components/Button";
+import Input from "@withpark/ui/components/Input";
+import Textarea from "@withpark/ui/components/Textarea";
+import Label from "@withpark/ui/components/Label";
+import FormGroup from "@withpark/ui/components/FormGroup";
+import ProfileImageUpload from "@withpark/ui/components/ProfileImageUpload";
+import useUserInfo from "@withpark/api/queries/useUserInfo";
+import useUpdateUserInfoMutation from "@withpark/api/mutations/useUpdateUserInfoMutation";
+
+interface UserSettings {
+    nickname: string;
+    introduction: string;
+    photo?: string;
+}
+
+const SettingPage = () => {
+    const { data: userInfo, isLoading } = useUserInfo();
+    const updateUserInfoMutation = useUpdateUserInfoMutation();
+
+    const [settings, setSettings] = useState<UserSettings>({
+        nickname: '',
+        introduction: '',
+        photo: '',
+    });
+
+    const [isEdited, setIsEdited] = useState(false);
+
+    // 사용자 정보가 로드되면 상태 업데이트
+    useEffect(() => {
+        if (userInfo) {
+            setSettings({
+                nickname: userInfo.nickname || '',
+                introduction: userInfo.introduction || '',
+                photo: userInfo.photo || '',
+            });
+        }
+    }, [userInfo]);
+
+    const handleInputChange = (field: keyof UserSettings, value: string) => {
+        setSettings(prev => ({
+            ...prev,
+            [field]: value
+        }));
+        setIsEdited(true);
+    };
+
+    const handleSave = async () => {
+        try {
+            await updateUserInfoMutation.mutateAsync({
+                nickname: settings.nickname,
+                introduction: settings.introduction,
+                photo: settings.photo,
+            });
+            setIsEdited(false);
+            alert('설정이 저장되었습니다.');
+        } catch (error) {
+            console.error('설정 저장 실패:', error);
+            alert('설정 저장에 실패했습니다.');
+        }
+    };
+
+    if (isLoading) {
+        return <div>로딩 중...</div>;
+    }
+
+    return (
+            <Styled.ContentGrid>
+                {/* 프로필 정보 */}
+                <Card title="프로필 정보">
+                    <FormGroup>
+                        <Label>프로필 사진</Label>
+                        <ProfileImageUpload 
+                            imageUrl={settings.photo}
+                            onImageChange={(imageUrl) => handleInputChange('photo', imageUrl)}
+                            size="medium"
+                        />
+                    </FormGroup>
+
+                    <FormGroup>
+                        <Label>닉네임</Label>
+                        <Input
+                            type="text"
+                            value={settings.nickname}
+                            onChange={(e) => handleInputChange('nickname', e.target.value)}
+                            placeholder="닉네임을 입력해주세요"
+                        />
+                    </FormGroup>
+
+                    <FormGroup>
+                        <Label>자기소개</Label>
+                        <Textarea
+                            value={settings.introduction}
+                            onChange={(e) => handleInputChange('introduction', e.target.value)}
+                            placeholder="자신을 소개해주세요..."
+                        />
+                    </FormGroup>
+
+                    {/* 저장 버튼 */}
+                    <Styled.ButtonGroup>
+                        <Button 
+                            variant="primary" 
+                            onClick={handleSave}
+                            disabled={!isEdited || updateUserInfoMutation.isPending}
+                        >
+                            {updateUserInfoMutation.isPending ? '저장 중...' : '저장'}
+                        </Button>
+                    </Styled.ButtonGroup>
+                </Card>
+
+                {/* 계정 관리 */}
+                <Card title="계정 관리">
+                    <Styled.ActionItem danger>
+                        <Styled.ActionContent>
+                            <Styled.ActionTitle danger>계정 삭제</Styled.ActionTitle>
+                            <Styled.ActionDescription>이 작업은 되돌릴 수 없습니다.</Styled.ActionDescription>
+                        </Styled.ActionContent>
+                        <Styled.ActionButtonWrapper>
+                            <Button variant="danger">삭제</Button>
+                        </Styled.ActionButtonWrapper>
+                    </Styled.ActionItem>
+                </Card>
+            </Styled.ContentGrid>
+    );
+};
+
+export default SettingPage;

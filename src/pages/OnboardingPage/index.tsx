@@ -92,15 +92,15 @@ const OnboardingPage = () => {
     };
 
     const handleComplete = async () => {
-        console.log('사용자 정보:', onboardingUserInfo);
-
         await updateUserInfo.mutateAsync({
             ...onboardingUserInfo,
             isOnboardingDone: true
         });
 
+        // 사용자 정보를 다시 가져온다.
         await refetchUserInfo();
 
+        // 페이지를 이동한다.
         navigate(PATH.INDEX, { replace: true });
     };
 

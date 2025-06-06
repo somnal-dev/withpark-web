@@ -31,8 +31,6 @@ const OAuthKakaoPage = () => {
                 accessToken: kakaoAccessToken
             });
 
-        console.log(accessToken, refreshToken, isOnboardingDone)
-
         setToken(accessToken, refreshToken);
 
         // 온보딩 필요여부 판단

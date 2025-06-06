@@ -21,6 +21,9 @@ export const PlacePage =
 export const CommunityPage =
     lazy(() => import('./CommunityPage'))
 
+export const PostDetailPage =
+    lazy(() => import('./PostDetailPage'))
+
 export const GamePage =
     lazy(() => import('./GamePage'))
 

@@ -41,7 +41,7 @@ const Navbar = () => {
         {path: PATH.INDEX, label: '대시보드'},
         {path: PATH.PLACE, label: '골프장'},
         {path: PATH.COMMUNITY, label: '커뮤니티'},
-        {path: PATH.GAME, label: '게임'},
+        // {path: PATH.GAME, label: '게임'},
     ];
 
     const handleClickSettings = () => {

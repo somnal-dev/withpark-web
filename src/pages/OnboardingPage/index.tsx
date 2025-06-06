@@ -179,7 +179,7 @@ const OnboardingPage = () => {
                             <Styled.Label htmlFor="introduction">자기소개</Styled.Label>
                             <Styled.Textarea
                                 id="introduction"
-                                placeholder="골프에 대한 열정이나 목표를 간단히 소개해주세요 (최소 10글자)"
+                                placeholder="파크골프에 대한 열정이나 목표를 간단히 소개해주세요 (최소 10글자)"
                                 value={onboardingUserInfo.introduction}
                                 onChange={(e) => handleInputChange('introduction', e.target.value)}
                                 maxLength={200}

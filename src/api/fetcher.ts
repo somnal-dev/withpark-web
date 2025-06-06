@@ -22,8 +22,9 @@ export const instance = ky.create({
     },
     hooks: {
         beforeRequest: [
-            (request) => {
-                const accessToken = localStorage.get(LOCAL_STORAGE.ACCESS_TOKEN);
+            async (request) => {
+                // 리프레시 토큰으로 새로운 엑세스토큰 받기
+                const accessToken = await refreshAccessToken();
 
                 if (accessToken) {
                     request.headers.set('Authorization', `Bearer ${accessToken}`);

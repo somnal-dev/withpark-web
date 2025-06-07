@@ -2,7 +2,7 @@ import useAuthAtom from "../hooks/useAuthAtom.ts";
 import {Navigate, Outlet} from "react-router-dom";
 import {PATH} from "@withpark/constants/routes.ts";
 import {Suspense} from "react";
-import {CommunityPage, DashboardPage, OnboardingPage, PlacePage, PostDetailPage} from "@withpark/pages/index.ts";
+import {CommunityPage, DashboardPage, OnboardingPage, PlacePage, PlaceDetailPage, PostDetailPage} from "@withpark/pages/index.ts";
 import Navbar from "@withpark/ui/components/Navbar";
 import GamePage from "@withpark/pages/GamePage";
 import useUserInfo from "@withpark/api/queries/useUserInfo.ts";
@@ -63,6 +63,10 @@ export const privateRoutes = [
             {
                 path: PATH.PLACE,
                 element: <PlacePage />
+            },
+            {
+                path: PATH.PLACE_DETAIL,
+                element: <PlaceDetailPage />
             },
             {
                 path: PATH.COMMUNITY,

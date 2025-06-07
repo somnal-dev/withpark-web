@@ -56,7 +56,7 @@ export const instance = ky.create({
                         request.headers.set('Authorization', `Bearer ${accessToken}`);
                         return ky(request, options);
                     } catch (e) {
-                        if (e instanceof HTTPError && e.response.url.includes('/login/refresh')) {
+                        if (e instanceof HTTPError && e.response.url.includes('/auth?action=refresh')) {
                             localStorage.remove(LOCAL_STORAGE.ACCESS_TOKEN);
                             localStorage.remove(LOCAL_STORAGE.REFRESH_TOKEN);
                         }

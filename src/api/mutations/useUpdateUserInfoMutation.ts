@@ -13,7 +13,7 @@ const useUpdateUserInfoMutation = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: (userInfo: UpdateUserInfoRequest) => Fetcher.put('user/me', {
+        mutationFn: (userInfo: UpdateUserInfoRequest) => Fetcher.put('user', {
             json: userInfo
         }),
         onSuccess: () => {

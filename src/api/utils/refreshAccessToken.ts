@@ -15,7 +15,7 @@ const postRefreshToken = async () => {
 
     if(refreshToken) {
         const response = await ky
-            .post(`${API_URL}/auth/refresh`, {
+            .post(`${API_URL}/auth?action=refresh`, {
                 json: {
                     refreshToken
                 }

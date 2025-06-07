@@ -13,7 +13,7 @@ export default function useCreateCommentMutation() {
   return useMutation({
     mutationFn: async ({ postId, data }: CreateCommentParams) => {
       const response = await Fetcher.post<ApiResponse<Comment>>(
-        `community/posts/${postId}/comments`,
+        `community/comments/${postId}`,
         { json: data }
       );
       return response.data;

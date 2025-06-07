@@ -1,8 +1,13 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Card from "@withpark/ui/components/Card";
 import Button from "@withpark/ui/components/Button";
 import useTogglePlaceLikeMutation from "../../../api/mutations/useTogglePlaceLikeMutation";
 import type { Place } from "../../../types/place";
+import IconButton from "@withpark/ui/components/IconButton";
+import { LikeIcon } from "@withpark/assets/icons/LikeIcon";
+import { CommentIcon } from "@withpark/assets/icons/CommentIcon";
+import { PlaceIcon } from "@withpark/assets/icons/PlaceIcon";
+import { GolfIcon } from "@withpark/assets/icons/GolfIcon";
 
 interface PlaceCardProps {
   place: Place;
@@ -33,8 +38,45 @@ const PlaceCard = ({ place, onPlaceClick }: PlaceCardProps) => {
   };
 
   return (
-    <Card style={{ cursor: 'pointer' }} onClick={handleCardClick}>
-      <div style={{ padding: '16px' }}>
+    <Card 
+      style={{ 
+        cursor: 'pointer',
+        transition: 'transform 0.2s, box-shadow 0.2s',
+        border: '1px solid #e2e8f0'
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = 'translateY(-2px)';
+        e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.05)';
+      }}
+      onClick={handleCardClick}
+    >
+      {/* 이미지 섹션 */}
+      {place.imageUrl && (
+        <div style={{ 
+          width: '100%', 
+          height: '200px', 
+          marginBottom: '16px',
+          borderRadius: '8px',
+          overflow: 'hidden'
+        }}>
+          <img 
+            src={place.imageUrl} 
+            alt={place.golfClubName}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover'
+            }}
+          />
+        </div>
+      )}
+
+      {/* 내용 섹션 */}
+      <div style={{ padding: place.imageUrl ? '0' : '8px 0' }}>
         {/* 헤더 - 지역과 골프장명 */}
         <div style={{ marginBottom: '12px' }}>
           <div style={{ 
@@ -53,7 +95,7 @@ const PlaceCard = ({ place, onPlaceClick }: PlaceCardProps) => {
             margin: '0', 
             fontSize: '18px',
             fontWeight: 'bold',
-            color: '#333'
+            color: '#2d3748'
           }}>
             {place.golfClubName}
           </h3>
@@ -70,7 +112,7 @@ const PlaceCard = ({ place, onPlaceClick }: PlaceCardProps) => {
               alignItems: 'center',
               gap: '4px'
             }}>
-              📍 {place.address}
+              <PlaceIcon size={14} /> {place.address}
             </div>
           )}
           
@@ -81,10 +123,14 @@ const PlaceCard = ({ place, onPlaceClick }: PlaceCardProps) => {
             color: '#888'
           }}>
             {place.clubSize && (
-              <span>🏌️ {place.clubSize}</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <GolfIcon size={14} /> {place.clubSize}
+              </span>
             )}
             {place.holeCount && (
-              <span>⛳ {place.holeCount}</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <GolfIcon size={14} /> {place.holeCount}
+              </span>
             )}
           </div>
         </div>
@@ -98,20 +144,16 @@ const PlaceCard = ({ place, onPlaceClick }: PlaceCardProps) => {
           borderTop: '1px solid #f0f0f0'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <Button
-              variant={isLiked ? "primary" : "secondary"}
+            <IconButton
+              icon={<LikeIcon fill={isLiked} />}
+              active={isLiked}
               onClick={handleLike}
-              disabled={toggleLikeMutation.isPending}
-              style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                gap: '4px',
-                fontSize: '12px',
-                padding: '6px 12px'
-              }}
+              loading={toggleLikeMutation.isPending}
+              variant="secondary"
+              size="small"
             >
-              {isLiked ? '❤️' : '🤍'} {place.likeCount}
-            </Button>
+              {place.likeCount}
+            </IconButton>
 
             <div style={{ 
               display: 'flex', 
@@ -120,7 +162,7 @@ const PlaceCard = ({ place, onPlaceClick }: PlaceCardProps) => {
               fontSize: '12px',
               color: '#666'
             }}>
-              💬 {place.commentCount}
+              <CommentIcon size={14} /> {place.commentCount}
             </div>
           </div>
 

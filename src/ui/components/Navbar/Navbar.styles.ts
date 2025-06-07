@@ -169,6 +169,9 @@ const DropdownItem = styled.button`
   cursor: pointer;
   transition: background-color 0.2s;
   color: #2d3748;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   
   &:hover {
     background-color: #f7fafc;

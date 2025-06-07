@@ -33,20 +33,17 @@ const ProfileImageUpload = ({
 
         // 실제 서버 업로드
         setIsUploading(true);
+
         try {
             const response = await uploadMutation.mutateAsync(file);
-            // 성공하면 previewUrl을 서버 URL로 즉시 교체
-            setPreviewUrl(response.photoUrl);
             // 부모 컴포넌트에 새 URL 전달
             onImageChange(response.photoUrl);
-            // 부모 컴포넌트의 imageUrl이 업데이트되면 previewUrl 제거 (블러만 제거)
-            setTimeout(() => {
-                setPreviewUrl(null);
-            }, 500);
+
         } catch (error) {
             console.error('이미지 업로드 실패:', error);
             alert('이미지 업로드에 실패했습니다. 다시 시도해주세요.');
             setPreviewUrl(null);
+
             // 실패 시에만 파일 input 초기화
             if (fileInputRef.current) {
                 fileInputRef.current.value = '';
@@ -76,7 +73,7 @@ const ProfileImageUpload = ({
                 />
             ) : (
                 <Styled.Placeholder size={size} onClick={handleClick} isUploading={isUploading}>
-                    {isUploading ? '⏳' : placeholder}
+                    {isUploading ? '' : placeholder}
                 </Styled.Placeholder>
             )}
             <Styled.UploadButton onClick={handleClick} disabled={isUploading}>

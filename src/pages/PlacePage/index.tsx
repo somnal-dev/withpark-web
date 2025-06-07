@@ -3,10 +3,15 @@ import { useSearchParams } from 'react-router-dom';
 import Button from "@withpark/ui/components/Button";
 import Input from "@withpark/ui/components/Input";
 import Card from "@withpark/ui/components/Card";
+import LoadingBar from "@withpark/ui/components/LoadingBar";
 import usePlaces from "../../api/queries/usePlaces";
 import usePlace from "../../api/queries/usePlace";
 import PlaceCard from "./components/PlaceCard";
 import PlaceCommentList from "./components/PlaceCommentList";
+import { GolfIcon } from "@withpark/assets/icons/GolfIcon";
+import { LikeIcon } from "@withpark/assets/icons/LikeIcon";
+import { CommentIcon } from "@withpark/assets/icons/CommentIcon";
+import { PlaceIcon } from "@withpark/assets/icons/PlaceIcon";
 
 const PlacePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -184,7 +189,7 @@ const PlacePage = () => {
                 alignItems: 'center',
                 gap: '6px'
               }}>
-                📍 {selectedPlace.address}
+                <PlaceIcon size={16} /> {selectedPlace.address}
               </div>
             )}
 
@@ -199,7 +204,9 @@ const PlacePage = () => {
                 <span>🏌️ 규모: {selectedPlace.clubSize}</span>
               )}
               {selectedPlace.holeCount && (
-                <span>⛳ 홀 수: {selectedPlace.holeCount}</span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <GolfIcon size={16} /> 홀 수: {selectedPlace.holeCount}
+                </span>
               )}
             </div>
 
@@ -218,7 +225,7 @@ const PlacePage = () => {
                 fontSize: '14px',
                 color: '#666'
               }}>
-                ❤️ {selectedPlace.likeCount} 좋아요
+                <LikeIcon fill={false} /> {selectedPlace.likeCount} 좋아요
               </div>
               <div style={{ 
                 display: 'flex', 
@@ -227,7 +234,7 @@ const PlacePage = () => {
                 fontSize: '14px',
                 color: '#666'
               }}>
-                💬 {selectedPlace.commentCount} 댓글
+                <CommentIcon size={16} /> {selectedPlace.commentCount} 댓글
               </div>
             </div>
           </div>
@@ -327,15 +334,11 @@ const PlacePage = () => {
 
       {/* 로딩 상태 */}
       {isLoading ? (
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
-          alignItems: 'center', 
-          height: '200px',
-          color: '#666'
-        }}>
-          파크골프장을 불러오는 중...
-        </div>
+        <LoadingBar 
+          type="spinner" 
+          size="large" 
+          message="파크골프장을 불러오는 중..." 
+        />
       ) : (
         <>
           {/* 파크골프장 목록 */}

@@ -2,8 +2,12 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Card from "@withpark/ui/components/Card";
 import Button from "@withpark/ui/components/Button";
+import LoadingBar from "@withpark/ui/components/LoadingBar";
 import usePopularPosts from "../../../api/queries/usePopularPosts";
 import type { PopularPeriod } from "../../../types/community";
+import IconButton from "@withpark/ui/components/IconButton";
+import { LikeIcon } from "@withpark/assets/icons/LikeIcon";
+import { ViewIcon } from "@withpark/assets/icons/ViewIcon";
 
 const PopularPosts = () => {
   const navigate = useNavigate();
@@ -63,7 +67,21 @@ const PopularPosts = () => {
   }
 
   return (
-    <Card title="🔥 인기 게시글">
+    <Card 
+      title="인기 게시글"
+      titleAction={
+        <Button
+          variant="secondary"
+          onClick={handleViewMore}
+          style={{ 
+            fontSize: '12px', 
+            padding: '6px 12px' 
+          }}
+        >
+          더보기 →
+        </Button>
+      }
+    >
       {/* 기간 선택 버튼들 */}
       <div style={{ 
         display: 'flex', 
@@ -85,13 +103,7 @@ const PopularPosts = () => {
 
       {/* 로딩 상태 */}
       {isLoading ? (
-        <div style={{ 
-          textAlign: 'center', 
-          color: '#666', 
-          padding: '20px' 
-        }}>
-          로딩 중...
-        </div>
+        <LoadingBar type="bar" message="인기 게시글을 불러오는 중..." />
       ) : (
         <>
           {/* 인기게시글 목록 */}
@@ -114,24 +126,8 @@ const PopularPosts = () => {
                     e.currentTarget.style.backgroundColor = 'transparent';
                   }}
                 >
-                  {/* 순위 표시 */}
-                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
-                    <div style={{
-                      minWidth: '20px',
-                      height: '20px',
-                      borderRadius: '50%',
-                      backgroundColor: index < 3 ? '#ff6b6b' : '#868e96',
-                      color: 'white',
-                      fontSize: '12px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontWeight: 'bold',
-                      marginTop: '2px'
-                    }}>
-                      {index + 1}
-                    </div>
-                    
+                  {/* 메인 컨텐츠 */}
+                  <div style={{ display: 'flex', alignItems: 'flex-start' }}>
                     <div style={{ flex: 1 }}>
                       {/* 제목 */}
                       <div style={{
@@ -158,17 +154,20 @@ const PopularPosts = () => {
                       }}>
                         <span>{post.user.nickname}</span>
                         <span>•</span>
-                        <span>👁 {post.viewCount}</span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
+                          <ViewIcon size={14} /> {post.viewCount}
+                        </div>
                         <span>•</span>
-                        <span>❤️ {post.likeCount}</span>
-                        {post.popularityScore && (
-                          <>
-                            <span>•</span>
-                            <span style={{ color: '#ff6b6b', fontWeight: '500' }}>
-                              🔥 {post.popularityScore}
-                            </span>
-                          </>
-                        )}
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
+                          <IconButton
+                            icon={<LikeIcon fill={false} />}
+                            readonly
+                            size="small"
+                            variant="ghost"
+                          >
+                            {post.likeCount}
+                          </IconButton>
+                        </span>
                         <span>•</span>
                         <span>{formatDate(post.createdAt)}</span>
                       </div>
@@ -176,17 +175,6 @@ const PopularPosts = () => {
                   </div>
                 </div>
               ))}
-
-              {/* 더보기 버튼 */}
-              <div style={{ marginTop: '16px', textAlign: 'center' }}>
-                <Button
-                  variant="secondary"
-                  onClick={handleViewMore}
-                  style={{ fontSize: '12px' }}
-                >
-                  커뮤니티 전체보기
-                </Button>
-              </div>
             </>
           ) : (
             <div style={{ 

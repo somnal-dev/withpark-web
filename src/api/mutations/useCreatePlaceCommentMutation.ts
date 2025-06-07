@@ -14,7 +14,7 @@ export default function useCreatePlaceCommentMutation() {
     mutationFn: async ({ placeId, data }: CreatePlaceCommentParams) => {
       const response = await Fetcher.post<ApiResponse<PlaceComment>>(
         `place/${placeId}/comments`,
-        data
+        { json: data }
       );
       return response.data;
     },

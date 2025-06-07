@@ -9,6 +9,8 @@ import useAuthAtom from "@withpark/hooks/useAuthAtom.ts";
 import {useNavigate} from "react-router-dom";
 import useDialog from "@withpark/hooks/useDialog.ts";
 import {SettingPage} from "@withpark/pages/index.ts";
+import { SettingIcon } from "@withpark/assets/icons/SettingIcon";
+import { LogoutIcon } from "@withpark/assets/icons/LogoutIcon";
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -117,10 +119,10 @@ const Navbar = () => {
                                         transition={{duration: 0.15}}
                                     >
                                         <Styled.DropdownItem onClick={handleClickSettings}>
-                                            ⚙️ 설정
+                                            <SettingIcon size={16} /> 설정
                                         </Styled.DropdownItem>
                                         <Styled.DropdownItem onClick={handleLogout}>
-                                            🚪 로그아웃
+                                            <LogoutIcon size={16} /> 로그아웃
                                         </Styled.DropdownItem>
                                     </Styled.DropdownMenu>
                                 )}

@@ -3,6 +3,10 @@ import Card from "@withpark/ui/components/Card";
 import Button from "@withpark/ui/components/Button";
 import useToggleLikeMutation from "../../../api/mutations/useToggleLikeMutation";
 import type { Post } from "../../../types/community";
+import IconButton from "@withpark/ui/components/IconButton";
+import { LikeIcon } from "@withpark/assets/icons/LikeIcon";
+import { CommentIcon } from "@withpark/assets/icons/CommentIcon";
+import { ViewIcon } from "@withpark/assets/icons/ViewIcon";
 
 interface PostCardProps {
   post: Post;
@@ -95,42 +99,30 @@ const PostCard = ({ post, onPostClick }: PostCardProps) => {
           {post.content}
         </p>
 
-        {/* 이미지 */}
-        {post.imageUrl && (
-          <img
-            src={post.imageUrl}
-            alt="게시글 이미지"
-            style={{
-              width: '100%',
-              maxHeight: '200px',
-              objectFit: 'cover',
-              borderRadius: '8px',
-              marginBottom: '12px'
-            }}
-          />
-        )}
-
         {/* 액션 버튼들 */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <Button
-            variant={isLiked ? "primary" : "secondary"}
+          <IconButton
+            icon={<LikeIcon fill={isLiked} />}
+            active={isLiked}
             onClick={handleLike}
-            disabled={toggleLikeMutation.isPending}
-            style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
-          >
-            {isLiked ? '❤️' : '🤍'} {post.likeCount}
-          </Button>
-
-          <Button
+            loading={toggleLikeMutation.isPending}
             variant="secondary"
-            onClick={handleCommentClick}
-            style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
+            size="small"
           >
-            💬 {post.commentCount}
-          </Button>
+            {post.likeCount}
+          </IconButton>
 
-          <div style={{ fontSize: '14px', color: '#666' }}>
-            👁 {post.viewCount}
+          <IconButton
+            icon={<CommentIcon size={16} />}
+            onClick={handleCommentClick}
+            variant="secondary"
+            size="small"
+          >
+            {post.commentCount}
+          </IconButton>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '14px', color: '#666' }}>
+            <ViewIcon size={16} /> {post.viewCount}
           </div>
         </div>
       </div>

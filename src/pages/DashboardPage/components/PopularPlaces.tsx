@@ -2,8 +2,15 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Card from "@withpark/ui/components/Card";
 import Button from "@withpark/ui/components/Button";
+import Select from "@withpark/ui/components/Select";
+import LoadingBar from "@withpark/ui/components/LoadingBar";
 import usePopularPlaces from "../../../api/queries/usePopularPlaces";
 import type { Place } from "../../../types/place";
+import IconButton from "@withpark/ui/components/IconButton";
+import { LikeIcon } from "@withpark/assets/icons/LikeIcon";
+import { CommentIcon } from "@withpark/assets/icons/CommentIcon";
+import { GolfIcon } from "@withpark/assets/icons/GolfIcon";
+import { PlaceIcon } from "@withpark/assets/icons/PlaceIcon";
 
 const PopularPlaces = () => {
   const [selectedArea, setSelectedArea] = useState<string>('');
@@ -15,9 +22,11 @@ const PopularPlaces = () => {
   });
 
   // 지역 옵션들
-  const areas = [
-    '서울', '경기', '인천', '강원', '충북', '충남', '대전', '세종',
-    '전북', '전남', '광주', '경북', '경남', '대구', '울산', '부산', '제주'
+  const areaOptions = [
+    { value: '', label: '전체' },
+    ...['서울', '경기', '인천', '강원', '충북', '충남', '대전', '세종',
+      '전북', '전남', '광주', '경북', '경남', '대구', '울산', '부산', '제주']
+      .map(area => ({ value: area, label: area }))
   ];
 
   const formatDate = (dateString: string) => {
@@ -25,12 +34,8 @@ const PopularPlaces = () => {
     return date.toLocaleDateString();
   };
 
-  const handleAreaChange = (area: string) => {
-    setSelectedArea(area === selectedArea ? '' : area);
-  };
-
-  const handleViewAllPlaces = () => {
-    navigate('/place');
+  const handleAreaChange = (value: string | number) => {
+    setSelectedArea(value.toString());
   };
 
   const handlePlaceClick = (placeId: number) => {
@@ -39,37 +44,19 @@ const PopularPlaces = () => {
 
   return (
     <Card 
-      title={
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <span>🔥 인기 파크골프장</span>
-          <select
-            value={selectedArea}
-            onChange={(e) => setSelectedArea(e.target.value)}
-            style={{
-              padding: '4px 8px',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              fontSize: '12px',
-              backgroundColor: '#f8f9fa'
-            }}
-          >
-            <option value="">전체</option>
-            {areas.map(area => (
-              <option key={area} value={area}>{area}</option>
-            ))}
-          </select>
-        </div>
+      title="🔥 인기 파크골프장"
+      titleAction={
+        <Select
+          options={areaOptions}
+          value={selectedArea}
+          onChange={handleAreaChange}
+          size="small"
+          placeholder="지역 선택"
+        />
       }
     >
       {isLoading ? (
-        <div style={{ 
-          textAlign: 'center', 
-          color: '#666', 
-          padding: '20px',
-          fontSize: '14px' 
-        }}>
-          인기 파크골프장을 불러오는 중...
-        </div>
+        <LoadingBar type="dots" message="인기 파크골프장을 불러오는 중..." />
       ) : error ? (
         <div style={{ 
           textAlign: 'center', 
@@ -81,7 +68,7 @@ const PopularPlaces = () => {
         </div>
       ) : popularPlaces && popularPlaces.length > 0 ? (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {popularPlaces.map((place, index) => (
+          {popularPlaces.map((place, _) => (
             <div
               key={place.id}
               style={{
@@ -103,20 +90,6 @@ const PopularPlaces = () => {
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
                 <div style={{ flex: 1 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                    <span style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      width: '20px',
-                      height: '20px',
-                      backgroundColor: index < 3 ? '#ff6b6b' : '#4ecdc4',
-                      color: 'white',
-                      borderRadius: '50%',
-                      fontSize: '11px',
-                      fontWeight: 'bold'
-                    }}>
-                      {index + 1}
-                    </span>
                     <div style={{
                       backgroundColor: '#e3f2fd',
                       color: '#1976d2',
@@ -147,7 +120,7 @@ const PopularPlaces = () => {
                       alignItems: 'center',
                       gap: '4px'
                     }}>
-                      📍 {place.address.length > 30 ? `${place.address.substring(0, 30)}...` : place.address}
+                      <PlaceIcon size={14} /> {place.address.length > 30 ? `${place.address.substring(0, 30)}...` : place.address}
                     </div>
                   )}
                   
@@ -158,8 +131,16 @@ const PopularPlaces = () => {
                     fontSize: '11px',
                     color: '#888'
                   }}>
-                    {place.clubSize && <span>🏌️ {place.clubSize}</span>}
-                    {place.holeCount && <span>⛳ {place.holeCount}</span>}
+                    {place.clubSize && (
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
+                        <GolfIcon size={16} /> {place.clubSize}
+                      </span>
+                    )}
+                    {place.holeCount && (
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
+                        <GolfIcon size={16} /> {place.holeCount}
+                      </span>
+                    )}
                   </div>
                 </div>
                 
@@ -175,8 +156,19 @@ const PopularPlaces = () => {
                     gap: '6px',
                     fontSize: '11px'
                   }}>
-                    <span style={{ color: '#ff6b6b' }}>❤️ {place.likeCount}</span>
-                    <span style={{ color: '#4ecdc4' }}>💬 {place.commentCount}</span>
+                    <span style={{ color: '#ff6b6b', display: 'flex', alignItems: 'center', gap: '2px' }}>
+                      <IconButton
+                        icon={<LikeIcon fill={false} />}
+                        readonly
+                        size="small"
+                        variant="ghost"
+                      >
+                        {place.likeCount}
+                      </IconButton>
+                    </span>
+                    <span style={{ color: '#000000', display: 'flex', alignItems: 'center', gap: '2px' }}>
+                      <CommentIcon size={14} /> {place.commentCount}
+                    </span>
                   </div>
                   <div style={{ 
                     fontSize: '9px', 
@@ -197,26 +189,6 @@ const PopularPlaces = () => {
           fontSize: '14px'
         }}>
           {selectedArea ? `'${selectedArea}' 지역의 인기 파크골프장이 없습니다` : '인기 파크골프장이 없습니다'}
-        </div>
-      )}
-      
-      {popularPlaces && popularPlaces.length > 0 && (
-        <div style={{ 
-          marginTop: '16px', 
-          paddingTop: '12px', 
-          borderTop: '1px solid #f0f0f0',
-          textAlign: 'center'
-        }}>
-          <Button
-            variant="secondary"
-            onClick={handleViewAllPlaces}
-            style={{ 
-              fontSize: '12px', 
-              padding: '6px 16px' 
-            }}
-          >
-            전체 파크골프장 보기 →
-          </Button>
         </div>
       )}
     </Card>

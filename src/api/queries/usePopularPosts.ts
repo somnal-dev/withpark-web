@@ -20,10 +20,11 @@ export default function usePopularPosts({
         page: page.toString(),
         limit: limit.toString(),
         period: period,
+        sort: 'popular'
       });
       
       const response = await Fetcher.get<ApiResponse<PopularPostsResponse>>(
-        `community/posts/popular?${params.toString()}`
+        `community/posts?${params.toString()}`
       );
       
       return response.data;

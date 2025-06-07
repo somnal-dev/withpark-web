@@ -16,12 +16,13 @@ export default function usePopularPlaces({
     queryFn: async () => {
       const params = new URLSearchParams({
         limit: limit.toString(),
+        sort: 'popular'
       });
       
       if (area) params.append('area', area);
       
       const response = await Fetcher.get<ApiResponse<PopularPlacesResponse>>(
-        `place/popular?${params.toString()}`
+        `place?${params.toString()}`
       );
       
       return response.data.places;

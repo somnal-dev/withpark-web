@@ -8,6 +8,7 @@ export const PATH = {
 
     ONBOARDING: '/onboarding',
     PLACE: '/place',
+    PLACE_DETAIL: '/place/:placeId',
     COMMUNITY: '/community',
     POST_DETAIL: '/community/:postId',
     GAME: '/game',

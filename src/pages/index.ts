@@ -18,6 +18,9 @@ export const OnboardingPage =
 export const PlacePage =
     lazy(() => import('./PlacePage'))
 
+export const PlaceDetailPage =
+    lazy(() => import('./PlaceDetailPage'))
+
 export const CommunityPage =
     lazy(() => import('./CommunityPage'))
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import Button from "@withpark/ui/components/Button";
 import Input from "@withpark/ui/components/Input";
 import Card from "@withpark/ui/components/Card";
@@ -21,6 +21,7 @@ const PlacePage = () => {
   const [actualSearchQuery, setActualSearchQuery] = useState('');
   const [actualSelectedArea, setActualSelectedArea] = useState('');
   const [selectedPlaceId, setSelectedPlaceId] = useState<number | null>(null);
+  const navigate = useNavigate();
 
   // URL 파라미터에서 placeId 읽기
   useEffect(() => {
@@ -66,8 +67,7 @@ const PlacePage = () => {
   };
 
   const handlePlaceClick = (placeId: number) => {
-    setSelectedPlaceId(placeId);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigate(`/place/${placeId}`);
   };
 
   const handleBackToList = () => {

@@ -18,7 +18,7 @@ const useUserInfo = (): UseQueryResult<UserInfoResponse> => {
     return useQuery({
         enabled: !!accessToken, // accessToken이 있을 때만 쿼리 실행
         queryKey: [QUERY_KEY.USER], // 단순한 queryKey 사용
-        queryFn: () => Fetcher.get<UserInfoResponse>(`user/me`),
+        queryFn: () => Fetcher.get<UserInfoResponse>(`user`),
         staleTime: 1000 * 60 * 10, // 10분 동안 데이터를 신선한 것으로 간주
         gcTime: 1000 * 60 * 15, // 15분 동안 가비지 컬렉션 방지
         refetchOnWindowFocus: false, // 창 포커스시 재요청 방지

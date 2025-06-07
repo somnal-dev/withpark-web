@@ -15,23 +15,21 @@ const Container = styled.div<{ fullWidth?: boolean }>`
 const SelectElement = styled.select<SelectProps>`
   width: ${props => props.fullWidth ? '100%' : 'auto'};
   padding: ${props => {
-    switch (props.size) {
-      case 'small':
-        return '6px 24px 6px 8px';
-      case 'large':
-        return '12px 32px 12px 12px';
-      default:
-        return '8px 28px 8px 12px';
+    if (props.size === 'small') {
+      return '6px 24px 6px 8px';
+    } else if (props.size === 'large') {
+      return '12px 32px 12px 12px';
+    } else {
+      return '8px 28px 8px 12px';
     }
   }};
   font-size: ${props => {
-    switch (props.size) {
-      case 'small':
-        return '12px';
-      case 'large':
-        return '16px';
-      default:
-        return '14px';
+    if (props.size === 'small') {
+      return '12px';
+    } else if (props.size === 'large') {
+      return '16px';
+    } else {
+      return '14px';
     }
   }};
   border: 1px solid ${props => props.error ? '#e53e3e' : '#e2e8f0'};
@@ -39,13 +37,12 @@ const SelectElement = styled.select<SelectProps>`
   background-color: #ffffff;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
   background-position: right ${props => {
-    switch (props.size) {
-      case 'small':
-        return '6px';
-      case 'large':
-        return '12px';
-      default:
-        return '8px';
+    if (props.size === 'small') {
+      return '6px';
+    } else if (props.size === 'large') {
+      return '12px';
+    } else {
+      return '8px';
     }
   }} center;
   background-repeat: no-repeat;
@@ -73,13 +70,12 @@ const SelectElement = styled.select<SelectProps>`
 
   @media (max-width: 768px) {
     font-size: ${props => {
-      switch (props.size) {
-        case 'small':
-          return '12px';
-        case 'large':
-          return '16px';
-        default:
-          return '14px';
+      if (props.size === 'small') {
+        return '12px';
+      } else if (props.size === 'large') {
+        return '16px';
+      } else {
+        return '14px';
       }
     }};
   }

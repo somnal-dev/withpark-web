@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Button from "@withpark/ui/components/Button";
 import Card from "@withpark/ui/components/Card";
 import usePost from "../../api/queries/usePost";
@@ -12,7 +12,6 @@ import { CommentIcon } from "@withpark/assets/icons/CommentIcon";
 
 const PostDetailPage = () => {
   const { postId } = useParams<{ postId: string }>();
-  const navigate = useNavigate();
   const { data: post, isLoading, error } = usePost(Number(postId));
   const toggleLikeMutation = useToggleLikeMutation();
   const [isLiked, setIsLiked] = useState(false);
@@ -33,10 +32,6 @@ const PostDetailPage = () => {
     } catch (error) {
       console.error('좋아요 토글 실패:', error);
     }
-  };
-
-  const handleBackToList = () => {
-    navigate('/community');
   };
 
   const formatDate = (dateString: string) => {
@@ -69,7 +64,7 @@ const PostDetailPage = () => {
   if (error || !post) {
     return (
       <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Card style={{ textAlign: 'center', padding: '2rem' }}>
+        <Card>
           <h2 style={{ color: '#666', marginBottom: '1rem' }}>게시글을 찾을 수 없습니다</h2>
           <p style={{ color: '#999' }}>삭제되었거나 존재하지 않는 게시글입니다.</p>
         </Card>
@@ -84,21 +79,7 @@ const PostDetailPage = () => {
       padding: '20px',
       minHeight: '80vh'
     }}>
-      <Card style={{ marginBottom: '20px' }}>
-        {/* 카테고리 태그 */}
-        <div style={{ 
-          display: 'inline-block',
-          backgroundColor: '#4A7C59',
-          color: 'white',
-          padding: '4px 12px',
-          borderRadius: '16px',
-          fontSize: '12px',
-          fontWeight: '500',
-          marginBottom: '16px'
-        }}>
-          {post.category}
-        </div>
-
+      <Card>
         {/* 제목 */}
         <h1 style={{
           fontSize: '1.8rem',
@@ -172,28 +153,6 @@ const PostDetailPage = () => {
                 border: '1px solid #e2e8f0'
               }}
             />
-          </div>
-        )}
-
-        {/* 태그 */}
-        {post.tags && post.tags.length > 0 && (
-          <div style={{ marginBottom: '24px' }}>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-              {post.tags.map((tag, index) => (
-                <span 
-                  key={index}
-                  style={{
-                    backgroundColor: '#f7fafc',
-                    color: '#4a5568',
-                    padding: '4px 8px',
-                    borderRadius: '4px',
-                    fontSize: '0.875rem'
-                  }}
-                >
-                  #{tag}
-                </span>
-              ))}
-            </div>
           </div>
         )}
 

@@ -18,6 +18,57 @@ const PopularPosts = () => {
     period: selectedPeriod
   });
 
+  // 스타일 객체들
+  const styles = {
+    errorMessage: { 
+      textAlign: 'center', 
+      color: '#666', 
+      padding: '20px' 
+    } as const,
+    periodContainer: { 
+      display: 'flex', 
+      gap: '8px', 
+      marginBottom: '16px',
+      flexWrap: 'wrap'
+    } as const,
+    periodButton: { fontSize: '12px', padding: '4px 8px' } as const,
+    titleAction: { 
+      fontSize: '12px', 
+      padding: '6px 12px' 
+    } as const,
+    postItem: {
+      padding: '12px 0',
+      cursor: 'pointer',
+      transition: 'background-color 0.2s',
+    } as const,
+    postContent: { display: 'flex', alignItems: 'flex-start' } as const,
+    postDetails: { flex: 1 } as const,
+    postTitle: {
+      fontWeight: '500',
+      fontSize: '14px',
+      lineHeight: '1.4',
+      marginBottom: '4px',
+      display: '-webkit-box',
+      WebkitLineClamp: 2,
+      WebkitBoxOrient: 'vertical',
+      overflow: 'hidden'
+    } as const,
+    postMeta: {
+      fontSize: '12px',
+      color: '#666',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px',
+      flexWrap: 'wrap'
+    } as const,
+    metaItem: { display: 'flex', alignItems: 'center', gap: '2px' } as const,
+    emptyMessage: { 
+      textAlign: 'center', 
+      color: '#666', 
+      padding: '20px' 
+    } as const
+  };
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const now = new Date();
@@ -45,6 +96,14 @@ const PopularPosts = () => {
     navigate('/community');
   };
 
+  const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.currentTarget.style.backgroundColor = '#f8f9fa';
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.currentTarget.style.backgroundColor = 'transparent';
+  };
+
   const periodLabels = {
     day: '오늘',
     week: '이번주',
@@ -54,12 +113,8 @@ const PopularPosts = () => {
 
   if (error) {
     return (
-      <Card title="🔥 인기 게시글">
-        <div style={{ 
-          textAlign: 'center', 
-          color: '#666', 
-          padding: '20px' 
-        }}>
+      <Card title="인기 게시글">
+        <div style={styles.errorMessage}>
           데이터를 불러올 수 없습니다.
         </div>
       </Card>
@@ -73,28 +128,20 @@ const PopularPosts = () => {
         <Button
           variant="secondary"
           onClick={handleViewMore}
-          style={{ 
-            fontSize: '12px', 
-            padding: '6px 12px' 
-          }}
+          style={styles.titleAction}
         >
           더보기 →
         </Button>
       }
     >
       {/* 기간 선택 버튼들 */}
-      <div style={{ 
-        display: 'flex', 
-        gap: '8px', 
-        marginBottom: '16px',
-        flexWrap: 'wrap'
-      }}>
+      <div style={styles.periodContainer}>
         {Object.entries(periodLabels).map(([period, label]) => (
           <Button
             key={period}
             variant={selectedPeriod === period ? "primary" : "secondary"}
             onClick={() => setSelectedPeriod(period as PopularPeriod)}
-            style={{ fontSize: '12px', padding: '4px 8px' }}
+            style={styles.periodButton}
           >
             {label}
           </Button>
@@ -114,51 +161,29 @@ const PopularPosts = () => {
                   key={post.id}
                   onClick={() => handlePostClick(post.id)}
                   style={{
-                    padding: '12px 0',
+                    ...styles.postItem,
                     borderBottom: index < popularData.posts.length - 1 ? '1px solid #f0f0f0' : 'none',
-                    cursor: 'pointer',
-                    transition: 'background-color 0.2s',
                   }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#f8f9fa';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent';
-                  }}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
                 >
                   {/* 메인 컨텐츠 */}
-                  <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-                    <div style={{ flex: 1 }}>
+                  <div style={styles.postContent}>
+                    <div style={styles.postDetails}>
                       {/* 제목 */}
-                      <div style={{
-                        fontWeight: '500',
-                        fontSize: '14px',
-                        lineHeight: '1.4',
-                        marginBottom: '4px',
-                        display: '-webkit-box',
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: 'vertical',
-                        overflow: 'hidden'
-                      }}>
+                      <div style={styles.postTitle}>
                         {post.title}
                       </div>
                       
                       {/* 메타 정보 */}
-                      <div style={{
-                        fontSize: '12px',
-                        color: '#666',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        flexWrap: 'wrap'
-                      }}>
+                      <div style={styles.postMeta}>
                         <span>{post.user.nickname}</span>
                         <span>•</span>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
+                        <div style={styles.metaItem}>
                           <ViewIcon size={14} /> {post.viewCount}
                         </div>
                         <span>•</span>
-                        <span style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
+                        <span style={styles.metaItem}>
                           <IconButton
                             icon={<LikeIcon fill={false} />}
                             readonly
@@ -177,11 +202,7 @@ const PopularPosts = () => {
               ))}
             </>
           ) : (
-            <div style={{ 
-              textAlign: 'center', 
-              color: '#666', 
-              padding: '20px' 
-            }}>
+            <div style={styles.emptyMessage}>
               {selectedPeriod === 'day' && '오늘'}
               {selectedPeriod === 'week' && '이번주'}
               {selectedPeriod === 'month' && '이번달'}

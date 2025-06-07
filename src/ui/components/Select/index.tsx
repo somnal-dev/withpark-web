@@ -84,7 +84,6 @@ const Select: React.FC<SelectProps> = ({
         defaultValue={defaultValue?.toString()}
         onChange={handleChange}
         disabled={disabled}
-        size={size}
         fullWidth={fullWidth}
         error={error}
       >

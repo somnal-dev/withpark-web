@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Card from "@withpark/ui/components/Card";
-import Button from "@withpark/ui/components/Button";
 import useToggleLikeMutation from "../../../api/mutations/useToggleLikeMutation";
 import type { Post } from "../../../types/community";
 import IconButton from "@withpark/ui/components/IconButton";
@@ -17,8 +16,8 @@ const PostCard = ({ post, onPostClick }: PostCardProps) => {
   const toggleLikeMutation = useToggleLikeMutation();
   const [isLiked, setIsLiked] = useState(post.isLiked || false);
 
-  const handleLike = async (e: React.MouseEvent) => {
-    e.stopPropagation(); // 게시물 클릭 이벤트 방지
+  const handleLike = async () => {
+
     try {
       const result = await toggleLikeMutation.mutateAsync(post.id);
       setIsLiked(result.isLiked);
@@ -31,8 +30,7 @@ const PostCard = ({ post, onPostClick }: PostCardProps) => {
     onPostClick?.(post.id);
   };
 
-  const handleCommentClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // 게시물 클릭 이벤트 방지
+  const handleCommentClick = () => {
     onPostClick?.(post.id);
   };
 
@@ -56,7 +54,7 @@ const PostCard = ({ post, onPostClick }: PostCardProps) => {
   };
 
   return (
-    <Card style={{ cursor: 'pointer' }} onClick={handlePostClick}>
+    <Card onClick={handlePostClick}>
       <div style={{ padding: '16px' }}>
         {/* 작성자 정보 */}
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '12px' }}>

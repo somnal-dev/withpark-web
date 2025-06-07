@@ -160,7 +160,7 @@ const CommunityPage = () => {
         {actualSearchQuery && (
           <div style={{ fontSize: '14px', color: '#666', marginBottom: '16px' }}>
             '{actualSearchQuery}' 검색 결과: {postsData?.totalCount || 0}개
-            {postsData?.totalCount > 0 && (
+            {!!postsData?.totalCount && postsData?.totalCount > 0 && (
               <Button
                 variant="secondary"
                 onClick={() => {

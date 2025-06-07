@@ -9,5 +9,6 @@ export const PATH = {
     ONBOARDING: '/onboarding',
     PLACE: '/place',
     COMMUNITY: '/community',
+    POST_DETAIL: '/community/:postId',
     GAME: '/game',
 };

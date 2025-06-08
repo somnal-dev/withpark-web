@@ -43,5 +43,5 @@
     "vite-plugin-open-graph": "^2.0.6",
     "vite-plugin-svgr": "^4.3.0"
   },
-  "packageManager": "yarn@4.9.1"
+  "packageManager": "yarn@4.9.2"
 }

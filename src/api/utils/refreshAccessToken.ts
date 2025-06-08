@@ -12,12 +12,14 @@ const localStorage = useLocalStorage();
 
 const postRefreshToken = async () => {
     const refreshToken = localStorage.get(LOCAL_STORAGE.REFRESH_TOKEN);
+    const accessToken = localStorage.get(LOCAL_STORAGE.ACCESS_TOKEN);
 
     if(refreshToken) {
         const response = await ky
             .post(`${API_URL}/auth?action=refresh`, {
                 json: {
-                    refreshToken
+                    refreshToken,
+                    accessToken
                 }
             })
 

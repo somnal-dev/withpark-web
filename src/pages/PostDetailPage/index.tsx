@@ -139,23 +139,6 @@ const PostDetailPage = () => {
           ))}
         </div>
 
-        {/* 첨부 이미지 */}
-        {post.imageUrl && (
-          <div style={{ marginBottom: '24px' }}>
-            <img 
-              src={post.imageUrl} 
-              alt="첨부 이미지"
-              style={{
-                width: '100%',
-                maxHeight: '500px',
-                objectFit: 'contain',
-                borderRadius: '8px',
-                border: '1px solid #e2e8f0'
-              }}
-            />
-          </div>
-        )}
-
         {/* 좋아요/댓글 정보 */}
         <div style={{
           display: 'flex',

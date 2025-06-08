@@ -1,10 +1,12 @@
 import Button from "../Button";
 import Textarea from "../Textarea";
+import { useState } from "react";
 
 interface BaseComment {
   id: number;
   content: string;
   createdAt: string;
+  userId: string | number; // 댓글 작성자 ID 추가
 }
 
 interface PostComment extends BaseComment {
@@ -40,6 +42,11 @@ interface CommentSectionProps<T extends BaseComment> {
   pagination?: PaginationData;
   onPageChange?: (page: number) => void;
   getUserInfo: (comment: T) => { nickname: string; photo?: string };
+  onEditComment?: (commentId: number, content: string) => void;
+  onDeleteComment?: (commentId: number) => void;
+  isEditing?: boolean;
+  isDeletingId?: number;
+  currentUserId?: string | number; // 현재 사용자 ID로 수정/삭제 권한 체크
 }
 
 const CommentSection = <T extends BaseComment>({
@@ -54,8 +61,16 @@ const CommentSection = <T extends BaseComment>({
   placeholder = "댓글을 입력해주세요...",
   pagination,
   onPageChange,
-  getUserInfo
+  getUserInfo,
+  onEditComment,
+  onDeleteComment,
+  isEditing = false,
+  isDeletingId,
+  currentUserId
 }: CommentSectionProps<T>) => {
+  const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
+  const [editingContent, setEditingContent] = useState<string>("");
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const now = new Date();
@@ -73,6 +88,37 @@ const CommentSection = <T extends BaseComment>({
     } else {
       return date.toLocaleDateString();
     }
+  };
+
+  const handleEditStart = (comment: T) => {
+    setEditingCommentId(comment.id);
+    setEditingContent(comment.content);
+  };
+
+  const handleEditCancel = () => {
+    setEditingCommentId(null);
+    setEditingContent("");
+  };
+
+  const handleEditSave = () => {
+    if (editingCommentId && onEditComment && editingContent.trim()) {
+      onEditComment(editingCommentId, editingContent.trim());
+      setEditingCommentId(null);
+      setEditingContent("");
+    }
+  };
+
+  const handleDelete = (commentId: number) => {
+    if (window.confirm("정말로 이 댓글을 삭제하시겠습니까?")) {
+      onDeleteComment?.(commentId);
+    }
+  };
+
+  const canUserModifyComment = (comment: T): boolean => {
+    if (!currentUserId) return false;
+    
+    // 댓글 작성자 ID와 현재 사용자 ID 비교
+    return comment.userId === currentUserId;
   };
 
   return (
@@ -110,6 +156,10 @@ const CommentSection = <T extends BaseComment>({
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {comments.map((comment, _) => {
             const userInfo = getUserInfo(comment);
+            const isCurrentlyEditing = editingCommentId === comment.id;
+            const canModify = canUserModifyComment(comment);
+            const isDeleting = isDeletingId === comment.id;
+            
             return (
               <div
                 key={comment.id}
@@ -151,17 +201,77 @@ const CommentSection = <T extends BaseComment>({
                       {formatDate(comment.createdAt)}
                     </div>
                   </div>
+
+                  {/* 수정/삭제 버튼 */}
+                  {canModify && !isCurrentlyEditing && (
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                      <Button
+                        variant="secondary"
+                        onClick={() => handleEditStart(comment)}
+                        style={{ 
+                          fontSize: '12px', 
+                          padding: '4px 8px',
+                          minWidth: 'auto'
+                        }}
+                        disabled={isEditing || isDeleting}
+                      >
+                        수정
+                      </Button>
+                      <Button
+                        variant="danger"
+                        onClick={() => handleDelete(comment.id)}
+                        style={{ 
+                          fontSize: '12px', 
+                          padding: '4px 8px',
+                          minWidth: 'auto',
+                          backgroundColor: '#dc3545',
+                          borderColor: '#dc3545'
+                        }}
+                        disabled={isEditing || isDeleting}
+                      >
+                        {isDeleting ? '삭제 중...' : '삭제'}
+                      </Button>
+                    </div>
+                  )}
                 </div>
                 
-                {/* 댓글 내용 */}
-                <div style={{
-                  fontSize: '14px',
-                  lineHeight: '1.5',
-                  color: '#333',
-                  whiteSpace: 'pre-wrap'
-                }}>
-                  {comment.content}
-                </div>
+                {/* 댓글 내용 또는 수정 폼 */}
+                {isCurrentlyEditing ? (
+                  <div>
+                    <Textarea
+                      value={editingContent}
+                      onChange={(e: any) => setEditingContent(e.target.value)}
+                      rows={3}
+                      style={{ marginBottom: '8px' }}
+                    />
+                    <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+                      <Button
+                        variant="secondary"
+                        onClick={handleEditCancel}
+                        style={{ fontSize: '12px', padding: '4px 12px' }}
+                      >
+                        취소
+                      </Button>
+                      <Button
+                        variant="primary"
+                        onClick={handleEditSave}
+                        disabled={!editingContent.trim() || isEditing}
+                        style={{ fontSize: '12px', padding: '4px 12px' }}
+                      >
+                        {isEditing ? '저장 중...' : '저장'}
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <div style={{
+                    fontSize: '14px',
+                    lineHeight: '1.5',
+                    color: '#333',
+                    whiteSpace: 'pre-wrap'
+                  }}>
+                    {comment.content}
+                  </div>
+                )}
               </div>
             );
           })}

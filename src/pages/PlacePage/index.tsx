@@ -335,7 +335,7 @@ const PlacePage = () => {
       {/* 로딩 상태 */}
       {isLoading ? (
         <LoadingBar 
-          type="spinner" 
+          type="dots"
           size="large" 
           message="파크골프장을 불러오는 중..." 
         />

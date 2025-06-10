@@ -9,6 +9,12 @@ import FormGroup from "@withpark/ui/components/FormGroup";
 import ProfileImageUpload from "@withpark/ui/components/ProfileImageUpload";
 import useUserInfo from "@withpark/api/queries/useUserInfo";
 import useUpdateUserInfoMutation from "@withpark/api/mutations/useUpdateUserInfoMutation";
+import useAlert from "@withpark/hooks/useAlert.ts";
+import useDeleteUserMutation from "@withpark/api/mutations/useDeleteUserMutation.ts";
+import {useNavigate} from "react-router-dom";
+import {PATH} from "@withpark/constants/routes.ts";
+import {useCloseAllDialogs} from "@withpark/ui/components/Dialog/context.ts";
+import {useCloseAllAlerts} from "@withpark/ui/components/Alert/context.ts";
 
 interface UserSettings {
     nickname: string;
@@ -18,7 +24,14 @@ interface UserSettings {
 
 const SettingPage = () => {
     const { data: userInfo, isLoading } = useUserInfo();
+
+    const navigate = useNavigate();
+
+    const closeAllAlerts = useCloseAllAlerts();
+    const closeAllDialogs = useCloseAllDialogs();
+
     const updateUserInfoMutation = useUpdateUserInfoMutation();
+    const deleteUserMutation = useDeleteUserMutation();
 
     const [settings, setSettings] = useState<UserSettings>({
         nickname: '',
@@ -27,6 +40,8 @@ const SettingPage = () => {
     });
 
     const [isEdited, setIsEdited] = useState(false);
+
+    const alert = useAlert();
 
     // 사용자 정보가 로드되면 상태 업데이트
     useEffect(() => {
@@ -55,12 +70,43 @@ const SettingPage = () => {
                 photo: settings.photo,
             });
             setIsEdited(false);
-            alert('설정이 저장되었습니다.');
+            alert.open({
+                content: (<>설정이 저장되었습니다.</>),
+            });
         } catch (error) {
             console.error('설정 저장 실패:', error);
-            alert('설정 저장에 실패했습니다.');
+            alert.open({
+                content: (<>설정 저장에 실패했습니다.</>)
+            });
         }
     };
+
+    const handleDeleteAccount = async () => {
+        alert.open({
+            content: (
+                <>
+                    정말로 계정을 삭제하시겠습니까?
+                </>
+            ),
+            cancelText: '아니요',
+            confirmText: '네',
+            onConfirm: async () => {
+                try {
+                    await deleteUserMutation.mutateAsync({});
+
+                    closeAllAlerts();
+                    closeAllDialogs();
+
+                    navigate(PATH.INTRO, { replace: true });
+                } catch (error) {
+                    console.error('회원 탈퇴 실패:', error);
+                    alert.open({
+                        content: (<>회원 탈퇴에 실패했습니다.</>)
+                    });
+                }
+            }
+        })
+    }
 
     if (isLoading) {
         return <div>로딩 중...</div>;
@@ -118,7 +164,7 @@ const SettingPage = () => {
                             <Styled.ActionDescription>이 작업은 되돌릴 수 없습니다.</Styled.ActionDescription>
                         </Styled.ActionContent>
                         <Styled.ActionButtonWrapper>
-                            <Button variant="danger">삭제</Button>
+                            <Button variant="danger" onClick={handleDeleteAccount}>삭제</Button>
                         </Styled.ActionButtonWrapper>
                     </Styled.ActionItem>
                 </Card>

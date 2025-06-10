@@ -9,14 +9,14 @@ interface BaseComment {
   userId: string | number; // 댓글 작성자 ID 추가
 }
 
-interface PostComment extends BaseComment {
+export interface PostComment extends BaseComment {
   user: {
     nickname: string;
     photo?: string;
   };
 }
 
-interface PlaceComment extends BaseComment {
+export interface PlaceComment extends BaseComment {
   userNickname: string;
   userPhoto?: string;
 }
@@ -333,4 +333,4 @@ const CommentSection = <T extends BaseComment>({
 };
 
 export default CommentSection;
-export type { PostComment, PlaceComment, PaginationData }; 
+export type { PaginationData };

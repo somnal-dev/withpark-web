@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import CommentSection from "@withpark/ui/components/CommentSection";
+import CommentSection, {PlaceComment} from "@withpark/ui/components/CommentSection";
 import usePlaceComments from "../../../api/queries/usePlaceComments";
 import useCreatePlaceCommentMutation from "../../../api/mutations/useCreatePlaceCommentMutation";
 
-interface PlaceComment {
+interface PlaceCommentListProps extends PlaceComment {
   id: number;
   content: string;
   createdAt: string;

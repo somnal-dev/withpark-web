@@ -4,7 +4,7 @@ export const PATH = {
 
     LOGIN: '/login',
     OAUTH_KAKAO: '/oauth/kakao',
-    OAUTH_GOOGLE: '/oauth/google',
+    OAUTH_NAVER: '/oauth/naver',
 
     ONBOARDING: '/onboarding',
     PLACE: '/place',

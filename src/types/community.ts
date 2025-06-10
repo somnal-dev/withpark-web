@@ -1,3 +1,5 @@
+import {PostComment} from "@withpark/ui/components/CommentSection";
+
 export interface User {
   id: number;
   nickname: string;
@@ -19,7 +21,7 @@ export interface Post {
   popularityScore?: number;
 }
 
-export interface Comment {
+export interface Comment extends PostComment {
   id: number;
   content: string;
   createdAt: string;

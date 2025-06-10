@@ -1,3 +1,5 @@
+import {PlaceComment} from "@withpark/ui/components/CommentSection";
+
 export interface User {
   id: number;
   nickname: string;
@@ -16,17 +18,6 @@ export interface Place {
   likeCount: number;
   commentCount: number;
   isLiked?: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface PlaceComment {
-  id: number;
-  placeId: number;
-  userId: number;
-  userNickname: string;
-  userPhoto?: string;
-  content: string;
   createdAt: string;
   updatedAt: string;
 }

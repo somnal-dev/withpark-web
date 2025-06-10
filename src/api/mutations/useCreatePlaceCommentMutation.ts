@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Fetcher } from "../fetcher";
-import type { ApiResponse, PlaceComment, CreatePlaceCommentRequest } from "../../types/place";
+import type { ApiResponse, CreatePlaceCommentRequest } from "../../types/place";
+import {PlaceComment} from "@withpark/ui/components/CommentSection";
 
 interface CreatePlaceCommentParams {
   placeId: number;

@@ -130,7 +130,7 @@ const PlaceDetailPage = () => {
       {/* 댓글/리뷰 섹션 */}
       {place.id && (
         <div style={{ marginTop: '24px' }}>
-          <PlaceCommentList placeId={place.id} />
+          <PlaceCommentList placeId={place.id} id={0} content={''} createdAt={''} userNickname={''} userId={''} />
         </div>
       )}
     </div>

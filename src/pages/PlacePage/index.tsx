@@ -242,7 +242,7 @@ const PlacePage = () => {
 
         {/* 댓글 섹션 */}
         <div style={{ marginTop: '32px' }}>
-          <PlaceCommentList placeId={selectedPlace.id} />
+          <PlaceCommentList placeId={selectedPlace.id} id={0} content={''} createdAt={''} userNickname={''} userId={''} />
         </div>
       </div>
     );

@@ -3,12 +3,14 @@ import {motion} from "framer-motion";
 
 const Card = styled(motion.div)<{
     padding?: string | number;
+    onClick?: () => void;
 }>`
     background: white;
     border-radius: 12px;
     padding: ${props => props.padding || '1.5rem'};
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     border: 1px solid #e2e8f0;
+    cursor: ${props => props.onClick ? 'pointer' : 'default'};
     
     @media (max-width: 768px) {
         padding: ${props => props.padding || '1rem'};

@@ -1,9 +1,8 @@
 import {ReactNode, useCallback, useContext, useRef, useState} from "react";
 import {nanoid} from "nanoid";
-import dialogContext, {DialogInfoList, DialogType} from "@withpark/ui/components/Dialog/context.ts";
+import dialogContext, {DialogInfo} from "@withpark/ui/components/Dialog/context.ts";
 
 interface UseDialogProps {
-    dialogType?: DialogType,
     content: ReactNode;
     title?: string;
     width?: string;
@@ -19,16 +18,14 @@ const useDialog = () => {
 
     const open = useCallback(
         ({
-            dialogType,
             content,
             title,
             width,
             contentPadding,
             onClose,
         }: UseDialogProps) => {
-            const newDialog: DialogInfoList = {
+            const newDialog: DialogInfo = {
                 dialogId: dialogId.current,
-                dialogType,
                 content,
                 title,
                 width,

@@ -1,14 +1,8 @@
-import {createContext, Dispatch, ReactNode, SetStateAction} from "react";
+import {createContext, Dispatch, ReactNode, SetStateAction, useContext} from "react";
 import { QueryClient } from "@tanstack/react-query";
-
-export enum DialogType {
-    FullPage = "FullPage",
-    Popup = "Popup",
-}
 
 interface DialogInfoBase {
     dialogId: string;
-    dialogType?: DialogType;
 
     width?: string;
     contentPadding?: string;
@@ -22,14 +16,24 @@ interface DefaultDialogInfo extends DialogInfoBase {
     title?: string;
 }
 
-export type DialogInfoList = DefaultDialogInfo
+export type DialogInfo = DefaultDialogInfo
 
 interface DialogContext {
-    dialogInfoList: DialogInfoList[];
-    setDialogInfoList: Dispatch<SetStateAction<DialogInfoList[]>>;
+    dialogInfoList: DialogInfo[];
+    setDialogInfoList: Dispatch<SetStateAction<DialogInfo[]>>;
     queryClient?: QueryClient;
+    closeAll: () => void;
 }
 
 const dialogContext = createContext<DialogContext | null>(null);
+
+// 모든 다이얼로그를 닫는 훅
+export const useCloseAllDialogs = () => {
+    const context = useContext(dialogContext);
+    if (!context) {
+        throw new Error('useCloseAllDialogs must be used within a DialogProvider');
+    }
+    return context.closeAll;
+};
 
 export default dialogContext;

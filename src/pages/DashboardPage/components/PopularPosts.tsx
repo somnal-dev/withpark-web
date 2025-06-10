@@ -150,7 +150,7 @@ const PopularPosts = () => {
 
       {/* 로딩 상태 */}
       {isLoading ? (
-        <LoadingBar type="bar" message="인기 게시글을 불러오는 중..." />
+        <LoadingBar type="dots" message="인기 게시글을 불러오는 중..." />
       ) : (
         <>
           {/* 인기게시글 목록 */}

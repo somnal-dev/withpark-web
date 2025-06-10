@@ -9,6 +9,9 @@ export const LoginPage =
 export const OAuthKakaoPage =
     lazy(() => import('./OAuth/OAuthKakaoPage'))
 
+export const OAuthNaverPage =
+    lazy(() => import('./OAuth/OAuthNaverPage'))
+
 export const DashboardPage =
     lazy(() => import('./DashboardPage'))
 

@@ -3,6 +3,7 @@ import {API_URL} from "@withpark/constants/config.ts";
 import {useMutation} from "@tanstack/react-query";
 
 interface PostKakaoLoginRequest {
+    social_type: string;
     accessToken: string;
 }
 
@@ -12,16 +13,22 @@ interface PostKakaoLoginResponse {
     isOnboardingDone: boolean;
 }
 
-const postKakaoLogin = ({accessToken}: PostKakaoLoginRequest) =>
+const postKakaoLogin = ({
+    social_type,
+    accessToken
+}: PostKakaoLoginRequest) =>
     ky.post(`${API_URL}/auth?action=login`, {
-        json: { accessToken },
+        json: {
+            social_type,
+            accessToken
+        },
     })
     .json<PostKakaoLoginResponse>();
 
 const useKakaoLoginMutation = () =>
     useMutation({
-        mutationFn: ({accessToken}: PostKakaoLoginRequest) =>
-            postKakaoLogin({accessToken})
+        mutationFn: ({social_type, accessToken}: PostKakaoLoginRequest) =>
+            postKakaoLogin({social_type, accessToken})
     });
 
 export default useKakaoLoginMutation;

@@ -268,7 +268,7 @@ const PlacePage = () => {
       {/* 헤더 */}
       <div style={{ marginBottom: '24px' }}>
         <h1 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '16px' }}>
-          🏌️ 파크골프장
+          파크골프장
         </h1>
         
         {/* 검색 및 필터 */}

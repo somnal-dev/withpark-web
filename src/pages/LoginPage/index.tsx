@@ -20,6 +20,7 @@ import {NaverIcon} from "@withpark/assets/icons/NaverIcon.tsx";
 import {PATH} from "@withpark/constants/routes.ts";
 
 const kakaoLoginRedirectUri = `${window.location.origin}${PATH.OAUTH_KAKAO}`;
+const naverLoginRedirectUri = `${window.location.origin}${PATH.OAUTH_NAVER}`;
 
 const LoginPage = () => {
     const [loading, setLoading] = useState<string | null>(null);
@@ -40,18 +41,18 @@ const LoginPage = () => {
 
     const handleNaverLogin = async () => {
         setLoading('naver');
+
         try {
             console.log('네이버 로그인 시작');
 
+            const naverLoginUrl = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
+            const naverClientId = import.meta.env.VITE_NAVER_CLIENT_ID;
+            const state = encodeURIComponent("with-park")
 
-            // 임시 딜레이 (실제 구현 시 제거)
-            setTimeout(() => {
-                setLoading(null);
-                alert('네이버 로그인 기능을 구현해주세요');
-            }, 2000);
+            location.href = `${naverLoginUrl}&client_id=${naverClientId}&state=${state}&redirect_uri=${naverLoginRedirectUri}`
 
         } catch (error) {
-            console.error('구글 로그인 실패:', error);
+            console.error('네이버 로그인 실패:', error);
             setLoading(null);
         }
     };

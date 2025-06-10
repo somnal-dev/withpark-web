@@ -1,20 +1,18 @@
 import {useCallback, useEffect} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import {PATH} from "@withpark/constants/routes.ts";
-import useGetKakaoTokenMutation from "@withpark/api/mutations/useGetKakaoTokenMutation.ts";
-import useKakaoLoginMutation from "@withpark/api/mutations/useKakaoLoginMutation.ts";
 import useAuthAtom from "../../hooks/useAuthAtom.ts";
+import useNaverLoginMutation from "@withpark/api/mutations/useNaverLoginMutation.ts";
 import {SocialLoginType} from "@withpark/types/login.ts";
 
-const OAuthKakaoPage = () => {
+const OAuthNaverPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
     const { setToken } = useAuthAtom();
-    const kakaoTokenMutation = useGetKakaoTokenMutation();
-    const kakaoLoginMutation = useKakaoLoginMutation();
+    const naverLoginMutation = useNaverLoginMutation();
 
-    const kakaoLogin = useCallback(async () => {
+    const naverLogin = useCallback(async () => {
         const code = new URLSearchParams(location.search).get('code');
 
         // 코드가 없으면 홈으로 다시 이동
@@ -23,14 +21,11 @@ const OAuthKakaoPage = () => {
             return;
         }
 
-        const {access_token: kakaoAccessToken} =
-            await kakaoTokenMutation.mutateAsync({ code });
-
-        // 획득한 엑세스토큰으로 로그인
+        // 획득한 코드로 로그인
         const { accessToken, refreshToken, isOnboardingDone } =
-            await kakaoLoginMutation.mutateAsync({
-                social_type: SocialLoginType.KAKAO,
-                accessToken: kakaoAccessToken
+            await naverLoginMutation.mutateAsync({
+                social_type: SocialLoginType.NAVER,
+                code: code
             });
 
         setToken(accessToken, refreshToken);
@@ -46,7 +41,7 @@ const OAuthKakaoPage = () => {
     }, []);
 
     useEffect(() => {
-        kakaoLogin();
+        naverLogin();
     }, []);
 
     return (
@@ -55,4 +50,4 @@ const OAuthKakaoPage = () => {
     );
 }
 
-export default OAuthKakaoPage;
+export default OAuthNaverPage;

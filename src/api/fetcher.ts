@@ -27,10 +27,18 @@ export const instance = ky.create({
                 }
 
                 // 리프레시 토큰으로 새로운 엑세스토큰 받기
-                const accessToken = await refreshAccessToken();
+                try {
+                    const accessToken = await refreshAccessToken();
 
-                if (accessToken) {
-                    request.headers.set('Authorization', `Bearer ${accessToken}`);
+                    if (accessToken) {
+                        request.headers.set('Authorization', `Bearer ${accessToken}`);
+                    }
+                } catch (e) {
+                    console.log("토큰 리프레시 에러 : ", e);
+
+                    localStorage.remove(LOCAL_STORAGE.ACCESS_TOKEN);
+                    localStorage.remove(LOCAL_STORAGE.REFRESH_TOKEN);
+                    location.reload();
                 }
             },
         ],

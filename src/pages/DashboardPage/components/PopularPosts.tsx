@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Card from "@withpark/ui/components/Card";
 import Button from "@withpark/ui/components/Button";
 import LoadingBar from "@withpark/ui/components/LoadingBar";
@@ -11,62 +11,66 @@ import { ViewIcon } from "@withpark/assets/icons/ViewIcon";
 
 const PopularPosts = () => {
   const navigate = useNavigate();
-  const [selectedPeriod, setSelectedPeriod] = useState<PopularPeriod>('week');
-  
-  const { data: popularData, isLoading, error } = usePopularPosts({
+  const [selectedPeriod, setSelectedPeriod] = useState<PopularPeriod>("week");
+
+  const {
+    data: popularData,
+    isLoading,
+    error,
+  } = usePopularPosts({
     limit: 5,
-    period: selectedPeriod
+    period: selectedPeriod,
   });
 
   // 스타일 객체들
   const styles = {
-    errorMessage: { 
-      textAlign: 'center', 
-      color: '#666', 
-      padding: '20px' 
+    errorMessage: {
+      textAlign: "center",
+      color: "#666",
+      padding: "20px",
     } as const,
-    periodContainer: { 
-      display: 'flex', 
-      gap: '8px', 
-      marginBottom: '16px',
-      flexWrap: 'wrap'
+    periodContainer: {
+      display: "flex",
+      gap: "8px",
+      marginBottom: "16px",
+      flexWrap: "wrap",
     } as const,
-    periodButton: { fontSize: '12px', padding: '4px 8px' } as const,
-    titleAction: { 
-      fontSize: '12px', 
-      padding: '6px 12px' 
+    periodButton: { fontSize: "12px", padding: "4px 8px" } as const,
+    titleAction: {
+      fontSize: "12px",
+      padding: "6px 12px",
     } as const,
     postItem: {
-      padding: '12px 0',
-      cursor: 'pointer',
-      transition: 'background-color 0.2s',
+      padding: "12px 0",
+      cursor: "pointer",
+      transition: "background-color 0.2s",
     } as const,
-    postContent: { display: 'flex', alignItems: 'flex-start' } as const,
+    postContent: { display: "flex", alignItems: "flex-start" } as const,
     postDetails: { flex: 1 } as const,
     postTitle: {
-      fontWeight: '500',
-      fontSize: '14px',
-      lineHeight: '1.4',
-      marginBottom: '4px',
-      display: '-webkit-box',
+      fontWeight: "500",
+      fontSize: "14px",
+      lineHeight: "1.4",
+      marginBottom: "4px",
+      display: "-webkit-box",
       WebkitLineClamp: 2,
-      WebkitBoxOrient: 'vertical',
-      overflow: 'hidden'
+      WebkitBoxOrient: "vertical",
+      overflow: "hidden",
     } as const,
     postMeta: {
-      fontSize: '12px',
-      color: '#666',
-      display: 'flex',
-      alignItems: 'center',
-      gap: '8px',
-      flexWrap: 'wrap'
+      fontSize: "12px",
+      color: "#666",
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
+      flexWrap: "wrap",
     } as const,
-    metaItem: { display: 'flex', alignItems: 'center', gap: '2px' } as const,
-    emptyMessage: { 
-      textAlign: 'center', 
-      color: '#666', 
-      padding: '20px' 
-    } as const
+    metaItem: { display: "flex", alignItems: "center", gap: "2px" } as const,
+    emptyMessage: {
+      textAlign: "center",
+      color: "#666",
+      padding: "20px",
+    } as const,
   };
 
   const formatDate = (dateString: string) => {
@@ -93,36 +97,34 @@ const PopularPosts = () => {
   };
 
   const handleViewMore = () => {
-    navigate('/community');
+    navigate("/community");
   };
 
   const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.currentTarget.style.backgroundColor = '#f8f9fa';
+    e.currentTarget.style.backgroundColor = "#f8f9fa";
   };
 
   const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.currentTarget.style.backgroundColor = 'transparent';
+    e.currentTarget.style.backgroundColor = "transparent";
   };
 
   const periodLabels = {
-    day: '오늘',
-    week: '이번주',
-    month: '이번달',
-    all: '전체'
+    day: "오늘",
+    week: "이번주",
+    month: "이번달",
+    all: "전체",
   };
 
   if (error) {
     return (
       <Card title="인기 게시글">
-        <div style={styles.errorMessage}>
-          데이터를 불러올 수 없습니다.
-        </div>
+        <div style={styles.errorMessage}>데이터를 불러올 수 없습니다.</div>
       </Card>
     );
   }
 
   return (
-    <Card 
+    <Card
       title="인기 게시글"
       titleAction={
         <Button
@@ -154,15 +156,18 @@ const PopularPosts = () => {
       ) : (
         <>
           {/* 인기게시글 목록 */}
-          {popularData?.posts && popularData.posts.length > 0 ? (
+          {popularData?.data && popularData.data.length > 0 ? (
             <>
-              {popularData.posts.map((post, index) => (
+              {popularData.data.map((post: any, index: number) => (
                 <div
                   key={post.id}
                   onClick={() => handlePostClick(post.id)}
                   style={{
                     ...styles.postItem,
-                    borderBottom: index < popularData.posts.length - 1 ? '1px solid #f0f0f0' : 'none',
+                    borderBottom:
+                      index < popularData.data.length - 1
+                        ? "1px solid #f0f0f0"
+                        : "none",
                   }}
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
@@ -171,10 +176,8 @@ const PopularPosts = () => {
                   <div style={styles.postContent}>
                     <div style={styles.postDetails}>
                       {/* 제목 */}
-                      <div style={styles.postTitle}>
-                        {post.title}
-                      </div>
-                      
+                      <div style={styles.postTitle}>{post.title}</div>
+
                       {/* 메타 정보 */}
                       <div style={styles.postMeta}>
                         <span>{post.user.nickname}</span>
@@ -203,10 +206,10 @@ const PopularPosts = () => {
             </>
           ) : (
             <div style={styles.emptyMessage}>
-              {selectedPeriod === 'day' && '오늘'}
-              {selectedPeriod === 'week' && '이번주'}
-              {selectedPeriod === 'month' && '이번달'}
-              {selectedPeriod === 'all' && ''}
+              {selectedPeriod === "day" && "오늘"}
+              {selectedPeriod === "week" && "이번주"}
+              {selectedPeriod === "month" && "이번달"}
+              {selectedPeriod === "all" && ""}
               인기 게시글이 없습니다.
             </div>
           )}
@@ -216,4 +219,4 @@ const PopularPosts = () => {
   );
 };
 
-export default PopularPosts; 
+export default PopularPosts;

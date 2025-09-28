@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Fetcher } from "../fetcher";
 import type { PostResponse } from "../../types/community";
-import qs from "qs";
 
 export default function usePost(documentId: string) {
   return useQuery({

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Card from "@withpark/ui/components/Card";
 import Button from "@withpark/ui/components/Button";
 import Input from "@withpark/ui/components/Input";
@@ -6,7 +6,6 @@ import Textarea from "@withpark/ui/components/Textarea";
 import Label from "@withpark/ui/components/Label";
 import FormGroup from "@withpark/ui/components/FormGroup";
 import useCreatePostMutation from "../../../api/mutations/useCreatePostMutation";
-import useImageUploadMutation from "../../../api/mutations/useImageUploadMutation";
 import type { CreatePostRequest } from "../../../types/community";
 import useUserInfo from "@withpark/api/queries/useUserInfo";
 
@@ -17,16 +16,12 @@ interface PostFormProps {
 
 const PostForm = ({ onClose, onSuccess }: PostFormProps) => {
   const createPostMutation = useCreatePostMutation();
-  const imageUploadMutation = useImageUploadMutation();
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState({
     title: "",
     content: "",
   });
   const [uploadedImages, setUploadedImages] = useState<number[]>([]);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
   const { data: user, isLoading: isUserLoading } = useUserInfo();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -56,7 +51,6 @@ const PostForm = ({ onClose, onSuccess }: PostFormProps) => {
       // 폼 초기화
       setFormData({ title: "", content: "" });
       setUploadedImages([]);
-      setImagePreview(null);
       onSuccess?.();
       onClose?.();
     } catch (error) {

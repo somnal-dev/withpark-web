@@ -1,4 +1,4 @@
-import { Photo, User } from "@withpark/types/user";
+import { User } from "@withpark/types/user";
 import Button from "../Button";
 import Textarea from "../Textarea";
 import { useState } from "react";

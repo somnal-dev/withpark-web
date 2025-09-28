@@ -1,3 +1,4 @@
+import { Photo, User } from "@withpark/types/user";
 import Button from "../Button";
 import Textarea from "../Textarea";
 import { useState } from "react";
@@ -10,15 +11,12 @@ interface BaseComment {
 }
 
 export interface PostComment extends BaseComment {
-  user: {
-    nickname: string;
-    photo?: string;
-  };
+  user: User | null;
 }
 
 export interface PlaceComment extends BaseComment {
   userNickname: string;
-  userPhoto?: string;
+  userPhoto?: string | null;
 }
 
 interface PaginationData {
@@ -66,7 +64,7 @@ const CommentSection = <T extends BaseComment>({
   onDeleteComment,
   isEditing = false,
   isDeletingId,
-  currentUserId
+  currentUserId,
 }: CommentSectionProps<T>) => {
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const [editingContent, setEditingContent] = useState<string>("");
@@ -116,102 +114,114 @@ const CommentSection = <T extends BaseComment>({
 
   const canUserModifyComment = (comment: T): boolean => {
     if (!currentUserId) return false;
-    
+
     // 댓글 작성자 ID와 현재 사용자 ID 비교
     return comment.userId === currentUserId;
   };
 
   return (
     <div>
-      <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '16px' }}>
+      <h3
+        style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "16px" }}
+      >
         {title} ({totalCount})
       </h3>
-      
+
       {/* 댓글 작성 폼 */}
-      <div style={{ marginBottom: '24px' }}>
+      <div style={{ marginBottom: "24px" }}>
         <Textarea
           value={newComment}
           onChange={(e: any) => onNewCommentChange(e.target.value)}
           placeholder={placeholder}
           rows={3}
-          style={{ marginBottom: '8px' }}
+          style={{ marginBottom: "8px" }}
         />
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <Button
             variant="primary"
             onClick={onSubmitComment}
             disabled={!newComment.trim() || isSubmitting}
           >
-            {isSubmitting ? '작성 중...' : '댓글 작성'}
+            {isSubmitting ? "작성 중..." : "댓글 작성"}
           </Button>
         </div>
       </div>
 
       {/* 댓글 목록 */}
       {isLoading ? (
-        <div style={{ textAlign: 'center', color: '#666', padding: '20px' }}>
+        <div style={{ textAlign: "center", color: "#666", padding: "20px" }}>
           댓글을 불러오는 중...
         </div>
       ) : comments.length > 0 ? (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           {comments.map((comment, _) => {
             const userInfo = getUserInfo(comment);
             const isCurrentlyEditing = editingCommentId === comment.id;
             const canModify = canUserModifyComment(comment);
             const isDeleting = isDeletingId === comment.id;
-            
+
             return (
               <div
                 key={comment.id}
                 style={{
-                  padding: '16px',
-                  borderRadius: '8px',
-                  backgroundColor: '#f8f9fa',
-                  border: '1px solid #e9ecef'
+                  padding: "16px",
+                  borderRadius: "8px",
+                  backgroundColor: "#f8f9fa",
+                  border: "1px solid #e9ecef",
                 }}
               >
                 {/* 댓글 작성자 정보 */}
-                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: "8px",
+                  }}
+                >
                   {userInfo.photo && (
                     <img
-                      src={userInfo.photo}
-                      alt={userInfo.nickname}
+                      src={userInfo?.photo}
+                      alt={userInfo?.nickname ?? ""}
                       style={{
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: '50%',
-                        marginRight: '8px',
-                        objectFit: 'cover'
+                        width: "32px",
+                        height: "32px",
+                        borderRadius: "50%",
+                        marginRight: "8px",
+                        objectFit: "cover",
                       }}
                     />
                   )}
                   <div style={{ flex: 1 }}>
-                    <div style={{ 
-                      fontWeight: 'bold', 
-                      fontSize: '14px',
-                      color: '#333',
-                      marginBottom: '2px'
-                    }}>
+                    <div
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: "14px",
+                        color: "#333",
+                        marginBottom: "2px",
+                      }}
+                    >
                       {userInfo.nickname}
                     </div>
-                    <div style={{ 
-                      fontSize: '12px', 
-                      color: '#666' 
-                    }}>
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        color: "#666",
+                      }}
+                    >
                       {formatDate(comment.createdAt)}
                     </div>
                   </div>
 
                   {/* 수정/삭제 버튼 */}
                   {canModify && !isCurrentlyEditing && (
-                    <div style={{ display: 'flex', gap: '8px' }}>
+                    <div style={{ display: "flex", gap: "8px" }}>
                       <Button
                         variant="secondary"
                         onClick={() => handleEditStart(comment)}
-                        style={{ 
-                          fontSize: '12px', 
-                          padding: '4px 8px',
-                          minWidth: 'auto'
+                        style={{
+                          fontSize: "12px",
+                          padding: "4px 8px",
+                          minWidth: "auto",
                         }}
                         disabled={isEditing || isDeleting}
                       >
@@ -220,21 +230,21 @@ const CommentSection = <T extends BaseComment>({
                       <Button
                         variant="danger"
                         onClick={() => handleDelete(comment.id)}
-                        style={{ 
-                          fontSize: '12px', 
-                          padding: '4px 8px',
-                          minWidth: 'auto',
-                          backgroundColor: '#dc3545',
-                          borderColor: '#dc3545'
+                        style={{
+                          fontSize: "12px",
+                          padding: "4px 8px",
+                          minWidth: "auto",
+                          backgroundColor: "#dc3545",
+                          borderColor: "#dc3545",
                         }}
                         disabled={isEditing || isDeleting}
                       >
-                        {isDeleting ? '삭제 중...' : '삭제'}
+                        {isDeleting ? "삭제 중..." : "삭제"}
                       </Button>
                     </div>
                   )}
                 </div>
-                
+
                 {/* 댓글 내용 또는 수정 폼 */}
                 {isCurrentlyEditing ? (
                   <div>
@@ -242,13 +252,19 @@ const CommentSection = <T extends BaseComment>({
                       value={editingContent}
                       onChange={(e: any) => setEditingContent(e.target.value)}
                       rows={3}
-                      style={{ marginBottom: '8px' }}
+                      style={{ marginBottom: "8px" }}
                     />
-                    <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "8px",
+                        justifyContent: "flex-end",
+                      }}
+                    >
                       <Button
                         variant="secondary"
                         onClick={handleEditCancel}
-                        style={{ fontSize: '12px', padding: '4px 12px' }}
+                        style={{ fontSize: "12px", padding: "4px 12px" }}
                       >
                         취소
                       </Button>
@@ -256,19 +272,21 @@ const CommentSection = <T extends BaseComment>({
                         variant="primary"
                         onClick={handleEditSave}
                         disabled={!editingContent.trim() || isEditing}
-                        style={{ fontSize: '12px', padding: '4px 12px' }}
+                        style={{ fontSize: "12px", padding: "4px 12px" }}
                       >
-                        {isEditing ? '저장 중...' : '저장'}
+                        {isEditing ? "저장 중..." : "저장"}
                       </Button>
                     </div>
                   </div>
                 ) : (
-                  <div style={{
-                    fontSize: '14px',
-                    lineHeight: '1.5',
-                    color: '#333',
-                    whiteSpace: 'pre-wrap'
-                  }}>
+                  <div
+                    style={{
+                      fontSize: "14px",
+                      lineHeight: "1.5",
+                      color: "#333",
+                      whiteSpace: "pre-wrap",
+                    }}
+                  >
                     {comment.content}
                   </div>
                 )}
@@ -278,33 +296,37 @@ const CommentSection = <T extends BaseComment>({
 
           {/* 페이지네이션 */}
           {pagination && pagination.totalPages > 1 && onPageChange && (
-            <div style={{ 
-              display: 'flex', 
-              justifyContent: 'center', 
-              gap: '8px',
-              marginTop: '20px' 
-            }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                gap: "8px",
+                marginTop: "20px",
+              }}
+            >
               <Button
                 variant="secondary"
                 onClick={() => onPageChange(pagination.currentPage - 1)}
                 disabled={!pagination.hasPrev}
-                style={{ fontSize: '12px' }}
+                style={{ fontSize: "12px" }}
               >
                 이전
               </Button>
-              <span style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                fontSize: '14px',
-                color: '#666'
-              }}>
+              <span
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  fontSize: "14px",
+                  color: "#666",
+                }}
+              >
                 {pagination.currentPage} / {pagination.totalPages}
               </span>
               <Button
                 variant="secondary"
                 onClick={() => onPageChange(pagination.currentPage + 1)}
                 disabled={!pagination.hasNext}
-                style={{ fontSize: '12px' }}
+                style={{ fontSize: "12px" }}
               >
                 다음
               </Button>
@@ -312,20 +334,20 @@ const CommentSection = <T extends BaseComment>({
           )}
         </div>
       ) : (
-        <div style={{ 
-          textAlign: 'center', 
-          color: '#666', 
-          padding: '40px 20px',
-          backgroundColor: '#f8f9fa',
-          borderRadius: '8px',
-          border: '1px solid #e9ecef'
-        }}>
-          <div style={{ fontSize: '16px', marginBottom: '8px' }}>
+        <div
+          style={{
+            textAlign: "center",
+            color: "#666",
+            padding: "40px 20px",
+            backgroundColor: "#f8f9fa",
+            borderRadius: "8px",
+            border: "1px solid #e9ecef",
+          }}
+        >
+          <div style={{ fontSize: "16px", marginBottom: "8px" }}>
             아직 댓글이 없습니다
           </div>
-          <div style={{ fontSize: '14px' }}>
-            첫 번째 댓글을 작성해보세요!
-          </div>
+          <div style={{ fontSize: "14px" }}>첫 번째 댓글을 작성해보세요!</div>
         </div>
       )}
     </div>

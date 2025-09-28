@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Fetcher } from "../fetcher";
-import type { ApiResponse, PlacesResponse } from "../../types/place";
+import type { PlacesResponse } from "../../types/place";
+import qs from "qs";
 
 interface UsePlacesParams {
   page?: number;
@@ -9,28 +10,42 @@ interface UsePlacesParams {
   area?: string;
 }
 
-export default function usePlaces({ 
-  page = 1, 
-  limit = 10, 
+export default function usePlaces({
+  page = 1,
+  limit = 10,
   search,
-  area
+  area,
 }: UsePlacesParams = {}) {
   return useQuery({
-    queryKey: ['places', page, limit, search, area],
+    queryKey: ["places", page, limit, search, area],
     queryFn: async () => {
-      const params = new URLSearchParams({
-        page: page.toString(),
-        limit: limit.toString(),
-      });
-      
-      if (search) params.append('search', search);
-      if (area) params.append('area', area);
-      
-      const response = await Fetcher.get<ApiResponse<PlacesResponse>>(
-        `place?${params.toString()}`
+      const filters: any = {};
+
+      if (area && area.length > 0) {
+        filters.area = { $eq: area };
+      }
+
+      if (search && search.length > 0) {
+        filters.name = { $containsi: search };
+      }
+
+      const query = qs.stringify(
+        {
+          filters,
+          sort: ["createdAt:desc"],
+          pagination: {
+            page: page,
+            pageSize: limit,
+          },
+        },
+        {
+          encodeValuesOnly: true,
+        }
       );
-      
-      return response.data;
+
+      const response = await Fetcher.get<PlacesResponse>(`places?${query}`);
+
+      return response;
     },
   });
-} 
+}

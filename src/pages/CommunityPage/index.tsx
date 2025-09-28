@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "@withpark/ui/components/Button";
 import Input from "@withpark/ui/components/Input";
 import usePosts from "../../api/queries/usePosts";
@@ -9,11 +9,15 @@ import PostForm from "./components/PostForm";
 const CommunityPage = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [showPostForm, setShowPostForm] = useState(false);
-  const [actualSearchQuery, setActualSearchQuery] = useState('');
+  const [actualSearchQuery, setActualSearchQuery] = useState("");
 
-  const { data: postsData, isLoading, error } = usePosts({
+  const {
+    data: postsData,
+    isLoading,
+    error,
+  } = usePosts({
     page: currentPage,
     limit: 10,
     search: actualSearchQuery,
@@ -25,27 +29,30 @@ const CommunityPage = () => {
   };
 
   const handleSearchKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSearch();
     }
   };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handlePostClick = (postId: number) => {
-    navigate(`/community/${postId}`);
+  const handlePostClick = (postDocumentId: string) => {
+    navigate(`/community/${postDocumentId}`);
   };
 
   const renderPagination = () => {
-    if (!postsData || postsData.totalPages <= 1) return null;
+    if (!postsData || postsData.meta.pagination.total <= 1) return null;
 
     const pages = [];
     const maxVisible = 5;
     let start = Math.max(1, currentPage - Math.floor(maxVisible / 2));
-    let end = Math.min(postsData.totalPages, start + maxVisible - 1);
+    let end = Math.min(
+      postsData.meta.pagination.pageCount,
+      start + maxVisible - 1
+    );
 
     if (end - start + 1 < maxVisible) {
       start = Math.max(1, end - maxVisible + 1);
@@ -57,7 +64,7 @@ const CommunityPage = () => {
           key={i}
           variant={i === currentPage ? "primary" : "secondary"}
           onClick={() => handlePageChange(i)}
-          style={{ minWidth: '40px' }}
+          style={{ minWidth: "40px" }}
         >
           {i}
         </Button>
@@ -65,14 +72,16 @@ const CommunityPage = () => {
     }
 
     return (
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        gap: '8px', 
-        margin: '24px 0',
-        flexWrap: 'wrap'
-      }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: "8px",
+          margin: "24px 0",
+          flexWrap: "wrap",
+        }}
+      >
         <Button
           variant="secondary"
           onClick={() => handlePageChange(1)}
@@ -83,7 +92,7 @@ const CommunityPage = () => {
         <Button
           variant="secondary"
           onClick={() => handlePageChange(currentPage - 1)}
-          disabled={!postsData.hasPrev}
+          disabled={currentPage <= 1}
         >
           이전
         </Button>
@@ -91,14 +100,14 @@ const CommunityPage = () => {
         <Button
           variant="secondary"
           onClick={() => handlePageChange(currentPage + 1)}
-          disabled={!postsData.hasNext}
+          disabled={currentPage >= postsData.meta.pagination.pageCount}
         >
           다음
         </Button>
         <Button
           variant="secondary"
-          onClick={() => handlePageChange(postsData.totalPages)}
-          disabled={currentPage === postsData.totalPages}
+          onClick={() => handlePageChange(postsData.meta.pagination.pageCount)}
+          disabled={currentPage === postsData.meta.pagination.pageCount}
         >
           마지막
         </Button>
@@ -108,34 +117,42 @@ const CommunityPage = () => {
 
   if (error) {
     return (
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        height: '400px',
-        color: '#666'
-      }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "400px",
+          color: "#666",
+        }}
+      >
         게시글을 불러오는 중 오류가 발생했습니다.
       </div>
     );
   }
 
   return (
-    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
+    <div style={{ maxWidth: "800px", margin: "0 auto", padding: "20px" }}>
       {/* 헤더 */}
-      <div style={{ marginBottom: '24px' }}>
-        <h1 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '16px' }}>
+      <div style={{ marginBottom: "24px" }}>
+        <h1
+          style={{ fontSize: "28px", fontWeight: "bold", marginBottom: "16px" }}
+        >
           커뮤니티
         </h1>
-        
+
         {/* 검색 및 작성 버튼 */}
-        <div style={{ 
-          display: 'flex', 
-          gap: '12px', 
-          marginBottom: '16px',
-          flexWrap: 'wrap'
-        }}>
-          <div style={{ flex: 1, minWidth: '200px', display: 'flex', gap: '8px' }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "12px",
+            marginBottom: "16px",
+            flexWrap: "wrap",
+          }}
+        >
+          <div
+            style={{ flex: 1, minWidth: "200px", display: "flex", gap: "8px" }}
+          >
             <Input
               type="text"
               value={searchQuery}
@@ -152,34 +169,42 @@ const CommunityPage = () => {
             variant="primary"
             onClick={() => setShowPostForm(!showPostForm)}
           >
-            {showPostForm ? '취소' : '글쓰기'}
+            {showPostForm ? "취소" : "글쓰기"}
           </Button>
         </div>
 
         {/* 검색 결과 정보 */}
         {actualSearchQuery && (
-          <div style={{ fontSize: '14px', color: '#666', marginBottom: '16px' }}>
-            '{actualSearchQuery}' 검색 결과: {postsData?.totalCount || 0}개
-            {!!postsData?.totalCount && postsData?.totalCount > 0 && (
-              <Button
-                variant="secondary"
-                onClick={() => {
-                  setActualSearchQuery('');
-                  setSearchQuery('');
-                  setCurrentPage(1);
-                }}
-                style={{ marginLeft: '8px', fontSize: '12px', padding: '4px 8px' }}
-              >
-                검색 초기화
-              </Button>
-            )}
+          <div
+            style={{ fontSize: "14px", color: "#666", marginBottom: "16px" }}
+          >
+            '{actualSearchQuery}' 검색 결과:{" "}
+            {postsData?.meta.pagination.total || 0}개
+            {!!postsData?.meta.pagination.total &&
+              postsData?.meta.pagination.total > 0 && (
+                <Button
+                  variant="secondary"
+                  onClick={() => {
+                    setActualSearchQuery("");
+                    setSearchQuery("");
+                    setCurrentPage(1);
+                  }}
+                  style={{
+                    marginLeft: "8px",
+                    fontSize: "12px",
+                    padding: "4px 8px",
+                  }}
+                >
+                  검색 초기화
+                </Button>
+              )}
           </div>
         )}
       </div>
 
       {/* 게시글 작성 폼 */}
       {showPostForm && (
-        <div style={{ marginBottom: '24px' }}>
+        <div style={{ marginBottom: "24px" }}>
           <PostForm
             onClose={() => setShowPostForm(false)}
             onSuccess={() => {
@@ -192,21 +217,25 @@ const CommunityPage = () => {
 
       {/* 로딩 상태 */}
       {isLoading ? (
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
-          alignItems: 'center', 
-          height: '200px',
-          color: '#666'
-        }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "200px",
+            color: "#666",
+          }}
+        >
           게시글을 불러오는 중...
         </div>
       ) : (
         <>
           {/* 게시글 목록 */}
-          {postsData?.posts && postsData.posts.length > 0 ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              {postsData.posts.map((post) => (
+          {postsData?.data && postsData.data.length > 0 ? (
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "16px" }}
+            >
+              {postsData.data.map((post) => (
                 <PostCard
                   key={post.id}
                   post={post}
@@ -215,28 +244,30 @@ const CommunityPage = () => {
               ))}
             </div>
           ) : (
-            <div style={{ 
-              textAlign: 'center', 
-              color: '#666', 
-              padding: '60px 20px',
-              backgroundColor: '#f9f9f9',
-              borderRadius: '8px'
-            }}>
+            <div
+              style={{
+                textAlign: "center",
+                color: "#666",
+                padding: "60px 20px",
+                backgroundColor: "#f9f9f9",
+                borderRadius: "8px",
+              }}
+            >
               {actualSearchQuery ? (
                 <>
-                  <div style={{ fontSize: '18px', marginBottom: '8px' }}>
+                  <div style={{ fontSize: "18px", marginBottom: "8px" }}>
                     검색 결과가 없습니다
                   </div>
-                  <div style={{ fontSize: '14px' }}>
+                  <div style={{ fontSize: "14px" }}>
                     다른 키워드로 검색해보세요
                   </div>
                 </>
               ) : (
                 <>
-                  <div style={{ fontSize: '18px', marginBottom: '8px' }}>
+                  <div style={{ fontSize: "18px", marginBottom: "8px" }}>
                     아직 게시글이 없습니다
                   </div>
-                  <div style={{ fontSize: '14px', marginBottom: '16px' }}>
+                  <div style={{ fontSize: "14px", marginBottom: "16px" }}>
                     첫 번째 게시글을 작성해보세요!
                   </div>
                   <Button

@@ -1,31 +1,44 @@
 import { useQuery } from "@tanstack/react-query";
 import { Fetcher } from "../fetcher";
-import type { ApiResponse, PopularPlacesResponse } from "../../types/place";
+import qs from "qs";
+import type { PopularPlacesResponse } from "../../types/place";
 
 interface UsePopularPlacesParams {
   limit?: number;
   area?: string;
 }
 
-export default function usePopularPlaces({ 
-  limit = 10, 
-  area
+export default function usePopularPlaces({
+  area,
 }: UsePopularPlacesParams = {}) {
   return useQuery({
-    queryKey: ['popularPlaces', limit, area],
+    queryKey: ["popularPlaces", area],
     queryFn: async () => {
-      const params = new URLSearchParams({
-        limit: limit.toString(),
-        sort: 'popular'
-      });
-      
-      if (area) params.append('area', area);
-      
-      const response = await Fetcher.get<ApiResponse<PopularPlacesResponse>>(
-        `place?${params.toString()}`
+      const filters: any = {};
+
+      if (area) {
+        filters.area = { $eq: area };
+      }
+
+      const query = qs.stringify(
+        {
+          filters,
+          sort: ["likeCount:desc"],
+          pagination: {
+            page: 1,
+            pageSize: 5,
+          },
+        },
+        {
+          encodeValuesOnly: true,
+        }
       );
-      
-      return response.data.places;
+
+      const response = await Fetcher.get<PopularPlacesResponse>(
+        `places?${query}`
+      );
+
+      return response;
     },
   });
-} 
+}

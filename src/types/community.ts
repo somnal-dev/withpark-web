@@ -1,24 +1,41 @@
-import {PostComment} from "@withpark/ui/components/CommentSection";
+import { PostComment } from "@withpark/ui/components/CommentSection";
+import { BaseEntity, Meta, CollectionResponse, ApiResponse } from "./common";
+import { User } from "./user";
 
-export interface User {
-  id: number;
-  nickname: string;
-  photo?: string;
-}
-
-export interface Post {
-  id: number;
+export interface Post extends BaseEntity {
   title: string;
   content: string;
-  imageUrl?: string;
   viewCount: number;
   likeCount: number;
   commentCount: number;
-  createdAt: string;
-  updatedAt: string;
   user: User;
+  images?: {
+    id: number;
+    documentId: string;
+    name: string;
+    url: string;
+    alternativeText?: string;
+    caption?: string;
+    width?: number;
+    height?: number;
+    formats?: any;
+    hash: string;
+    ext: string;
+    mime: string;
+    size: number;
+    createdAt: string;
+    updatedAt: string;
+  }[];
+  likes?: User[];
+  comments?: PostCommentEntity[];
   isLiked?: boolean;
   popularityScore?: number;
+}
+
+export interface PostCommentEntity extends BaseEntity {
+  content: string;
+  user: User | null;
+  post: Post;
 }
 
 export interface Comment extends PostComment {
@@ -26,11 +43,17 @@ export interface Comment extends PostComment {
   content: string;
   createdAt: string;
   updatedAt: string;
-  user: User;
+  user: User | null;
   postId: number;
 }
 
-export interface PostsResponse {
+// Strapi v5 응답 타입
+export type PostsResponse = CollectionResponse<Post>;
+export type PopularPostsResponse = CollectionResponse<Post>;
+export type PostResponse = ApiResponse<Post>;
+
+// 커스텀 응답 타입 (기존 API 유지)
+export interface PostsLegacyResponse {
   posts: Post[];
   totalCount: number;
   currentPage: number;
@@ -39,14 +62,14 @@ export interface PostsResponse {
   hasPrev: boolean;
 }
 
-export interface PopularPostsResponse {
+export interface PopularPostsLegacyResponse {
   posts: Post[];
   totalCount: number;
   currentPage: number;
   totalPages: number;
   hasNext: boolean;
   hasPrev: boolean;
-  period: 'day' | 'week' | 'month' | 'all';
+  period: "day" | "week" | "month" | "all";
   criteria: {
     description: string;
     likeWeight: number;
@@ -55,49 +78,69 @@ export interface PopularPostsResponse {
 }
 
 export interface CommentsResponse {
-  comments: Comment[];
-  totalCount: number;
-  currentPage: number;
-  totalPages: number;
-  hasNext: boolean;
-  hasPrev: boolean;
+  data: Comment[];
+  meta: Meta;
 }
 
+// 게시글 생성/수정 요청 타입
 export interface CreatePostRequest {
-  title: string;
-  content: string;
-  imageUrl?: string;
+  data: {
+    title: string;
+    content: string;
+    user: number;
+    images?: number[]; // 이미지 ID 배열
+  };
 }
 
 export interface UpdatePostRequest {
-  title?: string;
-  content?: string;
-  imageUrl?: string;
+  data: {
+    title?: string;
+    content?: string;
+    images?: number[]; // 이미지 ID 배열
+  };
 }
 
+// 댓글 생성/수정 요청 타입
 export interface CreateCommentRequest {
-  content: string;
+  data: {
+    user: number;
+    content: string;
+    post: string; // documentId
+  };
 }
 
 export interface UpdateCommentRequest {
-  content: string;
+  data: {
+    content: string;
+  };
 }
 
+// 좋아요 응답 타입
 export interface LikeResponse {
   postId: number;
-  action: 'liked' | 'unliked';
+  action: "liked" | "unliked";
   likeCount: number;
   isLiked: boolean;
 }
 
-export interface ApiResponse<T> {
-  success: boolean;
-  message: string;
-  data: T;
-}
+// 기타 타입
+export type PopularPeriod = "day" | "week" | "month" | "all";
 
-export interface ApiErrorResponse {
-  error: string;
+// 이미지 업로드 응답
+export interface UploadResponse {
+  id: number;
+  documentId: string;
+  name: string;
+  url: string;
+  alternativeText?: string;
+  caption?: string;
+  width?: number;
+  height?: number;
+  formats?: any;
+  hash: string;
+  ext: string;
+  mime: string;
+  size: number;
+  createdAt: string;
+  updatedAt: string;
 }
-
-export type PopularPeriod = 'day' | 'week' | 'month' | 'all'; 

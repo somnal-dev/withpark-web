@@ -22,15 +22,6 @@
    ```yaml
    # API 서버 URL
    VITE_SERVER_URL=
-
-   # 카카오 로그인에 사용할 JAVASCRIPT KEY
-   VITE_KAKAO_CLIENT_ID=
-
-   # 카카오 로그인에 사용할 REST API KEY
-   VITE_KAKAO_REST_API_KEY=
-
-   # 네이버 로그인에 사용할 CLIENT ID
-   VITE_NAVER_CLIENT_ID=
    ```
 
 3. **개발 서버 실행**

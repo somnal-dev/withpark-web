@@ -8,7 +8,6 @@ import Input from "@withpark/ui/components/Input";
 import Textarea from "@withpark/ui/components/Textarea";
 import Label from "@withpark/ui/components/Label";
 import FormGroup from "@withpark/ui/components/FormGroup";
-import ProfileImageUpload from "@withpark/ui/components/ProfileImageUpload";
 import useUserInfo from "@withpark/api/queries/useUserInfo.ts";
 import useUpdateUserInfoMutation from "@withpark/api/mutations/useUpdateUserInfoMutation.ts";
 import { PATH } from "@withpark/constants/routes.ts";

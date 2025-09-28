@@ -1,6 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
 import { Fetcher } from "../fetcher";
-import type { UploadResponse } from "../../types/community";
 import { Photo } from "@withpark/types/user";
 
 interface UploadImageParams {

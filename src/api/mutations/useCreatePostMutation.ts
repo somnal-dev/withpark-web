@@ -1,10 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Fetcher } from "../fetcher";
-import type {
-  Post,
-  CreatePostRequest,
-  ApiResponse,
-} from "../../types/community";
+import type { Post, CreatePostRequest } from "../../types/community";
+import type { ApiResponse } from "../../types/common";
 
 export default function useCreatePostMutation() {
   const queryClient = useQueryClient();

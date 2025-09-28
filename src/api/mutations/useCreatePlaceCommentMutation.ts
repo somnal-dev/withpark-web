@@ -3,8 +3,8 @@ import { Fetcher } from "../fetcher";
 import type {
   PlaceCommentEntity,
   CreatePlaceCommentRequest,
-  ApiResponse,
 } from "../../types/place";
+import type { ApiResponse } from "../../types/common";
 
 interface CreatePlaceCommentParams {
   placeDocumentId: string;
@@ -32,7 +32,7 @@ export default function useCreatePlaceCommentMutation() {
       );
       return response.data;
     },
-    onSuccess: (_, variables) => {
+    onSuccess: () => {
       // 댓글 목록 쿼리 무효화
       queryClient.invalidateQueries({
         queryKey: ["placeComments"],

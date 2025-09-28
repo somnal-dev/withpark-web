@@ -61,7 +61,7 @@ const PlaceCommentList = ({
 
   const getUserInfo = (comment: PlaceComment) => ({
     nickname: comment.userNickname || "사용자",
-    photo: comment.userPhoto,
+    photo: comment.userPhoto || undefined,
   });
 
   // PlaceCommentEntity를 PlaceComment로 변환

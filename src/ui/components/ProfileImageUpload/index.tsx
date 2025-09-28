@@ -10,6 +10,13 @@ interface ProfileImageUploadProps {
   placeholder?: string;
 }
 
+const getImageUrl = (url: string | undefined | null): string | undefined => {
+  if (!url) return undefined;
+  return import.meta.env.PROD
+    ? url // 프로덕션에서는 Vercel 프록시를 통해 접근
+    : `${import.meta.env.VITE_SERVER_URL}${url}`; // 개발환경에서는 직접 연결
+};
+
 const ProfileImageUpload = ({
   imageUrl,
   onImageChange,
@@ -21,7 +28,7 @@ const ProfileImageUpload = ({
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const uploadMutation = useImageUploadMutation();
 
-  const src = `${import.meta.env.VITE_SERVER_URL}${imageUrl}`;
+  const src = getImageUrl(imageUrl);
 
   const handlePhotoUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];

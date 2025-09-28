@@ -25,7 +25,7 @@ export default function usePopularPosts({
       const query = qs.stringify(
         {
           filters,
-          sort: ["likeCount:desc"],
+          sort: ["viewCount:desc"],
           pagination: {
             page: 1,
             pageSize: 5,

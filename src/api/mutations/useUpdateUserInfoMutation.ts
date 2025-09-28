@@ -1,27 +1,28 @@
-import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {Fetcher} from "@withpark/api/fetcher.ts";
-import {QUERY_KEY} from "@withpark/constants/queryKeys.ts";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Fetcher } from "@withpark/api/fetcher.ts";
+import { QUERY_KEY } from "@withpark/constants/queryKeys.ts";
+import type { UpdateUserRequest, User } from "@withpark/types/user";
+import type { ApiResponse } from "@withpark/types/common";
 
-interface UpdateUserInfoRequest {
-    nickname?: string;
-    photo?: string;
-    introduction?: string;
-    isOnboardingDone?: boolean;
+interface UpdateUserInfoParams {
+  userId: number;
+  data: UpdateUserRequest;
 }
 
 const useUpdateUserInfoMutation = () => {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    return useMutation({
-        mutationFn: (userInfo: UpdateUserInfoRequest) => Fetcher.put('user', {
-            json: userInfo
-        }),
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: [QUERY_KEY.USER]
-            })
-        }
-    });
+  return useMutation({
+    mutationFn: ({ userId, data }: UpdateUserInfoParams) =>
+      Fetcher.put<ApiResponse<User>>(`users/${userId}`, {
+        json: data,
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.USER],
+      });
+    },
+  });
 };
 
 export default useUpdateUserInfoMutation;

@@ -1,19 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import { Fetcher } from "../fetcher";
-import type { ApiResponse, Place } from "../../types/place";
+import type { PlaceResponse } from "../../types/place";
 
-export default function usePlace(placeId: number | null) {
+export default function usePlace(documentId: string | null) {
   return useQuery({
-    queryKey: ['place', placeId],
+    queryKey: ["place", documentId],
     queryFn: async () => {
-      if (!placeId) return null;
-      
-      const response = await Fetcher.get<ApiResponse<Place>>(
-        `place/${placeId}`
+      if (!documentId) return null;
+
+      const response = await Fetcher.get<PlaceResponse>(
+        `places/${documentId}?populate=*`
       );
-      
+
       return response.data;
     },
-    enabled: !!placeId,
+    enabled: !!documentId,
   });
-} 
+}

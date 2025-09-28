@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import Button from "@withpark/ui/components/Button";
 import Input from "@withpark/ui/components/Input";
 import Card from "@withpark/ui/components/Card";
@@ -16,37 +16,55 @@ import { PlaceIcon } from "@withpark/assets/icons/PlaceIcon";
 const PlacePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedArea, setSelectedArea] = useState('');
-  const [actualSearchQuery, setActualSearchQuery] = useState('');
-  const [actualSelectedArea, setActualSelectedArea] = useState('');
-  const [selectedPlaceId, setSelectedPlaceId] = useState<number | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedArea, setSelectedArea] = useState("");
+  const [actualSearchQuery, setActualSearchQuery] = useState("");
+  const [actualSelectedArea, setActualSelectedArea] = useState("");
+  const [selectedPlaceDocumentId, setSelectedPlaceDocumentId] = useState<
+    string | null
+  >(null);
   const navigate = useNavigate();
 
-  // URL 파라미터에서 placeId 읽기
+  // URL 파라미터에서 documentId 읽기
   useEffect(() => {
-    const placeIdParam = searchParams.get('id');
-    if (placeIdParam) {
-      const placeId = parseInt(placeIdParam, 10);
-      if (!isNaN(placeId)) {
-        setSelectedPlaceId(placeId);
-      }
+    const documentIdParam = searchParams.get("documentId");
+    if (documentIdParam) {
+      setSelectedPlaceDocumentId(documentIdParam);
     }
   }, [searchParams]);
 
-  const { data: placesData, isLoading, error } = usePlaces({
+  const {
+    data: placesData,
+    isLoading,
+    error,
+  } = usePlaces({
     page: currentPage,
     limit: 12,
     search: actualSearchQuery,
     area: actualSelectedArea,
   });
 
-  const { data: selectedPlace } = usePlace(selectedPlaceId);
+  const { data: selectedPlace } = usePlace(selectedPlaceDocumentId);
 
   // 지역 옵션들
   const areas = [
-    '서울', '경기', '인천', '강원', '충북', '충남', '대전', '세종',
-    '전북', '전남', '광주', '경북', '경남', '대구', '울산', '부산', '제주'
+    "서울",
+    "경기",
+    "인천",
+    "강원",
+    "충북",
+    "충남",
+    "대전",
+    "세종",
+    "전북",
+    "전남",
+    "광주",
+    "경북",
+    "경남",
+    "대구",
+    "울산",
+    "부산",
+    "제주",
   ];
 
   const handleSearch = () => {
@@ -56,34 +74,44 @@ const PlacePage = () => {
   };
 
   const handleSearchKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSearch();
     }
   };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handlePlaceClick = (placeId: number) => {
-    navigate(`/place/${placeId}`);
+  const handlePlaceClick = (placeDocumentId: string) => {
+    navigate(`/place/${placeDocumentId}`);
   };
 
   const handleBackToList = () => {
-    setSelectedPlaceId(null);
-    // URL 파라미터에서 id 제거
-    searchParams.delete('id');
+    setSelectedPlaceDocumentId(null);
+    // URL 파라미터에서 documentId 제거
+    searchParams.delete("documentId");
     setSearchParams(searchParams);
   };
 
   const renderPagination = () => {
-    if (!placesData || placesData.pagination.totalPages <= 1) return null;
+    if (
+      isLoading ||
+      !placesData ||
+      !placesData.meta ||
+      !placesData.meta.pagination ||
+      placesData.meta.pagination.pageCount <= 1
+    )
+      return null;
 
     const pages = [];
     const maxVisible = 5;
     let start = Math.max(1, currentPage - Math.floor(maxVisible / 2));
-    let end = Math.min(placesData.pagination.totalPages, start + maxVisible - 1);
+    let end = Math.min(
+      placesData.meta.pagination.pageCount,
+      start + maxVisible - 1
+    );
 
     if (end - start + 1 < maxVisible) {
       start = Math.max(1, end - maxVisible + 1);
@@ -95,7 +123,7 @@ const PlacePage = () => {
           key={i}
           variant={i === currentPage ? "primary" : "secondary"}
           onClick={() => handlePageChange(i)}
-          style={{ minWidth: '40px' }}
+          style={{ minWidth: "40px" }}
         >
           {i}
         </Button>
@@ -103,14 +131,16 @@ const PlacePage = () => {
     }
 
     return (
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        gap: '8px', 
-        margin: '24px 0',
-        flexWrap: 'wrap'
-      }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: "8px",
+          margin: "24px 0",
+          flexWrap: "wrap",
+        }}
+      >
         <Button
           variant="secondary"
           onClick={() => handlePageChange(1)}
@@ -121,7 +151,7 @@ const PlacePage = () => {
         <Button
           variant="secondary"
           onClick={() => handlePageChange(currentPage - 1)}
-          disabled={!placesData.pagination.hasPrev}
+          disabled={currentPage <= 1}
         >
           이전
         </Button>
@@ -129,14 +159,14 @@ const PlacePage = () => {
         <Button
           variant="secondary"
           onClick={() => handlePageChange(currentPage + 1)}
-          disabled={!placesData.pagination.hasNext}
+          disabled={currentPage >= placesData.meta.pagination.pageCount}
         >
           다음
         </Button>
         <Button
           variant="secondary"
-          onClick={() => handlePageChange(placesData.pagination.totalPages)}
-          disabled={currentPage === placesData.pagination.totalPages}
+          onClick={() => handlePageChange(placesData.meta.pagination.pageCount)}
+          disabled={currentPage === placesData.meta.pagination.pageCount}
         >
           마지막
         </Button>
@@ -145,11 +175,11 @@ const PlacePage = () => {
   };
 
   // 상세 페이지 렌더링
-  if (selectedPlaceId && selectedPlace) {
+  if (selectedPlaceDocumentId && selectedPlace) {
     return (
-      <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
+      <div style={{ maxWidth: "800px", margin: "0 auto", padding: "20px" }}>
         {/* 뒤로가기 버튼 */}
-        <div style={{ marginBottom: '24px' }}>
+        <div style={{ marginBottom: "24px" }}>
           <Button variant="secondary" onClick={handleBackToList}>
             ← 목록으로 돌아가기
           </Button>
@@ -157,92 +187,111 @@ const PlacePage = () => {
 
         {/* 파크골프장 상세 정보 */}
         <Card>
-          <div style={{ padding: '24px' }}>
-            <div style={{ 
-              display: 'inline-block',
-              backgroundColor: '#e3f2fd',
-              color: '#1976d2',
-              padding: '6px 12px',
-              borderRadius: '6px',
-              fontSize: '14px',
-              fontWeight: '500',
-              marginBottom: '12px'
-            }}>
+          <div style={{ padding: "24px" }}>
+            <div
+              style={{
+                display: "inline-block",
+                backgroundColor: "#e3f2fd",
+                color: "#1976d2",
+                padding: "6px 12px",
+                borderRadius: "6px",
+                fontSize: "14px",
+                fontWeight: "500",
+                marginBottom: "12px",
+              }}
+            >
               {selectedPlace.area}
             </div>
-            
-            <h1 style={{ 
-              margin: '0 0 16px 0', 
-              fontSize: '28px', 
-              fontWeight: 'bold',
-              color: '#333'
-            }}>
-              {selectedPlace.golfClubName}
+
+            <h1
+              style={{
+                margin: "0 0 16px 0",
+                fontSize: "28px",
+                fontWeight: "bold",
+                color: "#333",
+              }}
+            >
+              {selectedPlace.name}
             </h1>
 
             {selectedPlace.address && (
-              <div style={{ 
-                fontSize: '16px', 
-                color: '#666',
-                marginBottom: '16px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px'
-              }}>
+              <div
+                style={{
+                  fontSize: "16px",
+                  color: "#666",
+                  marginBottom: "16px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                }}
+              >
                 <PlaceIcon size={16} /> {selectedPlace.address}
               </div>
             )}
 
-            <div style={{ 
-              display: 'flex', 
-              gap: '20px',
-              marginBottom: '20px',
-              fontSize: '15px',
-              color: '#555'
-            }}>
-              {selectedPlace.clubSize && (
-                <span>🏌️ 규모: {selectedPlace.clubSize}</span>
-              )}
+            <div
+              style={{
+                display: "flex",
+                gap: "20px",
+                marginBottom: "20px",
+                fontSize: "15px",
+                color: "#555",
+              }}
+            >
+              {selectedPlace.size && <span>🏌️ 규모: {selectedPlace.size}</span>}
               {selectedPlace.holeCount && (
-                <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <span
+                  style={{ display: "flex", alignItems: "center", gap: "4px" }}
+                >
                   <GolfIcon size={16} /> 홀 수: {selectedPlace.holeCount}
                 </span>
               )}
             </div>
 
             {/* 통계 정보 */}
-            <div style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: '16px',
-              padding: '16px 0',
-              borderTop: '1px solid #eee'
-            }}>
-              <div style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                gap: '6px',
-                fontSize: '14px',
-                color: '#666'
-              }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "16px",
+                padding: "16px 0",
+                borderTop: "1px solid #eee",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  fontSize: "14px",
+                  color: "#666",
+                }}
+              >
                 <LikeIcon fill={false} /> {selectedPlace.likeCount} 좋아요
               </div>
-              <div style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                gap: '6px',
-                fontSize: '14px',
-                color: '#666'
-              }}>
-                <CommentIcon size={16} /> {selectedPlace.commentCount} 댓글
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  fontSize: "14px",
+                  color: "#666",
+                }}
+              >
+                <CommentIcon size={16} /> 0 댓글
               </div>
             </div>
           </div>
         </Card>
 
         {/* 댓글 섹션 */}
-        <div style={{ marginTop: '32px' }}>
-          <PlaceCommentList placeId={selectedPlace.id} id={0} content={''} createdAt={''} userNickname={''} userId={''} />
+        <div style={{ marginTop: "32px" }}>
+          {selectedPlaceDocumentId && (
+            <PlaceCommentList
+              placeId={selectedPlace.id}
+              placeDocumentId={selectedPlaceDocumentId}
+            />
+          )}
         </div>
       </div>
     );
@@ -251,34 +300,42 @@ const PlacePage = () => {
   // 목록 페이지 렌더링
   if (error) {
     return (
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        height: '400px',
-        color: '#666'
-      }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "400px",
+          color: "#666",
+        }}
+      >
         파크골프장 정보를 불러오는 중 오류가 발생했습니다.
       </div>
     );
   }
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
+    <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "20px" }}>
       {/* 헤더 */}
-      <div style={{ marginBottom: '24px' }}>
-        <h1 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '16px' }}>
+      <div style={{ marginBottom: "24px" }}>
+        <h1
+          style={{ fontSize: "28px", fontWeight: "bold", marginBottom: "16px" }}
+        >
           파크골프장
         </h1>
-        
+
         {/* 검색 및 필터 */}
-        <div style={{ 
-          display: 'flex', 
-          gap: '12px', 
-          marginBottom: '16px',
-          flexWrap: 'wrap'
-        }}>
-          <div style={{ flex: 1, minWidth: '200px', display: 'flex', gap: '8px' }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "12px",
+            marginBottom: "16px",
+            flexWrap: "wrap",
+          }}
+        >
+          <div
+            style={{ flex: 1, minWidth: "200px", display: "flex", gap: "8px" }}
+          >
             <Input
               type="text"
               value={searchQuery}
@@ -288,23 +345,25 @@ const PlacePage = () => {
               style={{ flex: 1 }}
             />
           </div>
-          
+
           <select
             value={selectedArea}
             onChange={(e) => setSelectedArea(e.target.value)}
             style={{
-              padding: '8px 12px',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              fontSize: '14px'
+              padding: "8px 12px",
+              border: "1px solid #ddd",
+              borderRadius: "4px",
+              fontSize: "14px",
             }}
           >
             <option value="">전체 지역</option>
-            {areas.map(area => (
-              <option key={area} value={area}>{area}</option>
+            {areas.map((area) => (
+              <option key={area} value={area}>
+                {area}
+              </option>
             ))}
           </select>
-          
+
           <Button variant="secondary" onClick={handleSearch}>
             검색
           </Button>
@@ -312,19 +371,26 @@ const PlacePage = () => {
 
         {/* 검색 결과 정보 */}
         {(actualSearchQuery || actualSelectedArea) && (
-          <div style={{ fontSize: '14px', color: '#666', marginBottom: '16px' }}>
+          <div
+            style={{ fontSize: "14px", color: "#666", marginBottom: "16px" }}
+          >
             {actualSelectedArea && `'${actualSelectedArea}' 지역`}
-            {actualSearchQuery && ` '${actualSearchQuery}' 검색`} 결과: {placesData?.pagination.totalCount || 0}개
+            {actualSearchQuery && ` '${actualSearchQuery}' 검색`} 결과:{" "}
+            {placesData?.meta?.pagination?.total || 0}개
             <Button
               variant="secondary"
               onClick={() => {
-                setActualSearchQuery('');
-                setActualSelectedArea('');
-                setSearchQuery('');
-                setSelectedArea('');
+                setActualSearchQuery("");
+                setActualSelectedArea("");
+                setSearchQuery("");
+                setSelectedArea("");
                 setCurrentPage(1);
               }}
-              style={{ marginLeft: '8px', fontSize: '12px', padding: '4px 8px' }}
+              style={{
+                marginLeft: "8px",
+                fontSize: "12px",
+                padding: "4px 8px",
+              }}
             >
               초기화
             </Button>
@@ -334,22 +400,24 @@ const PlacePage = () => {
 
       {/* 로딩 상태 */}
       {isLoading ? (
-        <LoadingBar 
+        <LoadingBar
           type="dots"
-          size="large" 
-          message="파크골프장을 불러오는 중..." 
+          size="large"
+          message="파크골프장을 불러오는 중..."
         />
       ) : (
         <>
           {/* 파크골프장 목록 */}
-          {placesData?.places && placesData.places.length > 0 ? (
-            <div style={{ 
-              display: 'grid', 
-              gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
-              gap: '20px',
-              marginBottom: '24px'
-            }}>
-              {placesData.places.map((place) => (
+          {placesData?.data && placesData.data.length > 0 ? (
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
+                gap: "20px",
+                marginBottom: "24px",
+              }}
+            >
+              {placesData.data.map((place) => (
                 <PlaceCard
                   key={place.id}
                   place={place}
@@ -358,30 +426,30 @@ const PlacePage = () => {
               ))}
             </div>
           ) : (
-            <div style={{ 
-              textAlign: 'center', 
-              color: '#666', 
-              padding: '60px 20px',
-              backgroundColor: '#f9f9f9',
-              borderRadius: '8px'
-            }}>
+            <div
+              style={{
+                textAlign: "center",
+                color: "#666",
+                padding: "60px 20px",
+                backgroundColor: "#f9f9f9",
+                borderRadius: "8px",
+              }}
+            >
               {actualSearchQuery || actualSelectedArea ? (
                 <>
-                  <div style={{ fontSize: '18px', marginBottom: '8px' }}>
+                  <div style={{ fontSize: "18px", marginBottom: "8px" }}>
                     검색 결과가 없습니다
                   </div>
-                  <div style={{ fontSize: '14px' }}>
+                  <div style={{ fontSize: "14px" }}>
                     다른 조건으로 검색해보세요
                   </div>
                 </>
               ) : (
                 <>
-                  <div style={{ fontSize: '18px', marginBottom: '8px' }}>
+                  <div style={{ fontSize: "18px", marginBottom: "8px" }}>
                     파크골프장 정보가 없습니다
                   </div>
-                  <div style={{ fontSize: '14px' }}>
-                    곧 업데이트 예정입니다
-                  </div>
+                  <div style={{ fontSize: "14px" }}>곧 업데이트 예정입니다</div>
                 </>
               )}
             </div>

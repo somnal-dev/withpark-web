@@ -1,24 +1,19 @@
-import {useMutation} from "@tanstack/react-query";
-import {Fetcher} from "@withpark/api/fetcher.ts";
+import { useMutation } from "@tanstack/react-query";
+import { Fetcher } from "@withpark/api/fetcher.ts";
+import type { UploadResponse } from "@withpark/types/community";
 
-interface UploadProfilePhotoResponse {
-    photoUrl: string;
-}
-
-const uploadProfilePhoto = async (file: File): Promise<UploadProfilePhotoResponse> => {
-    const formData = new FormData();
-    formData.append('photo', file);
-
-    return await Fetcher.post<UploadProfilePhotoResponse>('user/photo', {
-        body: formData,
-        // Content-Type을 명시적으로 설정하지 않음으로써 브라우저가 자동으로 multipart/form-data를 설정하도록 함
-    });
+const uploadProfilePhoto = async (file: File): Promise<UploadResponse[]> => {
+  return await Fetcher.upload<UploadResponse[]>(file);
 };
 
 const useUploadProfilePhotoMutation = () => {
-    return useMutation({
-        mutationFn: uploadProfilePhoto,
-    });
+  return useMutation({
+    mutationFn: uploadProfilePhoto,
+    onSuccess: (data) => {
+      // 업로드된 이미지 정보를 사용자 프로필에 업데이트하는 로직을 여기에 추가할 수 있습니다.
+      console.log("업로드 완료:", data);
+    },
+  });
 };
 
-export default useUploadProfilePhotoMutation; 
+export default useUploadProfilePhotoMutation;

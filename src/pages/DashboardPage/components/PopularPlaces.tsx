@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Card from "@withpark/ui/components/Card";
 import Select from "@withpark/ui/components/Select";
 import LoadingBar from "@withpark/ui/components/LoadingBar";
@@ -11,94 +11,132 @@ import { GolfIcon } from "@withpark/assets/icons/GolfIcon";
 import { PlaceIcon } from "@withpark/assets/icons/PlaceIcon";
 
 const PopularPlaces = () => {
-  const [selectedArea, setSelectedArea] = useState<string>('');
+  const [selectedArea, setSelectedArea] = useState<string>("");
   const navigate = useNavigate();
-  
-  const { data: popularPlaces, isLoading, error } = usePopularPlaces({
+
+  const {
+    data: popularPlaces,
+    isLoading,
+    error,
+  } = usePopularPlaces({
     limit: 5,
-    area: selectedArea || undefined
+    area: selectedArea || undefined,
   });
 
   // 스타일 객체들
   const styles = {
-    container: { display: 'flex', flexDirection: 'column', gap: '12px' } as const,
-    errorMessage: { 
-      textAlign: 'center', 
-      color: '#999', 
-      padding: '20px',
-      fontSize: '14px'
+    container: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "12px",
+    } as const,
+    errorMessage: {
+      textAlign: "center",
+      color: "#999",
+      padding: "20px",
+      fontSize: "14px",
     } as const,
     placeItem: {
-      padding: '12px',
-      border: '1px solid #f0f0f0',
-      borderRadius: '8px',
-      backgroundColor: '#fafafa',
-      cursor: 'pointer',
-      transition: 'background-color 0.2s',
+      padding: "12px",
+      border: "1px solid #f0f0f0",
+      borderRadius: "8px",
+      backgroundColor: "#fafafa",
+      cursor: "pointer",
+      transition: "background-color 0.2s",
     } as const,
-    placeContent: { display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' } as const,
+    placeContent: {
+      display: "flex",
+      alignItems: "flex-start",
+      justifyContent: "space-between",
+    } as const,
     leftSection: { flex: 1 } as const,
     areaTag: {
-      backgroundColor: '#e3f2fd',
-      color: '#1976d2',
-      padding: '2px 6px',
-      borderRadius: '3px',
-      fontSize: '10px',
-      fontWeight: '500'
+      backgroundColor: "#e3f2fd",
+      color: "#1976d2",
+      padding: "2px 6px",
+      borderRadius: "3px",
+      fontSize: "10px",
+      fontWeight: "500",
     } as const,
-    placeName: { 
-      fontWeight: 'bold', 
-      fontSize: '14px',
-      color: '#333',
-      marginBottom: '4px'
+    placeName: {
+      fontWeight: "bold",
+      fontSize: "14px",
+      color: "#333",
+      marginBottom: "4px",
     } as const,
-    address: { 
-      fontSize: '11px', 
-      color: '#666',
-      marginBottom: '6px',
-      display: 'flex',
-      alignItems: 'center',
-      gap: '4px'
+    address: {
+      fontSize: "11px",
+      color: "#666",
+      marginBottom: "6px",
+      display: "flex",
+      alignItems: "center",
+      gap: "4px",
     } as const,
-    golfInfo: { 
-      display: 'flex', 
-      alignItems: 'center', 
-      gap: '8px',
-      fontSize: '11px',
-      color: '#888'
+    golfInfo: {
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
+      fontSize: "11px",
+      color: "#888",
     } as const,
-    rightSection: { 
-      display: 'flex', 
-      flexDirection: 'column',
-      alignItems: 'flex-end',
-      gap: '4px'
+    rightSection: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "flex-end",
+      gap: "4px",
     } as const,
-    statsContainer: { 
-      display: 'flex', 
-      alignItems: 'center', 
-      gap: '6px',
-      fontSize: '11px'
+    statsContainer: {
+      display: "flex",
+      alignItems: "center",
+      gap: "6px",
+      fontSize: "11px",
     } as const,
-    likeStats: { color: '#ff6b6b', display: 'flex', alignItems: 'center', gap: '2px' } as const,
-    commentStats: { color: '#000000', display: 'flex', alignItems: 'center', gap: '2px' } as const,
-    dateText: { 
-      fontSize: '9px', 
-      color: '#aaa' 
+    likeStats: {
+      color: "#ff6b6b",
+      display: "flex",
+      alignItems: "center",
+      gap: "2px",
     } as const,
-    emptyMessage: { 
-      textAlign: 'center', 
-      color: '#666', 
-      padding: '30px 20px',
-      fontSize: '14px'
-    } as const
+    commentStats: {
+      color: "#000000",
+      display: "flex",
+      alignItems: "center",
+      gap: "2px",
+    } as const,
+    dateText: {
+      fontSize: "9px",
+      color: "#aaa",
+    } as const,
+    emptyMessage: {
+      textAlign: "center",
+      color: "#666",
+      padding: "30px 20px",
+      fontSize: "14px",
+    } as const,
   };
 
   // 지역 옵션들
   const areaOptions = [
-    { value: '', label: '전체' },
-    ...['서울', '경기', '인천', '강원', '충북', '충남', '대전', '세종',
-      '전북', '전남', '광주', '경북', '경남', '대구', '울산', '부산', '제주']
-      .map(area => ({ value: area, label: area }))
+    { value: "", label: "전체" },
+    ...[
+      "서울",
+      "경기",
+      "인천",
+      "강원",
+      "충북",
+      "충남",
+      "대전",
+      "세종",
+      "전북",
+      "전남",
+      "광주",
+      "경북",
+      "경남",
+      "대구",
+      "울산",
+      "부산",
+      "제주",
+    ].map((area) => ({ value: area, label: area })),
   ];
 
   const formatDate = (dateString: string) => {
@@ -115,15 +153,15 @@ const PopularPlaces = () => {
   };
 
   const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.currentTarget.style.backgroundColor = '#f0f8ff';
+    e.currentTarget.style.backgroundColor = "#f0f8ff";
   };
 
   const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.currentTarget.style.backgroundColor = '#fafafa';
+    e.currentTarget.style.backgroundColor = "#fafafa";
   };
 
   return (
-    <Card 
+    <Card
       title="인기 파크골프장"
       titleAction={
         <Select
@@ -138,12 +176,10 @@ const PopularPlaces = () => {
       {isLoading ? (
         <LoadingBar type="dots" message="인기 파크골프장을 불러오는 중..." />
       ) : error ? (
-        <div style={styles.errorMessage}>
-          데이터를 불러올 수 없습니다
-        </div>
-      ) : popularPlaces && popularPlaces.length > 0 ? (
+        <div style={styles.errorMessage}>데이터를 불러올 수 없습니다</div>
+      ) : popularPlaces?.data && popularPlaces.data.length > 0 ? (
         <div style={styles.container}>
-          {popularPlaces.map((place, _) => (
+          {popularPlaces.data.map((place, _) => (
             <div
               key={place.id}
               style={styles.placeItem}
@@ -153,36 +189,54 @@ const PopularPlaces = () => {
             >
               <div style={styles.placeContent}>
                 <div style={styles.leftSection}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                    <div style={styles.areaTag}>
-                      {place.area}
-                    </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      marginBottom: "4px",
+                    }}
+                  >
+                    <div style={styles.areaTag}>{place.area}</div>
                   </div>
-                  
-                  <div style={styles.placeName}>
-                    {place.golfClubName}
-                  </div>
-                  
+
+                  <div style={styles.placeName}>{place.name}</div>
+
                   {place.address && (
                     <div style={styles.address}>
-                      <PlaceIcon size={14} /> {place.address.length > 30 ? `${place.address.substring(0, 30)}...` : place.address}
+                      <PlaceIcon size={14} />{" "}
+                      {place.address.length > 30
+                        ? `${place.address.substring(0, 30)}...`
+                        : place.address}
                     </div>
                   )}
-                  
+
                   <div style={styles.golfInfo}>
-                    {place.clubSize && (
-                      <span style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
-                        <GolfIcon size={16} /> {place.clubSize}
+                    {place.size && (
+                      <span
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "2px",
+                        }}
+                      >
+                        <GolfIcon size={16} /> {place.size}
                       </span>
                     )}
                     {place.holeCount && (
-                      <span style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
+                      <span
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "2px",
+                        }}
+                      >
                         <GolfIcon size={16} /> {place.holeCount}
                       </span>
                     )}
                   </div>
                 </div>
-                
+
                 <div style={styles.rightSection}>
                   <div style={styles.statsContainer}>
                     <span style={styles.likeStats}>
@@ -196,7 +250,7 @@ const PopularPlaces = () => {
                       </IconButton>
                     </span>
                     <span style={styles.commentStats}>
-                      <CommentIcon size={14} /> {place.commentCount}
+                      <CommentIcon size={14} /> {place.comments?.length || 0}
                     </span>
                   </div>
                   <div style={styles.dateText}>
@@ -209,11 +263,13 @@ const PopularPlaces = () => {
         </div>
       ) : (
         <div style={styles.emptyMessage}>
-          {selectedArea ? `'${selectedArea}' 지역의 인기 파크골프장이 없습니다` : '인기 파크골프장이 없습니다'}
+          {selectedArea
+            ? `'${selectedArea}' 지역의 인기 파크골프장이 없습니다`
+            : "인기 파크골프장이 없습니다"}
         </div>
       )}
     </Card>
   );
 };
 
-export default PopularPlaces; 
+export default PopularPlaces;

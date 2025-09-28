@@ -1,35 +1,48 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Fetcher } from "../fetcher";
-import type { ApiResponse, CreatePlaceCommentRequest } from "../../types/place";
-import {PlaceComment} from "@withpark/ui/components/CommentSection";
+import type {
+  PlaceCommentEntity,
+  CreatePlaceCommentRequest,
+  ApiResponse,
+} from "../../types/place";
 
 interface CreatePlaceCommentParams {
-  placeId: number;
-  data: CreatePlaceCommentRequest;
+  placeDocumentId: string;
+  content: string;
 }
 
 export default function useCreatePlaceCommentMutation() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ placeId, data }: CreatePlaceCommentParams) => {
-      const response = await Fetcher.post<ApiResponse<PlaceComment>>(
-        `place/${placeId}/comments`,
-        { json: data }
+    mutationFn: async ({
+      placeDocumentId,
+      content,
+    }: CreatePlaceCommentParams) => {
+      const requestData: CreatePlaceCommentRequest = {
+        data: {
+          content,
+          place: placeDocumentId,
+        },
+      };
+
+      const response = await Fetcher.post<ApiResponse<PlaceCommentEntity>>(
+        `place-comments`,
+        { json: requestData }
       );
       return response.data;
     },
     onSuccess: (_, variables) => {
       // 댓글 목록 쿼리 무효화
-      queryClient.invalidateQueries({ 
-        queryKey: ['placeComments', variables.placeId] 
+      queryClient.invalidateQueries({
+        queryKey: ["placeComments"],
       });
       // 파크골프장 목록 쿼리 무효화 (댓글 수 업데이트)
-      queryClient.invalidateQueries({ queryKey: ['places'] });
+      queryClient.invalidateQueries({ queryKey: ["places"] });
       // 특정 파크골프장 쿼리 무효화 (댓글 수 업데이트)
-      queryClient.invalidateQueries({ 
-        queryKey: ['place', variables.placeId] 
+      queryClient.invalidateQueries({
+        queryKey: ["place"],
       });
     },
   });
-} 
+}

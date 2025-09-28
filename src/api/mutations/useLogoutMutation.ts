@@ -1,9 +1,9 @@
-import {useMutation} from "@tanstack/react-query";
-import {Fetcher} from "@withpark/api/fetcher.ts";
+import { useMutation } from "@tanstack/react-query";
+import { Fetcher } from "@withpark/api/fetcher.ts";
 
 const useLogoutMutation = () =>
-    useMutation({
-        mutationFn: () => Fetcher.post('auth?action=logout')
-    })
+  useMutation({
+    mutationFn: () => Fetcher.post("auth/logout"),
+  });
 
 export default useLogoutMutation;

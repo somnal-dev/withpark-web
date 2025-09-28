@@ -1,17 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import { Fetcher } from "../fetcher";
-import type { ApiResponse, Post } from "../../types/community";
+import type { PostResponse } from "../../types/community";
+import qs from "qs";
 
-export default function usePost(postId: number) {
+export default function usePost(documentId: string) {
   return useQuery({
-    queryKey: ['post', postId],
+    queryKey: ["post", documentId],
     queryFn: async () => {
-      const response = await Fetcher.get<ApiResponse<Post>>(
-        `community/posts/${postId}`
+      const response = await Fetcher.get<PostResponse>(
+        `posts/${documentId}?populate=*`
       );
-      
+
       return response.data;
     },
-    enabled: !!postId,
+    enabled: !!documentId,
   });
-} 
+}

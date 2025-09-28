@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import Card from "@withpark/ui/components/Card";
 import useToggleLikeMutation from "../../../api/mutations/useToggleLikeMutation";
 import type { Post } from "../../../types/community";
@@ -6,32 +6,35 @@ import IconButton from "@withpark/ui/components/IconButton";
 import { LikeIcon } from "@withpark/assets/icons/LikeIcon";
 import { CommentIcon } from "@withpark/assets/icons/CommentIcon";
 import { ViewIcon } from "@withpark/assets/icons/ViewIcon";
+import ProfileImage from "@withpark/ui/components/ProfileImage";
+import useUserInfo from "@withpark/api/queries/useUserInfo";
 
 interface PostCardProps {
   post: Post;
-  onPostClick?: (postId: number) => void;
+  onPostClick?: (postDocumentId: string) => void;
 }
 
 const PostCard = ({ post, onPostClick }: PostCardProps) => {
   const toggleLikeMutation = useToggleLikeMutation();
   const [isLiked, setIsLiked] = useState(post.isLiked || false);
 
-  const handleLike = async () => {
+  const { data: author } = useUserInfo(post?.user?.id, post?.user != null);
 
+  const handleLike = async () => {
     try {
       const result = await toggleLikeMutation.mutateAsync(post.id);
       setIsLiked(result.isLiked);
     } catch (error) {
-      console.error('좋아요 토글 실패:', error);
+      console.error("좋아요 토글 실패:", error);
     }
   };
 
   const handlePostClick = () => {
-    onPostClick?.(post.id);
+    onPostClick?.(post.documentId);
   };
 
   const handleCommentClick = () => {
-    onPostClick?.(post.id);
+    onPostClick?.(post.documentId);
   };
 
   const formatDate = (dateString: string) => {
@@ -55,50 +58,56 @@ const PostCard = ({ post, onPostClick }: PostCardProps) => {
 
   return (
     <Card onClick={handlePostClick}>
-      <div style={{ padding: '16px' }}>
+      <div style={{ padding: "16px" }}>
         {/* 작성자 정보 */}
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '12px' }}>
-          {post.user.photo && (
-            <img
-              src={post.user.photo}
-              alt={post.user.nickname}
-              style={{
-                width: '32px',
-                height: '32px',
-                borderRadius: '50%',
-                marginRight: '8px',
-                objectFit: 'cover'
-              }}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginBottom: "12px",
+          }}
+        >
+          {author?.photo && (
+            <ProfileImage
+              imgUrl={author.photo?.formats?.thumbnail?.url ?? ""}
             />
           )}
           <div>
-            <div style={{ fontWeight: 'bold', fontSize: '14px' }}>
-              {post.user.nickname}
+            <div
+              style={{
+                fontWeight: "bold",
+                fontSize: "14px",
+                marginLeft: "10px",
+              }}
+            >
+              {post?.user?.nickname ?? "알수없음"}
             </div>
-            <div style={{ fontSize: '12px', color: '#666' }}>
+            <div
+              style={{ fontSize: "12px", color: "#666", marginLeft: "10px" }}
+            >
               {formatDate(post.createdAt)}
             </div>
           </div>
         </div>
 
         {/* 게시글 내용 */}
-        <h3 style={{ margin: '0 0 8px 0', fontSize: '18px' }}>
-          {post.title}
-        </h3>
-        <p style={{ 
-          margin: '0 0 12px 0', 
-          color: '#333', 
-          lineHeight: '1.5',
-          display: '-webkit-box',
-          WebkitLineClamp: 3,
-          WebkitBoxOrient: 'vertical',
-          overflow: 'hidden'
-        }}>
+        <h3 style={{ margin: "0 0 8px 0", fontSize: "18px" }}>{post.title}</h3>
+        <p
+          style={{
+            margin: "0 0 12px 0",
+            color: "#333",
+            lineHeight: "1.5",
+            display: "-webkit-box",
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+          }}
+        >
           {post.content}
         </p>
 
         {/* 액션 버튼들 */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
           <IconButton
             icon={<LikeIcon fill={isLiked} />}
             active={isLiked}
@@ -116,10 +125,18 @@ const PostCard = ({ post, onPostClick }: PostCardProps) => {
             variant="secondary"
             size="small"
           >
-            {post.commentCount}
+            {post.comments?.length || 0}
           </IconButton>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '14px', color: '#666' }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "4px",
+              fontSize: "14px",
+              color: "#666",
+            }}
+          >
             <ViewIcon size={16} /> {post.viewCount}
           </div>
         </div>
@@ -128,4 +145,4 @@ const PostCard = ({ post, onPostClick }: PostCardProps) => {
   );
 };
 
-export default PostCard; 
+export default PostCard;

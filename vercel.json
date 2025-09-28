@@ -7,6 +7,10 @@
     {
       "source": "/uploads/:path*",
       "destination": "http://choi-choi.duckdns.org:40051/uploads/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }

@@ -87,8 +87,6 @@ const OnboardingPage = () => {
   };
 
   const handleComplete = async () => {
-    alert(onboardingUserInfo.photo);
-
     await updateUserInfo.mutateAsync({
       userId: onboardingUserInfo.id,
       data: {

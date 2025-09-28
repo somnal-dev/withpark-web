@@ -204,7 +204,7 @@ const OnboardingPage = () => {
                     }}
                   >
                     {/* <img
-                      src={onboardingUserInfo.photo}
+                      src={getImageUrl(onboardingUserInfo.photo)}
                       alt="프로필 사진"
                       style={{
                         width: "80px",

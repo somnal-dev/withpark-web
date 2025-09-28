@@ -1,6 +1,12 @@
 {
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/.*", "dest": "/index.html" }
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "http://choi-choi.duckdns.org:40051/api/:path*"
+    },
+    {
+      "source": "/uploads/:path*",
+      "destination": "http://choi-choi.duckdns.org:40051/uploads/:path*"
+    }
   ]
 }

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Styled from "./ProfileImage.styles";
-import { UPLOAD_URL } from "@withpark/constants/config";
 
 type Props = {
   imgUrl: string;

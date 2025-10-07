@@ -17,7 +17,7 @@ const ProfileImage = ({ imgUrl }: Props) => {
     return <Styled.ProfileImagePlaceholder />;
   }
 
-  const src = `${import.meta.env.VITE_SERVER_URL}${imgUrl}`;
+  const src = `${imgUrl}`;
 
   return (
     <Styled.ProfileImage src={src} alt="프로필 이미지" onError={handleError} />

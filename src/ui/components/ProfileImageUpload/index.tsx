@@ -21,7 +21,7 @@ const ProfileImageUpload = ({
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const uploadMutation = useImageUploadMutation();
 
-  const src = `${import.meta.env.VITE_SERVER_URL}${imageUrl}`;
+  const src = `${imageUrl}`;
 
   const handlePhotoUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];

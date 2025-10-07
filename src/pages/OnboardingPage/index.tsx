@@ -12,6 +12,7 @@ import useUserInfo from "@withpark/api/queries/useUserInfo.ts";
 import useUpdateUserInfoMutation from "@withpark/api/mutations/useUpdateUserInfoMutation.ts";
 import { PATH } from "@withpark/constants/routes.ts";
 import { User } from "@withpark/types/user";
+import ProfileImageUpload from "@withpark/ui/components/ProfileImageUpload";
 
 const OnboardingPage = () => {
   const navigate = useNavigate();
@@ -67,7 +68,7 @@ const OnboardingPage = () => {
     },
   ];
 
-  const handleInputChange = (field: keyof User, value: string) => {
+  const handleInputChange = (field: keyof User, value: any) => {
     setOnboardingUserInfo((prev) => ({
       ...prev,
       [field]: value,
@@ -153,11 +154,11 @@ const OnboardingPage = () => {
       case 1:
         return (
           <Styled.FormContainer>
-            {/* <ProfileImageUpload
-              imageUrl={onboardingUserInfo.photo ?? ""}
-              onImageChange={(imageUrl) => handleInputChange("photo", imageUrl)}
+            <ProfileImageUpload
+              imageUrl={onboardingUserInfo.photo?.formats?.thumbnail?.url ?? ""}
+              onImageChange={(photo) => handleInputChange("photo", photo)}
               size="large"
-            /> */}
+            />
           </Styled.FormContainer>
         );
 

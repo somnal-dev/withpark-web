@@ -45,7 +45,10 @@ const PostDetailPage = () => {
     setIsViewCountIncreased(true);
   }, [post]);
 
-  const handleEditPost = async () => {};
+  const handleEditPost = async () => {
+    if (!postDocumentId) return;
+    navigate(PATH.POST_EDIT.replace(":postDocumentId", postDocumentId));
+  };
 
   const handleDeletePost = async () => {
     alert.open({

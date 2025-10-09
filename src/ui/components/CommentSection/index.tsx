@@ -2,6 +2,8 @@ import { User } from "@withpark/types/user";
 import Button from "../Button";
 import Textarea from "../Textarea";
 import { useState } from "react";
+import useAlert from "@withpark/hooks/useAlert";
+import { useCloseAllAlerts } from "../Alert/context";
 
 const getImageUrl = (url: string | undefined | null): string | undefined => {
   if (!url) return undefined;
@@ -78,6 +80,9 @@ const CommentSection = <T extends BaseComment>({
   >(null);
   const [editingContent, setEditingContent] = useState<string>("");
 
+  const alert = useAlert();
+  const closeAllAlerts = useCloseAllAlerts();
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const now = new Date();
@@ -116,9 +121,24 @@ const CommentSection = <T extends BaseComment>({
   };
 
   const handleDelete = (commentDocumentId: string) => {
-    if (window.confirm("정말로 이 댓글을 삭제하시겠습니까?")) {
-      onDeleteComment?.(commentDocumentId);
-    }
+    alert.open({
+      content: <>정말로 글을 삭제하시겠습니까?</>,
+      cancelText: "아니요",
+      confirmText: "네",
+      onConfirm: async () => {
+        if (!commentDocumentId) return;
+
+        try {
+          onDeleteComment?.(commentDocumentId);
+          closeAllAlerts();
+        } catch (error) {
+          console.error("글 삭제 실패:", error);
+          alert.open({
+            content: <>글 삭제에 실패했습니다.</>,
+          });
+        }
+      },
+    });
   };
 
   const canUserModifyComment = (comment: T): boolean => {

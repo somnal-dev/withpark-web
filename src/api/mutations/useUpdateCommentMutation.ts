@@ -30,7 +30,7 @@ const useUpdateCommentMutation = () => {
     mutationFn: updateComment,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.COMMENTS.all,
+        queryKey: QUERY_KEYS.COMMENT.all,
       });
     },
     onError: (error) => {

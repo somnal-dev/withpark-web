@@ -10,7 +10,7 @@ const PlaceDetailPage = () => {
   const navigate = useNavigate();
 
   const { placeDocumentId } = useParams<{ placeDocumentId: string }>();
-  const { data: place, isLoading, error } = usePlace(placeDocumentId || null);
+  const { data: place, isLoading, error } = usePlace(placeDocumentId ?? "");
 
   const handleBackToList = () => {
     navigate("/place");

@@ -44,7 +44,7 @@ const PlacePage = () => {
     area: actualSelectedArea,
   });
 
-  const { data: selectedPlace } = usePlace(selectedPlaceDocumentId);
+  const { data: selectedPlace } = usePlace(selectedPlaceDocumentId ?? "");
 
   // 지역 옵션들
   const areas = [

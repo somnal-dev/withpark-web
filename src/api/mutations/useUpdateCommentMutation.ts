@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Fetcher } from "@withpark/api/fetcher";
 import { QUERY_KEYS } from "@withpark/constants/queryKeys";
-import type { UpdateCommentRequest } from "@withpark/types/community";
+import type { UpdateCommentRequest } from "@withpark/types/post";
 
 interface UpdateCommentParams {
   commentDocumentId: string;

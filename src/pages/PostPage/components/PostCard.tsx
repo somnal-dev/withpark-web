@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Card from "@withpark/ui/components/Card";
 import useToggleLikeMutation from "../../../api/mutations/useToggleLikeMutation";
-import type { Post } from "../../../types/community";
+import type { Post } from "../../../types/post";
 import IconButton from "@withpark/ui/components/IconButton";
 import { LikeIcon } from "@withpark/assets/icons/LikeIcon";
 import { CommentIcon } from "@withpark/assets/icons/CommentIcon";

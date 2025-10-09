@@ -1,37 +1,25 @@
-import { lazy } from 'react';
+import { lazy } from "react";
 
-export const IntroPage =
-    lazy(() => import('./IntroPage'))
+export const IntroPage = lazy(() => import("./IntroPage"));
 
-export const LoginPage =
-    lazy(() => import('./LoginPage'))
+export const LoginPage = lazy(() => import("./LoginPage"));
 
-export const OAuthKakaoPage =
-    lazy(() => import('./OAuth/OAuthKakaoPage'))
+export const OAuthKakaoPage = lazy(() => import("./OAuth/OAuthKakaoPage"));
 
-export const OAuthNaverPage =
-    lazy(() => import('./OAuth/OAuthNaverPage'))
+export const OAuthNaverPage = lazy(() => import("./OAuth/OAuthNaverPage"));
 
-export const DashboardPage =
-    lazy(() => import('./DashboardPage'))
+export const DashboardPage = lazy(() => import("./DashboardPage"));
 
-export const OnboardingPage =
-    lazy(() => import('./OnboardingPage'))
+export const OnboardingPage = lazy(() => import("./OnboardingPage"));
 
-export const PlacePage =
-    lazy(() => import('./PlacePage'))
+export const PlacePage = lazy(() => import("./PlacePage"));
 
-export const PlaceDetailPage =
-    lazy(() => import('./PlaceDetailPage'))
+export const PlaceDetailPage = lazy(() => import("./PlaceDetailPage"));
 
-export const CommunityPage =
-    lazy(() => import('./CommunityPage'))
+export const CommunityPage = lazy(() => import("./PostPage"));
 
-export const PostDetailPage =
-    lazy(() => import('./PostDetailPage'))
+export const PostDetailPage = lazy(() => import("./PostDetailPage"));
 
-export const GamePage =
-    lazy(() => import('./GamePage'))
+export const GamePage = lazy(() => import("./GamePage"));
 
-export const SettingPage =
-    lazy(() => import('./SettingPage'))
+export const SettingPage = lazy(() => import("./SettingPage"));

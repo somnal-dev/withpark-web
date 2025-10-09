@@ -6,7 +6,7 @@ import usePosts from "../../api/queries/usePosts";
 import PostCard from "./components/PostCard";
 import PostForm from "./components/PostForm";
 
-const CommunityPage = () => {
+const PostPage = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
@@ -289,4 +289,4 @@ const CommunityPage = () => {
   );
 };
 
-export default CommunityPage;
+export default PostPage;

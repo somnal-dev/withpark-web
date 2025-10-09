@@ -1,9 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Fetcher } from "../fetcher";
-import type {
-  PostCommentEntity,
-  CreateCommentRequest,
-} from "../../types/community";
+import type { PostCommentEntity, CreateCommentRequest } from "../../types/post";
 import { DataResponse } from "@withpark/types/common";
 
 interface CreateCommentParams {

@@ -1,41 +1,52 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Button from "@withpark/ui/components/Button";
 import Card from "@withpark/ui/components/Card";
 import usePost from "../../api/queries/usePost";
-import useToggleLikeMutation from "../../api/mutations/useToggleLikeMutation";
-import CommentList from "../CommunityPage/components/CommentList";
-import { useState, useEffect } from "react";
-import IconButton from "@withpark/ui/components/IconButton";
+import CommentList from "../PostPage/components/CommentList";
 import LoadingBar from "@withpark/ui/components/LoadingBar";
-import { LikeIcon } from "@withpark/assets/icons/LikeIcon";
-import { CommentIcon } from "@withpark/assets/icons/CommentIcon";
 import useUserInfo from "@withpark/api/queries/useUserInfo";
 import ProfileImage from "@withpark/ui/components/ProfileImage";
+import useAlert from "@withpark/hooks/useAlert";
+import useDeletePostMutation from "@withpark/api/mutations/useDeletePostMutation";
+import { useCloseAllAlerts } from "@withpark/ui/components/Alert/context";
+import { PATH } from "@withpark/constants/routes";
 
 const PostDetailPage = () => {
-  const { postId } = useParams<{ postId: string }>();
-  const { data: post, isLoading, error } = usePost(postId!);
+  const { postDocumentId } = useParams<{ postDocumentId: string }>();
+  const { data: post, isLoading, error } = usePost(postDocumentId!);
   const { data: author } = useUserInfo(post?.user.id, post != null);
 
-  const toggleLikeMutation = useToggleLikeMutation();
-  const [isLiked, setIsLiked] = useState(false);
+  const navigate = useNavigate();
+  const alert = useAlert();
+  const closeAllAlerts = useCloseAllAlerts();
 
-  // 게시글 데이터가 로드되면 좋아요 상태 업데이트
-  useEffect(() => {
-    if (post) {
-      setIsLiked(post.isLiked || false);
-    }
-  }, [post]);
+  const deletePostMutation = useDeletePostMutation();
 
-  const handleLike = async () => {
-    if (!post) return;
+  const handleEditPost = async () => {};
 
-    try {
-      const result = await toggleLikeMutation.mutateAsync(post.id);
-      setIsLiked(result.isLiked);
-    } catch (error) {
-      console.error("좋아요 토글 실패:", error);
-    }
+  const handleDeletePost = async () => {
+    alert.open({
+      content: <>정말로 글을 삭제하시겠습니까?</>,
+      cancelText: "아니요",
+      confirmText: "네",
+      onConfirm: async () => {
+        if (!postDocumentId) return;
+
+        try {
+          await deletePostMutation.mutateAsync({
+            postDocumentId: postDocumentId,
+          });
+
+          closeAllAlerts();
+          navigate(PATH.COMMUNITY, { replace: true });
+        } catch (error) {
+          console.error("글 삭제 실패:", error);
+          alert.open({
+            content: <>글 삭제에 실패했습니다.</>,
+          });
+        }
+      },
+    });
   };
 
   const formatDate = (dateString: string) => {
@@ -175,7 +186,7 @@ const PostDetailPage = () => {
             borderTop: "1px solid #e2e8f0",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+          {/* <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
             <IconButton
               icon={<LikeIcon fill={isLiked} />}
               active={isLiked}
@@ -198,14 +209,22 @@ const PostDetailPage = () => {
             >
               <CommentIcon size={16} /> {post.commentCount} 댓글
             </div>
-          </div>
+          </div> */}
 
           <div style={{ display: "flex", gap: "8px" }}>
-            <Button variant="secondary" style={{ fontSize: "0.875rem" }}>
-              공유
+            <Button
+              variant="secondary"
+              style={{ fontSize: "0.875rem" }}
+              onClick={handleEditPost}
+            >
+              수정
             </Button>
-            <Button variant="secondary" style={{ fontSize: "0.875rem" }}>
-              신고
+            <Button
+              variant="danger"
+              style={{ fontSize: "0.875rem" }}
+              onClick={handleDeletePost}
+            >
+              삭제
             </Button>
           </div>
         </div>

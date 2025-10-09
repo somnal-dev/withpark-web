@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Fetcher } from "@withpark/api/fetcher";
 import { QUERY_KEYS } from "@withpark/constants/queryKeys";
-import type { UpdatePostRequest } from "@withpark/types/community";
+import type { UpdatePostRequest } from "@withpark/types/post";
 
 interface UpdatePostParams {
   postDocumentId: string;

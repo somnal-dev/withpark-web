@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Fetcher } from "../fetcher";
-import type { LikeResponse } from "../../types/community";
+import type { LikeResponse } from "../../types/post";
 import type { ApiResponse } from "../../types/common";
 
 export default function useToggleLikeMutation() {

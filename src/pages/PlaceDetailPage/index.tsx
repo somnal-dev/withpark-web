@@ -3,8 +3,6 @@ import Button from "@withpark/ui/components/Button";
 import Card from "@withpark/ui/components/Card";
 import usePlace from "../../api/queries/usePlace";
 import { PlaceIcon } from "@withpark/assets/icons/PlaceIcon";
-import { LikeIcon } from "@withpark/assets/icons/LikeIcon";
-import { CommentIcon } from "@withpark/assets/icons/CommentIcon";
 
 const PlaceDetailPage = () => {
   const navigate = useNavigate();
@@ -117,39 +115,8 @@ const PlaceDetailPage = () => {
             {place.size && <div>🏌️ 규모: {place.size}</div>}
             {place.holeCount && <div>⛳ 홀 수: {place.holeCount}</div>}
           </div>
-
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "16px",
-              paddingTop: "16px",
-              borderTop: "1px solid #eee",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-              <LikeIcon /> {place.likeCount}
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-              <CommentIcon size={16} /> {place.comments?.length ?? 0}
-            </div>
-          </div>
         </div>
       </Card>
-
-      {/* 댓글/리뷰 섹션
-      {place.id && (
-        <div style={{ marginTop: "24px" }}>
-          <PlaceCommentList
-            placeId={place.id}
-            id={0}
-            content={""}
-            createdAt={""}
-            userNickname={""}
-            userId={""}
-          />
-        </div>
-      )} */}
     </div>
   );
 };

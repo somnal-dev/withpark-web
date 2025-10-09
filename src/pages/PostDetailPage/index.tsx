@@ -30,7 +30,7 @@ const PostDetailPage = () => {
 
     updatePostViewCountMutation.mutate({
       postDocumentId: postDocumentId,
-      viewCount: post.viewCount,
+      viewCount: post.viewCount + 1,
     });
   }, [post]);
 

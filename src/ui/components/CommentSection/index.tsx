@@ -122,7 +122,7 @@ const CommentSection = <T extends BaseComment>({
 
   const handleDelete = (commentDocumentId: string) => {
     alert.open({
-      content: <>정말로 글을 삭제하시겠습니까?</>,
+      content: <>정말로 댓글을 삭제하시겠습니까?</>,
       cancelText: "아니요",
       confirmText: "네",
       onConfirm: async () => {

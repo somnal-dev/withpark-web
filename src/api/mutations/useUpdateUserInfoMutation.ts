@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Fetcher } from "@withpark/api/fetcher.ts";
-import { QUERY_KEY } from "@withpark/constants/queryKeys.ts";
+import { QUERY_KEYS } from "@withpark/constants/queryKeys.ts";
 import type { UpdateUserRequest, User } from "@withpark/types/user";
 import type { ApiResponse } from "@withpark/types/common";
 
@@ -19,7 +19,7 @@ const useUpdateUserInfoMutation = () => {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY.USER],
+        queryKey: QUERY_KEYS.USER.all,
       });
     },
   });

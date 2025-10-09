@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Fetcher } from "@withpark/api/fetcher.ts";
-import { QUERY_KEY } from "@withpark/constants/queryKeys.ts";
+import { QUERY_KEYS } from "@withpark/constants/queryKeys";
 
 interface DeleteUserRequest {
   userId: number;
@@ -16,7 +16,7 @@ const useDeleteUserMutation = () => {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY.USER],
+        queryKey: QUERY_KEYS.USER.all,
       });
     },
   });

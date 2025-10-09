@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Fetcher } from "../fetcher";
 import type { PostCommentEntity, CreateCommentRequest } from "../../types/post";
 import { DataResponse } from "@withpark/types/common";
+import { QUERY_KEYS } from "@withpark/constants/queryKeys";
 
 interface CreateCommentParams {
   userId: number;
@@ -26,17 +27,18 @@ export default function useCreateCommentMutation() {
         },
       };
 
-      const response = await Fetcher.post<DataResponse<PostCommentEntity>>(
-        `comments`,
-        { json: requestData }
-      );
+      const response = await Fetcher.post<DataResponse<any>>(`comments`, {
+        json: requestData,
+      });
+
       return response.data;
     },
-    onSuccess: (_, __) => {
+    onSuccess: (response) => {
       // 댓글 목록과 게시글 목록을 무효화하여 댓글 수 업데이트
-      queryClient.invalidateQueries({ queryKey: ["comments"] });
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
-      queryClient.invalidateQueries({ queryKey: ["post"] });
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.COMMENT.all });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.POST.detail(response["data"]?.documentId ?? ""),
+      });
     },
   });
 }

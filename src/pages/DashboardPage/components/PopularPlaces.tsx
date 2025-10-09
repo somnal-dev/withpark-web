@@ -4,7 +4,6 @@ import Card from "@withpark/ui/components/Card";
 import Select from "@withpark/ui/components/Select";
 import LoadingBar from "@withpark/ui/components/LoadingBar";
 import usePopularPlaces from "../../../api/queries/usePopularPlaces";
-import { CommentIcon } from "@withpark/assets/icons/CommentIcon";
 import { GolfIcon } from "@withpark/assets/icons/GolfIcon";
 import { PlaceIcon } from "@withpark/assets/icons/PlaceIcon";
 
@@ -236,11 +235,6 @@ const PopularPlaces = () => {
                 </div>
 
                 <div style={styles.rightSection}>
-                  <div style={styles.statsContainer}>
-                    <span style={styles.commentStats}>
-                      <CommentIcon size={14} /> {place.comments?.length || 0}
-                    </span>
-                  </div>
                   <div style={styles.dateText}>
                     {formatDate(place.updatedAt)}
                   </div>

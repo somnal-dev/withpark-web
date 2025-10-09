@@ -1,6 +1,5 @@
 import Card from "@withpark/ui/components/Card";
 import type { Place } from "../../../types/place";
-import { CommentIcon } from "@withpark/assets/icons/CommentIcon";
 import { PlaceIcon } from "@withpark/assets/icons/PlaceIcon";
 import { GolfIcon } from "@withpark/assets/icons/GolfIcon";
 
@@ -103,20 +102,6 @@ const PlaceCard = ({ place, onPlaceClick }: PlaceCardProps) => {
             borderTop: "1px solid #f0f0f0",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "4px",
-                fontSize: "12px",
-                color: "#666",
-              }}
-            >
-              <CommentIcon size={14} /> {place.comments?.length || 0}
-            </div>
-          </div>
-
           <div style={{ fontSize: "11px", color: "#aaa" }}>
             {formatDate(place.updatedAt)}
           </div>

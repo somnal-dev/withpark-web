@@ -199,17 +199,17 @@ const PostDetailPage = () => {
           ))}
         </div>
 
-        {/* 좋아요/댓글 정보 */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            paddingTop: "16px",
-            borderTop: "1px solid #e2e8f0",
-          }}
-        >
-          {/* <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+        {author && loginUser && author?.id === loginUser?.id && (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              paddingTop: "16px",
+              borderTop: "1px solid #e2e8f0",
+            }}
+          >
+            {/* <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
             <IconButton
               icon={<LikeIcon fill={isLiked} />}
               active={isLiked}
@@ -234,7 +234,6 @@ const PostDetailPage = () => {
             </div>
           </div> */}
 
-          {author && loginUser && author?.id === loginUser?.id && (
             <div style={{ display: "flex", gap: "8px" }}>
               <Button
                 variant="secondary"
@@ -251,8 +250,8 @@ const PostDetailPage = () => {
                 삭제
               </Button>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </Card>
 
       {/* 댓글 섹션 */}

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Fetcher } from "../fetcher";
-import type { CommentsResponse } from "../../types/community";
+import type { CommentsResponse } from "../../types/post";
 import qs from "qs";
 
 interface UseCommentsParams {

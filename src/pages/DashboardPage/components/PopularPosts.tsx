@@ -4,7 +4,7 @@ import Card from "@withpark/ui/components/Card";
 import Button from "@withpark/ui/components/Button";
 import LoadingBar from "@withpark/ui/components/LoadingBar";
 import usePopularPosts from "../../../api/queries/usePopularPosts";
-import type { PopularPeriod } from "../../../types/community";
+import type { PopularPeriod } from "../../../types/post";
 import IconButton from "@withpark/ui/components/IconButton";
 import { LikeIcon } from "@withpark/assets/icons/LikeIcon";
 import { ViewIcon } from "@withpark/assets/icons/ViewIcon";

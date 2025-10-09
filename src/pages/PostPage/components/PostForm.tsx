@@ -6,7 +6,7 @@ import Textarea from "@withpark/ui/components/Textarea";
 import Label from "@withpark/ui/components/Label";
 import FormGroup from "@withpark/ui/components/FormGroup";
 import useCreatePostMutation from "../../../api/mutations/useCreatePostMutation";
-import type { CreatePostRequest } from "../../../types/community";
+import type { CreatePostRequest } from "../../../types/post";
 import useUserInfo from "@withpark/api/queries/useUserInfo";
 
 interface PostFormProps {

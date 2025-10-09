@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Fetcher } from "../fetcher";
-import type { PostsResponse } from "../../types/community";
+import type { PostsResponse } from "../../types/post";
 import qs from "qs";
 
 interface UsePostsParams {

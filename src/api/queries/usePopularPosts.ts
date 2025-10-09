@@ -1,9 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Fetcher } from "../fetcher";
-import type {
-  PopularPostsResponse,
-  PopularPeriod,
-} from "../../types/community";
+import type { PopularPostsResponse, PopularPeriod } from "../../types/post";
 import qs from "qs";
 
 interface UsePopularPostsParams {

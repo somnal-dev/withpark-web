@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { Fetcher } from "@withpark/api/fetcher.ts";
-import type { UploadResponse } from "@withpark/types/community";
+import type { UploadResponse } from "@withpark/types/post";
 
 const uploadProfilePhoto = async (file: File): Promise<UploadResponse[]> => {
   return await Fetcher.upload<UploadResponse[]>(file);

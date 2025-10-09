@@ -10,6 +10,6 @@ export const PATH = {
   PLACE: "/place",
   PLACE_DETAIL: "/place/:placeDocumentId",
   COMMUNITY: "/community",
-  POST_DETAIL: "/community/:postId",
+  POST_DETAIL: "/community/:postDocumentId",
   GAME: "/game",
 };

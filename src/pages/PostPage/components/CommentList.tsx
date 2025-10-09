@@ -4,7 +4,7 @@ import useComments from "../../../api/queries/useComments";
 import useCreateCommentMutation from "../../../api/mutations/useCreateCommentMutation";
 import useUpdateCommentMutation from "../../../api/mutations/useUpdateCommentMutation";
 import useDeleteCommentMutation from "../../../api/mutations/useDeleteCommentMutation";
-import type { Comment, Post } from "../../../types/community";
+import type { Comment, Post } from "../../../types/post";
 import useUserInfo from "@withpark/api/queries/useUserInfo";
 
 interface CommentListProps {

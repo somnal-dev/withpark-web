@@ -4,6 +4,8 @@ import CommentSection, {
 } from "@withpark/ui/components/CommentSection";
 import usePlaceComments from "../../../api/queries/usePlaceComments";
 import useCreatePlaceCommentMutation from "../../../api/mutations/useCreatePlaceCommentMutation";
+// import useUpdatePlaceCommentMutation from "../../../api/mutations/useUpdatePlaceCommentMutation";
+// import useDeletePlaceCommentMutation from "../../../api/mutations/useDeletePlaceCommentMutation";
 
 interface PlaceCommentListProps {
   placeId: number;
@@ -16,6 +18,9 @@ const PlaceCommentList = ({
 }: PlaceCommentListProps) => {
   const [newComment, setNewComment] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  // const [deletingCommentId, setDeletingCommentId] = useState<number | null>(
+  //   null
+  // );
 
   const {
     data: commentsData,
@@ -27,7 +32,10 @@ const PlaceCommentList = ({
     limit: 10,
   });
 
+  // const { data: user } = useUserInfo();
   const createCommentMutation = useCreatePlaceCommentMutation();
+  // const updateCommentMutation = useUpdatePlaceCommentMutation();
+  // const deleteCommentMutation = useDeletePlaceCommentMutation();
 
   const handleSubmitComment = async () => {
     if (!newComment.trim()) return;
@@ -58,6 +66,32 @@ const PlaceCommentList = ({
       }
     }
   };
+
+  // const handleEditComment = async (commentId: number, content: string) => {
+  //   try {
+  //     await updateCommentMutation.mutateAsync({
+  //       commentId,
+  //       content,
+  //     });
+  //   } catch (error) {
+  //     console.error("댓글 수정 실패:", error);
+  //     alert("댓글 수정에 실패했습니다.");
+  //   }
+  // };
+
+  // const handleDeleteComment = async (commentId: number) => {
+  //   // setDeletingCommentId(commentId);
+  //   try {
+  //     await deleteCommentMutation.mutateAsync({
+  //       commentId,
+  //     });
+  //   } catch (error) {
+  //     console.error("댓글 삭제 실패:", error);
+  //     alert("댓글 삭제에 실패했습니다.");
+  //   } finally {
+  //     // setDeletingCommentId(null);
+  //   }
+  // };
 
   const getUserInfo = (comment: PlaceComment) => ({
     nickname: comment.userNickname || "사용자",

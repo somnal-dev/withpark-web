@@ -40,6 +40,7 @@ export interface PostCommentEntity extends BaseEntity {
 
 export interface Comment extends PostComment {
   id: number;
+  documentId: string;
   content: string;
   createdAt: string;
   updatedAt: string;

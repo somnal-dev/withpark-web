@@ -1,9 +1,5 @@
-import { useState } from "react";
 import Card from "@withpark/ui/components/Card";
-import useTogglePlaceLikeMutation from "../../../api/mutations/useTogglePlaceLikeMutation";
 import type { Place } from "../../../types/place";
-import IconButton from "@withpark/ui/components/IconButton";
-import { LikeIcon } from "@withpark/assets/icons/LikeIcon";
 import { CommentIcon } from "@withpark/assets/icons/CommentIcon";
 import { PlaceIcon } from "@withpark/assets/icons/PlaceIcon";
 import { GolfIcon } from "@withpark/assets/icons/GolfIcon";
@@ -14,18 +10,6 @@ interface PlaceCardProps {
 }
 
 const PlaceCard = ({ place, onPlaceClick }: PlaceCardProps) => {
-  const toggleLikeMutation = useTogglePlaceLikeMutation();
-  const [isLiked, setIsLiked] = useState(place.isLiked || false);
-
-  const handleLike = async () => {
-    try {
-      const result = await toggleLikeMutation.mutateAsync(place.id);
-      setIsLiked(result.action === "liked");
-    } catch (error) {
-      console.error("좋아요 토글 실패:", error);
-    }
-  };
-
   const handleCardClick = () => {
     onPlaceClick?.(place.documentId);
   };
@@ -120,17 +104,6 @@ const PlaceCard = ({ place, onPlaceClick }: PlaceCardProps) => {
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <IconButton
-              icon={<LikeIcon fill={isLiked} />}
-              active={isLiked}
-              onClick={handleLike}
-              loading={toggleLikeMutation.isPending}
-              variant="secondary"
-              size="small"
-            >
-              {place.likeCount}
-            </IconButton>
-
             <div
               style={{
                 display: "flex",

@@ -4,8 +4,6 @@ import Card from "@withpark/ui/components/Card";
 import Select from "@withpark/ui/components/Select";
 import LoadingBar from "@withpark/ui/components/LoadingBar";
 import usePopularPlaces from "../../../api/queries/usePopularPlaces";
-import IconButton from "@withpark/ui/components/IconButton";
-import { LikeIcon } from "@withpark/assets/icons/LikeIcon";
 import { CommentIcon } from "@withpark/assets/icons/CommentIcon";
 import { GolfIcon } from "@withpark/assets/icons/GolfIcon";
 import { PlaceIcon } from "@withpark/assets/icons/PlaceIcon";
@@ -231,7 +229,7 @@ const PopularPlaces = () => {
                           gap: "2px",
                         }}
                       >
-                        <GolfIcon size={16} /> {place.holeCount}
+                        <GolfIcon size={16} /> {place.holeCount} 홀
                       </span>
                     )}
                   </div>
@@ -239,16 +237,6 @@ const PopularPlaces = () => {
 
                 <div style={styles.rightSection}>
                   <div style={styles.statsContainer}>
-                    <span style={styles.likeStats}>
-                      <IconButton
-                        icon={<LikeIcon fill={false} />}
-                        readonly
-                        size="small"
-                        variant="ghost"
-                      >
-                        {place.likeCount}
-                      </IconButton>
-                    </span>
                     <span style={styles.commentStats}>
                       <CommentIcon size={14} /> {place.comments?.length || 0}
                     </span>

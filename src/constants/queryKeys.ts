@@ -9,7 +9,7 @@ export const createQueryKey = <T extends string>(base: T) => ({
 export const QUERY_KEYS = {
   USER: createQueryKey("USER"),
   POST: createQueryKey("POST"),
-  COMMENTS: createQueryKey("COMMENT"),
+  COMMENT: createQueryKey("COMMENT"),
   PLACE: createQueryKey("PLACE"),
 
   POST_COMMENT: createQueryKey("POST_COMMENT"),

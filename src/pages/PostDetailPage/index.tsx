@@ -10,6 +10,8 @@ import useAlert from "@withpark/hooks/useAlert";
 import useDeletePostMutation from "@withpark/api/mutations/useDeletePostMutation";
 import { useCloseAllAlerts } from "@withpark/ui/components/Alert/context";
 import { PATH } from "@withpark/constants/routes";
+import useUpdatePostViewCountMutation from "@withpark/api/mutations/useUpdatePostViewCountMutation";
+import { useEffect } from "react";
 
 const PostDetailPage = () => {
   const { postDocumentId } = useParams<{ postDocumentId: string }>();
@@ -21,6 +23,16 @@ const PostDetailPage = () => {
   const closeAllAlerts = useCloseAllAlerts();
 
   const deletePostMutation = useDeletePostMutation();
+  const updatePostViewCountMutation = useUpdatePostViewCountMutation();
+
+  useEffect(() => {
+    if (!post || !postDocumentId) return;
+
+    updatePostViewCountMutation.mutate({
+      postDocumentId: postDocumentId,
+      viewCount: post.viewCount,
+    });
+  }, [post]);
 
   const handleEditPost = async () => {};
 

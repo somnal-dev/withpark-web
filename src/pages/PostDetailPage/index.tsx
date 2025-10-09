@@ -11,13 +11,14 @@ import useDeletePostMutation from "@withpark/api/mutations/useDeletePostMutation
 import { useCloseAllAlerts } from "@withpark/ui/components/Alert/context";
 import { PATH } from "@withpark/constants/routes";
 import useUpdatePostViewCountMutation from "@withpark/api/mutations/useUpdatePostViewCountMutation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { UpdatePostRequest } from "@withpark/types/post";
 
 const PostDetailPage = () => {
   const { postDocumentId } = useParams<{ postDocumentId: string }>();
   const { data: post, isLoading, error } = usePost(postDocumentId!);
   const { data: author } = useUserInfo(post?.user.id, post != null);
+  const [isViewCountIncreased, setIsViewCountIncreased] = useState(false);
 
   const navigate = useNavigate();
   const alert = useAlert();
@@ -27,7 +28,7 @@ const PostDetailPage = () => {
   const updatePostViewCountMutation = useUpdatePostViewCountMutation();
 
   useEffect(() => {
-    if (!post || !postDocumentId) return;
+    if (!post || !postDocumentId || isViewCountIncreased) return;
 
     const newPost: UpdatePostRequest = {
       data: {
@@ -39,6 +40,8 @@ const PostDetailPage = () => {
       postDocumentId: postDocumentId,
       data: newPost,
     });
+
+    setIsViewCountIncreased(true);
   }, [post]);
 
   const handleEditPost = async () => {};

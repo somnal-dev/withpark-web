@@ -87,7 +87,7 @@ const PlaceCard = ({ place, onPlaceClick }: PlaceCardProps) => {
               <span
                 style={{ display: "flex", alignItems: "center", gap: "4px" }}
               >
-                <GolfIcon size={14} /> {place.holeCount}
+                <GolfIcon size={14} /> {place.holeCount} 홀
               </span>
             )}
           </div>

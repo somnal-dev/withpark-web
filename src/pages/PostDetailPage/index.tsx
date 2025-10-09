@@ -18,6 +18,7 @@ const PostDetailPage = () => {
   const { postDocumentId } = useParams<{ postDocumentId: string }>();
   const { data: post, isLoading, error } = usePost(postDocumentId!);
   const { data: author } = useUserInfo(post?.user.id, post != null);
+  const { data: loginUser } = useUserInfo();
   const [isViewCountIncreased, setIsViewCountIncreased] = useState(false);
 
   const navigate = useNavigate();
@@ -233,22 +234,24 @@ const PostDetailPage = () => {
             </div>
           </div> */}
 
-          <div style={{ display: "flex", gap: "8px" }}>
-            <Button
-              variant="secondary"
-              style={{ fontSize: "0.875rem" }}
-              onClick={handleEditPost}
-            >
-              수정
-            </Button>
-            <Button
-              variant="danger"
-              style={{ fontSize: "0.875rem" }}
-              onClick={handleDeletePost}
-            >
-              삭제
-            </Button>
-          </div>
+          {author && loginUser && author?.id === loginUser?.id && (
+            <div style={{ display: "flex", gap: "8px" }}>
+              <Button
+                variant="secondary"
+                style={{ fontSize: "0.875rem" }}
+                onClick={handleEditPost}
+              >
+                수정
+              </Button>
+              <Button
+                variant="danger"
+                style={{ fontSize: "0.875rem" }}
+                onClick={handleDeletePost}
+              >
+                삭제
+              </Button>
+            </div>
+          )}
         </div>
       </Card>
 

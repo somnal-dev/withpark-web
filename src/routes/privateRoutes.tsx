@@ -13,6 +13,7 @@ import Navbar from "@withpark/ui/components/Navbar";
 import GamePage from "@withpark/pages/GamePage";
 import useUserInfo from "@withpark/api/queries/useUserInfo.ts";
 import PostPage from "@withpark/pages/PostPage/index.tsx";
+import PostEditPage from "@withpark/pages/PostEditPage/index.tsx";
 
 const PrivateRoute = () => {
   const { isLogin } = useAuthAtom();
@@ -82,6 +83,10 @@ export const privateRoutes = [
       {
         path: PATH.POST_DETAIL,
         element: <PostDetailPage />,
+      },
+      {
+        path: PATH.POST_EDIT,
+        element: <PostEditPage />,
       },
       {
         path: PATH.GAME,

@@ -14,7 +14,6 @@ const useUpdatePostViewCountMutation = () => {
     mutationFn: ({ postDocumentId, viewCount }: UpdatePostViewCountParams) =>
       Fetcher.put<any>(`posts/${postDocumentId}`, {
         json: {
-          postDocumentId: postDocumentId,
           viewCount: viewCount,
         },
       }),

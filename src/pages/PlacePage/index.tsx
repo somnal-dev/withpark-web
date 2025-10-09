@@ -7,9 +7,7 @@ import LoadingBar from "@withpark/ui/components/LoadingBar";
 import usePlaces from "../../api/queries/usePlaces";
 import usePlace from "../../api/queries/usePlace";
 import PlaceCard from "./components/PlaceCard";
-import PlaceCommentList from "./components/PlaceCommentList";
 import { GolfIcon } from "@withpark/assets/icons/GolfIcon";
-import { LikeIcon } from "@withpark/assets/icons/LikeIcon";
 import { CommentIcon } from "@withpark/assets/icons/CommentIcon";
 import { PlaceIcon } from "@withpark/assets/icons/PlaceIcon";
 
@@ -267,32 +265,11 @@ const PlacePage = () => {
                   color: "#666",
                 }}
               >
-                <LikeIcon fill={false} /> {selectedPlace.likeCount} 좋아요
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "6px",
-                  fontSize: "14px",
-                  color: "#666",
-                }}
-              >
                 <CommentIcon size={16} /> 0 댓글
               </div>
             </div>
           </div>
         </Card>
-
-        {/* 댓글 섹션 */}
-        <div style={{ marginTop: "32px" }}>
-          {selectedPlaceDocumentId && (
-            <PlaceCommentList
-              placeId={selectedPlace.id}
-              placeDocumentId={selectedPlaceDocumentId}
-            />
-          )}
-        </div>
       </div>
     );
   }

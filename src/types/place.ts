@@ -9,7 +9,6 @@ export interface Place extends BaseEntity {
   holeCount?: string;
   longitude?: string;
   latitude?: string;
-  likeCount: number;
   images?: {
     id: number;
     documentId: string;
@@ -28,53 +27,12 @@ export interface Place extends BaseEntity {
     updatedAt: string;
   }[];
   author?: User;
-  likes?: User[];
-  comments?: PlaceCommentEntity[];
-  isLiked?: boolean;
 }
 
 // Strapi v5 응답 타입
 export type PlacesResponse = CollectionResponse<Place>;
 export type PopularPlacesResponse = CollectionResponse<Place>;
 export type PlaceResponse = ApiResponse<Place>;
-
-// 장소 댓글 관련 타입
-export interface PlaceCommentEntity extends BaseEntity {
-  content: string;
-  author: User;
-  place: Place;
-}
-
-export interface PlaceCommentsResponse {
-  comments: PlaceCommentEntity[];
-  pagination: {
-    currentPage: number;
-    totalPages: number;
-    totalCount: number;
-    hasNext: boolean;
-    hasPrev: boolean;
-  };
-}
-
-export interface CreatePlaceCommentRequest {
-  data: {
-    content: string;
-    place: string; // documentId
-  };
-}
-
-export interface UpdatePlaceCommentRequest {
-  data: {
-    content: string;
-  };
-}
-
-// 장소 좋아요 관련 타입
-export interface PlaceLikeResponse {
-  action: "liked" | "unliked";
-  likeCount: number;
-  isLiked: boolean;
-}
 
 // 장소 생성/수정 요청 타입
 export interface CreatePlaceRequest {

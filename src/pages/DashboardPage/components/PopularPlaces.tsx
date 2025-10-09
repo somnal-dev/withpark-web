@@ -146,8 +146,8 @@ const PopularPlaces = () => {
     setSelectedArea(value.toString());
   };
 
-  const handlePlaceClick = (placeId: number) => {
-    navigate(`/place?id=${placeId}`);
+  const handlePlaceClick = (placeDocumentId: string) => {
+    navigate(`/place/${placeDocumentId}`);
   };
 
   const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -183,7 +183,7 @@ const PopularPlaces = () => {
               style={styles.placeItem}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
-              onClick={() => handlePlaceClick(place.id)}
+              onClick={() => handlePlaceClick(place.documentId)}
             >
               <div style={styles.placeContent}>
                 <div style={styles.leftSection}>

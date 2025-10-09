@@ -31,8 +31,8 @@ const PostDetailPage = () => {
 
     const newPost: UpdatePostRequest = {
       data: {
-        viewCount: post.viewCount + 1;
-      }
+        viewCount: post.viewCount + 1,
+      },
     };
 
     updatePostViewCountMutation.mutate({

@@ -12,9 +12,10 @@ const getImageUrl = (url: string | undefined | null): string | undefined => {
 
 interface BaseComment {
   id: number;
+  documentId: string;
   content: string;
   createdAt: string;
-  userId: string | number; // 댓글 작성자 ID 추가
+  user: User | null;
 }
 
 export interface PostComment extends BaseComment {
@@ -22,8 +23,7 @@ export interface PostComment extends BaseComment {
 }
 
 export interface PlaceComment extends BaseComment {
-  userNickname: string;
-  userPhoto?: string | null;
+  user: User | null;
 }
 
 interface PaginationData {
@@ -46,11 +46,11 @@ interface CommentSectionProps<T extends BaseComment> {
   placeholder?: string;
   pagination?: PaginationData;
   onPageChange?: (page: number) => void;
-  getUserInfo: (comment: T) => { nickname: string; photo?: string };
-  onEditComment?: (commentId: number, content: string) => void;
-  onDeleteComment?: (commentId: number) => void;
+  getUserInfo: (comment: T) => User;
+  onEditComment?: (commentDocumentId: string, content: string) => void;
+  onDeleteComment?: (commentDocumentId: string) => void;
   isEditing?: boolean;
-  isDeletingId?: number;
+  isDeletingId?: string;
   currentUserId?: string | number; // 현재 사용자 ID로 수정/삭제 권한 체크
 }
 
@@ -73,7 +73,9 @@ const CommentSection = <T extends BaseComment>({
   isDeletingId,
   currentUserId,
 }: CommentSectionProps<T>) => {
-  const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
+  const [editingCommentDocumentId, setEditingCommentDocumentId] = useState<
+    string | null
+  >(null);
   const [editingContent, setEditingContent] = useState<string>("");
 
   const formatDate = (dateString: string) => {
@@ -96,26 +98,26 @@ const CommentSection = <T extends BaseComment>({
   };
 
   const handleEditStart = (comment: T) => {
-    setEditingCommentId(comment.id);
+    setEditingCommentDocumentId(comment.documentId);
     setEditingContent(comment.content);
   };
 
   const handleEditCancel = () => {
-    setEditingCommentId(null);
+    setEditingCommentDocumentId(null);
     setEditingContent("");
   };
 
   const handleEditSave = () => {
-    if (editingCommentId && onEditComment && editingContent.trim()) {
-      onEditComment(editingCommentId, editingContent.trim());
-      setEditingCommentId(null);
+    if (editingCommentDocumentId && onEditComment && editingContent.trim()) {
+      onEditComment(editingCommentDocumentId, editingContent.trim());
+      setEditingCommentDocumentId(null);
       setEditingContent("");
     }
   };
 
-  const handleDelete = (commentId: number) => {
+  const handleDelete = (commentDocumentId: string) => {
     if (window.confirm("정말로 이 댓글을 삭제하시겠습니까?")) {
-      onDeleteComment?.(commentId);
+      onDeleteComment?.(commentDocumentId);
     }
   };
 
@@ -123,7 +125,7 @@ const CommentSection = <T extends BaseComment>({
     if (!currentUserId) return false;
 
     // 댓글 작성자 ID와 현재 사용자 ID 비교
-    return comment.userId === currentUserId;
+    return comment.user?.id === currentUserId;
   };
 
   return (
@@ -162,10 +164,11 @@ const CommentSection = <T extends BaseComment>({
       ) : comments.length > 0 ? (
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           {comments.map((comment, _) => {
-            const userInfo = getUserInfo(comment);
-            const isCurrentlyEditing = editingCommentId === comment.id;
+            const user = getUserInfo(comment);
+            const isCurrentlyEditing =
+              editingCommentDocumentId === comment.documentId;
             const canModify = canUserModifyComment(comment);
-            const isDeleting = isDeletingId === comment.id;
+            const isDeleting = isDeletingId === comment.documentId;
 
             return (
               <div
@@ -185,10 +188,12 @@ const CommentSection = <T extends BaseComment>({
                     marginBottom: "8px",
                   }}
                 >
-                  {userInfo.photo && (
+                  {user.photo && (
                     <img
-                      src={getImageUrl(userInfo?.photo)}
-                      alt={userInfo?.nickname ?? ""}
+                      src={getImageUrl(
+                        user.photo?.formats?.thumbnail?.url ?? ""
+                      )}
+                      alt={user?.nickname ?? ""}
                       style={{
                         width: "32px",
                         height: "32px",
@@ -207,7 +212,7 @@ const CommentSection = <T extends BaseComment>({
                         marginBottom: "2px",
                       }}
                     >
-                      {userInfo.nickname}
+                      {user?.nickname}
                     </div>
                     <div
                       style={{
@@ -236,7 +241,7 @@ const CommentSection = <T extends BaseComment>({
                       </Button>
                       <Button
                         variant="danger"
-                        onClick={() => handleDelete(comment.id)}
+                        onClick={() => handleDelete(comment.documentId)}
                         style={{
                           fontSize: "12px",
                           padding: "4px 8px",

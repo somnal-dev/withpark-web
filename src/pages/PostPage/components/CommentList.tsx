@@ -6,6 +6,7 @@ import useUpdateCommentMutation from "../../../api/mutations/useUpdateCommentMut
 import useDeleteCommentMutation from "../../../api/mutations/useDeleteCommentMutation";
 import type { Comment, Post } from "../../../types/post";
 import useUserInfo from "@withpark/api/queries/useUserInfo";
+import { User } from "@withpark/types/user";
 
 interface CommentListProps {
   post: Post;
@@ -23,9 +24,9 @@ const CommentList = ({ post }: CommentListProps) => {
   const deleteCommentMutation = useDeleteCommentMutation();
 
   const [newComment, setNewComment] = useState("");
-  const [deletingCommentId, setDeletingCommentId] = useState<number | null>(
-    null
-  );
+  const [deletingCommentDocumentId, setDeletingCommentDocumentId] = useState<
+    string | null
+  >(null);
 
   const handleSubmitComment = async () => {
     if (!newComment.trim()) {
@@ -48,8 +49,13 @@ const CommentList = ({ post }: CommentListProps) => {
     }
   };
 
-  const handleEditComment = async (commentId: number, content: string) => {
-    const comment = commentsData?.data.find((c) => c.id === commentId);
+  const handleEditComment = async (
+    commentDocumentId: string,
+    content: string
+  ) => {
+    const comment = commentsData?.data.find(
+      (c) => c.documentId === commentDocumentId
+    );
     if (!comment) return;
 
     try {
@@ -63,11 +69,13 @@ const CommentList = ({ post }: CommentListProps) => {
     }
   };
 
-  const handleDeleteComment = async (commentId: number) => {
-    const comment = commentsData?.data.find((c) => c.id === commentId);
+  const handleDeleteComment = async (commentDocumentId: string) => {
+    const comment = commentsData?.data.find(
+      (c) => c.documentId === commentDocumentId
+    );
     if (!comment) return;
 
-    setDeletingCommentId(commentId);
+    setDeletingCommentDocumentId(commentDocumentId);
     try {
       await deleteCommentMutation.mutateAsync({
         commentDocumentId: comment.documentId,
@@ -76,19 +84,23 @@ const CommentList = ({ post }: CommentListProps) => {
       console.error("댓글 삭제 실패:", error);
       alert("댓글 삭제에 실패했습니다.");
     } finally {
-      setDeletingCommentId(null);
+      setDeletingCommentDocumentId(null);
     }
   };
 
   const getUserInfo = (comment: Comment) => {
-    if (!comment.user) {
-      return { nickname: "익명", photo: undefined };
-    }
-
-    return {
-      nickname: comment?.user?.nickname ?? "알수없음",
-      photo: comment?.user.photo?.url,
+    const defaultUser: User = {
+      id: 0,
+      documentId: "",
+      createdAt: "",
+      updatedAt: "",
+      username: "",
+      nickname: "익명",
+      photo: null,
+      isOnboardingDone: false,
     };
+
+    return comment.user ?? defaultUser;
   };
 
   return (
@@ -106,7 +118,7 @@ const CommentList = ({ post }: CommentListProps) => {
       onEditComment={handleEditComment}
       onDeleteComment={handleDeleteComment}
       isEditing={updateCommentMutation.isPending}
-      isDeletingId={deletingCommentId ?? undefined}
+      isDeletingId={deletingCommentDocumentId ?? undefined}
       currentUserId={user?.id}
     />
   );

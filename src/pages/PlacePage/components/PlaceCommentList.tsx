@@ -4,6 +4,8 @@ import CommentSection, {
 } from "@withpark/ui/components/CommentSection";
 import usePlaceComments from "../../../api/queries/usePlaceComments";
 import useCreatePlaceCommentMutation from "../../../api/mutations/useCreatePlaceCommentMutation";
+import { User } from "@withpark/types/user";
+import { PlaceCommentEntity } from "@withpark/types/place";
 // import useUpdatePlaceCommentMutation from "../../../api/mutations/useUpdatePlaceCommentMutation";
 // import useDeletePlaceCommentMutation from "../../../api/mutations/useDeletePlaceCommentMutation";
 
@@ -93,22 +95,36 @@ const PlaceCommentList = ({
   //   }
   // };
 
-  const getUserInfo = (comment: PlaceComment) => ({
-    nickname: comment.userNickname || "사용자",
-    photo: comment.userPhoto || undefined,
-  });
+  const getUserInfo = (comment: PlaceComment) => {
+    const defaultUser: User = {
+      id: 0,
+      documentId: "",
+      createdAt: "",
+      updatedAt: "",
+      username: "",
+      nickname: "익명",
+      photo: null,
+      isOnboardingDone: false,
+    };
+
+    return comment.user ?? defaultUser;
+  };
 
   // PlaceCommentEntity를 PlaceComment로 변환
-  const transformComments = (comments: any[]): PlaceComment[] => {
-    return comments.map((comment) => ({
-      id: comment.id,
-      content: comment.content,
-      createdAt: comment.createdAt,
-      updatedAt: comment.updatedAt,
-      userId: comment.author?.id || 0,
-      userNickname: comment.author?.nickname || "사용자",
-      userPhoto: comment.author?.photo?.url,
-    }));
+  const transformComments = (
+    comments: PlaceCommentEntity[]
+  ): PlaceComment[] => {
+    return comments.map((comment) => {
+      const placeComment: PlaceComment = {
+        id: comment.id,
+        documentId: comment.documentId,
+        content: comment.content,
+        createdAt: comment.createdAt,
+        user: comment.author,
+      };
+
+      return placeComment;
+    });
   };
 
   if (error) {

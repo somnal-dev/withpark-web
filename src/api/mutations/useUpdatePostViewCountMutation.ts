@@ -1,20 +1,21 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Fetcher } from "@withpark/api/fetcher";
 import { QUERY_KEYS } from "@withpark/constants/queryKeys";
+import { UpdatePostRequest } from "@withpark/types/post";
 
-interface UpdatePostViewCountParams {
+interface UpdatePostRequestParams {
   postDocumentId: string;
-  viewCount: number;
+  data: UpdatePostRequest;
 }
 
 const useUpdatePostViewCountMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ postDocumentId, viewCount }: UpdatePostViewCountParams) =>
+    mutationFn: ({ postDocumentId, data }: UpdatePostRequestParams) =>
       Fetcher.put<any>(`posts/${postDocumentId}`, {
         json: {
-          viewCount: viewCount,
+          viewCount: data,
         },
       }),
     onSuccess: () => {

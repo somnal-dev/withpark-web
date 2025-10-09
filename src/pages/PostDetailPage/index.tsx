@@ -12,6 +12,7 @@ import { useCloseAllAlerts } from "@withpark/ui/components/Alert/context";
 import { PATH } from "@withpark/constants/routes";
 import useUpdatePostViewCountMutation from "@withpark/api/mutations/useUpdatePostViewCountMutation";
 import { useEffect } from "react";
+import { UpdatePostRequest } from "@withpark/types/post";
 
 const PostDetailPage = () => {
   const { postDocumentId } = useParams<{ postDocumentId: string }>();
@@ -28,9 +29,15 @@ const PostDetailPage = () => {
   useEffect(() => {
     if (!post || !postDocumentId) return;
 
+    const newPost: UpdatePostRequest = {
+      data: {
+        viewCount: post.viewCount + 1;
+      }
+    };
+
     updatePostViewCountMutation.mutate({
       postDocumentId: postDocumentId,
-      viewCount: post.viewCount + 1,
+      data: newPost,
     });
   }, [post]);
 

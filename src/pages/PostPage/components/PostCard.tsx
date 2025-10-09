@@ -1,9 +1,6 @@
-import { useState } from "react";
 import Card from "@withpark/ui/components/Card";
-import useToggleLikeMutation from "../../../api/mutations/useToggleLikeMutation";
 import type { Post } from "../../../types/post";
 import IconButton from "@withpark/ui/components/IconButton";
-import { LikeIcon } from "@withpark/assets/icons/LikeIcon";
 import { CommentIcon } from "@withpark/assets/icons/CommentIcon";
 import { ViewIcon } from "@withpark/assets/icons/ViewIcon";
 import ProfileImage from "@withpark/ui/components/ProfileImage";
@@ -15,19 +12,7 @@ interface PostCardProps {
 }
 
 const PostCard = ({ post, onPostClick }: PostCardProps) => {
-  const toggleLikeMutation = useToggleLikeMutation();
-  const [isLiked, setIsLiked] = useState(post.isLiked || false);
-
   const { data: author } = useUserInfo(post?.user?.id, post?.user != null);
-
-  const handleLike = async () => {
-    try {
-      const result = await toggleLikeMutation.mutateAsync(post.id);
-      setIsLiked(result.isLiked);
-    } catch (error) {
-      console.error("좋아요 토글 실패:", error);
-    }
-  };
 
   const handlePostClick = () => {
     onPostClick?.(post.documentId);
@@ -108,7 +93,7 @@ const PostCard = ({ post, onPostClick }: PostCardProps) => {
 
         {/* 액션 버튼들 */}
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          <IconButton
+          {/* <IconButton
             icon={<LikeIcon fill={isLiked} />}
             active={isLiked}
             onClick={handleLike}
@@ -117,7 +102,7 @@ const PostCard = ({ post, onPostClick }: PostCardProps) => {
             size="small"
           >
             {post.likeCount}
-          </IconButton>
+          </IconButton> */}
 
           <IconButton
             icon={<CommentIcon size={16} />}

@@ -98,6 +98,7 @@ export interface UpdatePostRequest {
     title?: string;
     content?: string;
     images?: number[]; // 이미지 ID 배열
+    viewCount?: number;
   };
 }
 

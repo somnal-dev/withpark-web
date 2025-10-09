@@ -12,16 +12,18 @@ const useUpdatePostViewCountMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ postDocumentId, data }: UpdatePostRequestParams) =>
-      Fetcher.put<any>(`posts/${postDocumentId}`, {
+    mutationFn: async ({ postDocumentId, data }: UpdatePostRequestParams) =>
+      await Fetcher.put<any>(`posts/${postDocumentId}`, {
         json: data,
       }),
-    onSuccess: () => {
+    onSuccess: (response) => {
+      console.log("성공");
+
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.POST.all,
       });
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.POST.all,
+        queryKey: QUERY_KEYS.POST.detail(response["data"]?.documentId ?? ""),
       });
     },
     onError: (error) => {

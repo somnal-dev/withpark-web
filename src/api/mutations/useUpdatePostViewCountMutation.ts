@@ -14,9 +14,7 @@ const useUpdatePostViewCountMutation = () => {
   return useMutation({
     mutationFn: ({ postDocumentId, data }: UpdatePostRequestParams) =>
       Fetcher.put<any>(`posts/${postDocumentId}`, {
-        json: {
-          viewCount: data,
-        },
+        json: data,
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({

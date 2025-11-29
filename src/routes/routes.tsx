@@ -13,8 +13,8 @@ const options = {
   defaults: '2025-05-24',
 } as const
 
-posthog.init('phc_Vr4FICtNlmGCH8kvRF6fKq2zJEbdD7YqTuVgmRNy4i5', {
-  api_host: 'https://us.i.posthog.com',
+posthog.init(POSTHOG_KEY, {
+  api_host: POSTHOG_HOST,
   defaults: '2025-05-24'
 })
 

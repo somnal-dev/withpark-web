@@ -6,11 +6,17 @@ import GlobalErrorBoundary from "@withpark/ui/components/ErrorBoundary/GlobalErr
 import WithParkUIProvider from "@withpark/ui/components/Provider/WithParkUIProvider";
 import { POSTHOG_HOST, POSTHOG_KEY } from "@withpark/constants/config.ts";
 import { PostHogProvider } from 'posthog-js/react'
+import { posthog } from 'posthog-js';
 
 const options = {
   api_host: POSTHOG_HOST,
   defaults: '2025-05-24',
 } as const
+
+posthog.init('phc_Vr4FICtNlmGCH8kvRF6fKq2zJEbdD7YqTuVgmRNy4i5', {
+  api_host: 'https://us.i.posthog.com',
+  defaults: '2025-05-24'
+})
 
 export const routes: RouteObject[] = [
     {

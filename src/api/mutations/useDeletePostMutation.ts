@@ -15,12 +15,15 @@ const useDeletePostMutation = () => {
 
   return useMutation({
     mutationFn: deletePost,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.POST.all,
+    onSuccess: (_data, variables) => {
+      // 삭제된 게시물의 상세 쿼리는 캐시에서 제거
+      queryClient.removeQueries({
+        queryKey: QUERY_KEYS.POST.detail(variables.postDocumentId),
       });
+
+      // 게시물 목록 쿼리만 무효화
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.POST.all,
+        queryKey: QUERY_KEYS.POST.lists(),
       });
     },
     onError: (error) => {

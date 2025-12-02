@@ -211,7 +211,7 @@ const CommentSection = <T extends BaseComment>({
                   {user.photo && (
                     <img
                       src={getImageUrl(
-                        user.photo?.formats?.thumbnail?.url ?? ""
+                        user.photo?.url ?? ""
                       )}
                       alt={user?.nickname ?? ""}
                       style={{

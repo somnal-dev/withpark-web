@@ -10,7 +10,7 @@ export default function usePlace(documentId: string) {
       if (!documentId) return null;
 
       const response = await Fetcher.get<PlaceResponse>(
-        `places/${documentId}?populate=*`
+        `places/${documentId}`
       );
 
       return response.data;

@@ -1,46 +1,39 @@
 import { useQuery } from "@tanstack/react-query";
 import { Fetcher } from "../fetcher";
 import type { PostsResponse } from "../../types/post";
-import qs from "qs";
+import { QUERY_KEYS } from "@withpark/constants/queryKeys";
 
 interface UsePostsParams {
   page?: number;
-  limit?: number;
+  pageSize?: number;
+  sort?: string;
   search?: string;
 }
 
 export default function usePosts({
   page = 1,
-  limit = 10,
+  pageSize = 10,
+  sort = "createdAt:desc",
   search = "",
 }: UsePostsParams = {}) {
   return useQuery({
-    queryKey: ["posts", page, limit, search],
+    queryKey: [...QUERY_KEYS.POST.lists(), page, pageSize, sort, search],
     queryFn: async () => {
-      const filters: any = {
-        user: { $notNull: true },
-      };
-
-      // search가 있을 때만 필터 추가
-      if (search && search.trim()) {
-        filters.title = { $containsi: search };
-      }
-
-      const queryParams: any = {
-        filters,
-        sort: ["createdAt:desc"],
-        pagination: {
-          page: page,
-          pageSize: limit,
-        },
-      };
-
-      const query = qs.stringify(queryParams, {
-        encodeValuesOnly: true,
+      const params = new URLSearchParams({
+        page: page.toString(),
+        pageSize: pageSize.toString(),
       });
 
+      if (sort) {
+        params.append("sort", sort);
+      }
+
+      if (search && search.trim()) {
+        params.append("search", search.trim());
+      }
+
       const response = await Fetcher.get<PostsResponse>(
-        `posts?${query}&populate=*`
+        `posts?${params.toString()}`
       );
 
       return response;

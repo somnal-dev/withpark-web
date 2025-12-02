@@ -39,7 +39,7 @@ export default function usePlaces({
           },
         },
         {
-          encodeValuesOnly: true,
+          encode: true,
         }
       );
 

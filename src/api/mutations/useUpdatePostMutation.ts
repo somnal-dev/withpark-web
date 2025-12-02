@@ -7,21 +7,16 @@ interface UpdatePostParams {
   postDocumentId: string;
   title: string;
   content: string;
-  images?: number[];
 }
 
 const updatePost = async ({
   postDocumentId,
   title,
   content,
-  images,
 }: UpdatePostParams) => {
   const requestBody: UpdatePostRequest = {
-    data: {
-      title,
-      content,
-      images,
-    },
+    title,
+    content,
   };
 
   return Fetcher.put<any>(`posts/${postDocumentId}`, {

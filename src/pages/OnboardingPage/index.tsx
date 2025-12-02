@@ -25,25 +25,31 @@ const OnboardingPage = () => {
   const updateUserInfo = useUpdateUserInfoMutation();
 
   const [currentStep, setCurrentStep] = useState(0);
-  const [onboardingUserInfo, setOnboardingUserInfo] = useState<User>({
+  const [onboardingUserInfo, setOnboardingUserInfo] = useState<User & { photoUrl?: string }>({
     id: 0,
     documentId: "",
     username: "",
     nickname: "",
     photo: null,
+    photoUrl: undefined,
     introduction: "",
-    isOnboardingDone: false,
+    onboardingDone: false,
     createdAt: "",
     updatedAt: "",
     ...userInfo,
   });
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    setOnboardingUserInfo((prev) => ({
-      ...prev,
-      ...userInfo,
-    }));
-  }, [userInfo]);
+    // userInfo가 로드되고 아직 초기화되지 않은 경우에만 실행
+    if (userInfo && !isInitialized) {
+      setOnboardingUserInfo((prev) => ({
+        ...prev,
+        ...userInfo,
+      }));
+      setIsInitialized(true);
+    }
+  }, [userInfo, isInitialized]);
 
   const onboardingSteps = [
     {
@@ -68,7 +74,7 @@ const OnboardingPage = () => {
     },
   ];
 
-  const handleInputChange = (field: keyof User, value: any) => {
+  const handleInputChange = (field: keyof (User & { photoUrl?: string }), value: any) => {
     setOnboardingUserInfo((prev) => ({
       ...prev,
       [field]: value,
@@ -93,8 +99,8 @@ const OnboardingPage = () => {
       data: {
         nickname: onboardingUserInfo.nickname,
         introduction: onboardingUserInfo.introduction,
-        photo: onboardingUserInfo.photo,
-        isOnboardingDone: true,
+        photoUrl: onboardingUserInfo.photoUrl,
+        onboardingDone: true,
       },
     });
 
@@ -155,8 +161,9 @@ const OnboardingPage = () => {
         return (
           <Styled.FormContainer>
             <ProfileImageUpload
-              imageUrl={onboardingUserInfo.photo?.formats?.thumbnail?.url ?? ""}
-              onImageChange={(photo) => handleInputChange("photo", photo)}
+              imageUrl={onboardingUserInfo.photoUrl || onboardingUserInfo.photo?.url || ""}
+              onImageChange={(photoUrl) => handleInputChange("photoUrl", photoUrl)}
+              userId={onboardingUserInfo.id}
               size="large"
             />
           </Styled.FormContainer>
@@ -170,7 +177,7 @@ const OnboardingPage = () => {
               <Textarea
                 id="introduction"
                 placeholder="파크골프에 대한 열정이나 목표를 간단히 소개해주세요 (최소 10글자)"
-                value={onboardingUserInfo.introduction}
+                value={onboardingUserInfo.introduction || ""}
                 onChange={(e) =>
                   handleInputChange("introduction", e.target.value)
                 }

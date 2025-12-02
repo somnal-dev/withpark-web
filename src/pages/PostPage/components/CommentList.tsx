@@ -14,7 +14,7 @@ interface CommentListProps {
 
 const CommentList = ({ post }: CommentListProps) => {
   const { data: commentsData, isLoading } = useComments({
-    postDocumentId: post.documentId,
+    postId: post.id,
   });
 
   const { data: user } = useUserInfo();
@@ -38,8 +38,7 @@ const CommentList = ({ post }: CommentListProps) => {
 
     try {
       await createCommentMutation.mutateAsync({
-        userId: user?.id,
-        postDocumentId: post.documentId,
+        postId: post.id,
         content: newComment.trim(),
       });
       setNewComment("");
@@ -97,7 +96,7 @@ const CommentList = ({ post }: CommentListProps) => {
       username: "",
       nickname: "익명",
       photo: null,
-      isOnboardingDone: false,
+      onboardingDone: false,
     };
 
     return comment.user ?? defaultUser;

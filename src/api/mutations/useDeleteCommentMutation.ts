@@ -19,6 +19,9 @@ const useDeleteCommentMutation = () => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.COMMENT.all,
       });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.POST.all,
+      });
     },
     onError: (error) => {
       console.error("댓글 삭제 실패:", error);

@@ -17,8 +17,16 @@ const useUpdateUserInfoMutation = () => {
       Fetcher.put<ApiResponse<User>>(`users/${userId}`, {
         json: data,
       }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
+    onSuccess: async (_data, variables) => {
+      // 특정 사용자 정보 쿼리 무효화
+      await queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.USER.detail(variables.userId),
+      });
+      await queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.USER.detail("me"),
+      });
+      // 모든 사용자 관련 쿼리 무효화
+      await queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.USER.all,
       });
     },

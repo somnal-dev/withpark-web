@@ -30,7 +30,7 @@ export default function usePopularPlaces({
           },
         },
         {
-          encodeValuesOnly: true,
+          encode: true,
         }
       );
 

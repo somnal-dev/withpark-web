@@ -15,12 +15,11 @@ import { useNavigate } from "react-router-dom";
 import { PATH } from "@withpark/constants/routes.ts";
 import { useCloseAllDialogs } from "@withpark/ui/components/Dialog/context.ts";
 import { useCloseAllAlerts } from "@withpark/ui/components/Alert/context.ts";
-import { Photo } from "@withpark/types/user";
 
 interface UserSettings {
   nickname: string;
   introduction: string;
-  photo: Photo | null;
+  photoUrl: string | null;
 }
 
 const SettingPage = () => {
@@ -37,7 +36,7 @@ const SettingPage = () => {
   const [settings, setSettings] = useState<UserSettings>({
     nickname: "",
     introduction: "",
-    photo: null,
+    photoUrl: null,
   });
 
   const [isEdited, setIsEdited] = useState(false);
@@ -50,7 +49,7 @@ const SettingPage = () => {
       setSettings({
         nickname: userInfo.nickname || "",
         introduction: userInfo.introduction || "",
-        photo: userInfo.photo ?? null,
+        photoUrl: userInfo.photo?.url ?? null,
       });
     }
   }, [userInfo]);
@@ -70,7 +69,7 @@ const SettingPage = () => {
       await updateUserInfoMutation.mutateAsync({
         userId: userInfo.id,
         data: {
-          photo: settings.photo,
+          photoUrl: settings.photoUrl ?? undefined,
           nickname: settings.nickname,
           introduction: settings.introduction,
         },
@@ -104,8 +103,9 @@ const SettingPage = () => {
           navigate(PATH.INTRO, { replace: true });
         } catch (error) {
           console.error("회원 탈퇴 실패:", error);
+          const errorMessage = error instanceof Error ? error.message : "회원 탈퇴에 실패했습니다.";
           alert.open({
-            content: <>회원 탈퇴에 실패했습니다.</>,
+            content: <>{errorMessage}</>,
           });
         }
       },
@@ -123,8 +123,9 @@ const SettingPage = () => {
         <FormGroup>
           <Label>프로필 사진</Label>
           <ProfileImageUpload
-            imageUrl={settings?.photo?.formats?.thumbnail?.url || undefined}
-            onImageChange={(photo) => handleInputChange("photo", photo)}
+            imageUrl={settings?.photoUrl || undefined}
+            onImageChange={(photoUrl) => handleInputChange("photoUrl", photoUrl)}
+            userId={userInfo?.id}
             size="medium"
           />
         </FormGroup>

@@ -11,9 +11,7 @@ const useDeleteUserMutation = () => {
 
   return useMutation({
     mutationFn: ({ userId }: DeleteUserRequest) =>
-      Fetcher.delete(`users/${userId}`, {
-        json: {},
-      }),
+      Fetcher.delete(`users/${userId}`),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.USER.all,

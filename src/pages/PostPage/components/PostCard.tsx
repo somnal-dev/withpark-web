@@ -14,8 +14,6 @@ interface PostCardProps {
 const PostCard = ({ post, onPostClick }: PostCardProps) => {
   const { data: author } = useUserInfo(post?.user?.id, post?.user != null);
 
-  console.log(author);
-
   const handlePostClick = () => {
     onPostClick?.(post.documentId);
   };
@@ -56,7 +54,7 @@ const PostCard = ({ post, onPostClick }: PostCardProps) => {
         >
           {author?.photo && (
             <ProfileImage
-              imgUrl={author.photo?.formats?.thumbnail?.url ?? ""}
+              imgUrl={author.photo?.url ?? ""}
             />
           )}
           <div>

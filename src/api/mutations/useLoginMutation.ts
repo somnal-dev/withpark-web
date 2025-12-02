@@ -8,13 +8,14 @@ interface PostLoginRequest {
 }
 
 interface PostLoginResponse {
-  jwt: string;
+  accessToken: string;
+  refreshToken: string;
   user: User;
 }
 
 const postLogin = ({ socialType, accessToken }: PostLoginRequest) =>
   Fetcher.get<PostLoginResponse>(
-    `auth/${socialType}/callback?access_token=${accessToken}`
+    `oauth/${socialType}/login?access_token=${accessToken}`
   );
 
 const useLoginMutation = () =>

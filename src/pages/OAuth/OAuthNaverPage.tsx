@@ -24,15 +24,15 @@ const OAuthNaverPage = () => {
     }
 
     // 획득한 코드로 로그인
-    const { jwt, user } = await loginMuatation.mutateAsync({
+    const { accessToken: newAccessToken, refreshToken, user } = await loginMuatation.mutateAsync({
       socialType: SocialLoginType.NAVER,
       accessToken: accessToken,
     });
 
-    setToken(jwt);
+    setToken(newAccessToken, refreshToken);
 
     // 온보딩 필요여부 판단
-    if (user.isOnboardingDone) {
+    if (user.onboardingDone) {
       navigate(PATH.INDEX, { replace: true });
     } else {
       navigate(PATH.ONBOARDING, { replace: true });

@@ -8,10 +8,10 @@ export default function usePost(documentId: string) {
     queryKey: QUERY_KEYS.POST.detail(documentId),
     queryFn: async () => {
       const response = await Fetcher.get<PostResponse>(
-        `posts/${documentId}?populate=*`
+        `posts/${documentId}`
       );
 
-      return response.data;
+      return response;
     },
     enabled: !!documentId,
   });

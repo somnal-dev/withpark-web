@@ -103,8 +103,9 @@ const SettingPage = () => {
           navigate(PATH.INTRO, { replace: true });
         } catch (error) {
           console.error("회원 탈퇴 실패:", error);
+          const errorMessage = error instanceof Error ? error.message : "회원 탈퇴에 실패했습니다.";
           alert.open({
-            content: <>회원 탈퇴에 실패했습니다.</>,
+            content: <>{errorMessage}</>,
           });
         }
       },

@@ -58,8 +58,6 @@ export const instance = ky.create({
         try {
           const accessToken = localStorage.get(LOCAL_STORAGE.ACCESS_TOKEN);
 
-          console.log(accessToken);
-
           if (accessToken) {
             request.headers.set("Authorization", `Bearer ${accessToken}`);
           }

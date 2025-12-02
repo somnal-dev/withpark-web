@@ -38,13 +38,18 @@ const OnboardingPage = () => {
     updatedAt: "",
     ...userInfo,
   });
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    setOnboardingUserInfo((prev) => ({
-      ...prev,
-      ...userInfo,
-    }));
-  }, [userInfo]);
+    // userInfo가 로드되고 아직 초기화되지 않은 경우에만 실행
+    if (userInfo && !isInitialized) {
+      setOnboardingUserInfo((prev) => ({
+        ...prev,
+        ...userInfo,
+      }));
+      setIsInitialized(true);
+    }
+  }, [userInfo, isInitialized]);
 
   const onboardingSteps = [
     {
@@ -89,14 +94,18 @@ const OnboardingPage = () => {
   };
 
   const handleComplete = async () => {
+    const updateData = {
+      nickname: onboardingUserInfo.nickname,
+      introduction: onboardingUserInfo.introduction,
+      photoUrl: onboardingUserInfo.photoUrl,
+      onboardingDone: true,
+    };
+
+    console.log("🚀 온보딩 완료 - 전송할 데이터:", updateData);
+
     await updateUserInfo.mutateAsync({
       userId: onboardingUserInfo.id,
-      data: {
-        nickname: onboardingUserInfo.nickname,
-        introduction: onboardingUserInfo.introduction,
-        photoUrl: onboardingUserInfo.photoUrl,
-        onboardingDone: true,
-      },
+      data: updateData,
     });
 
     // 사용자 정보를 다시 가져온다.
@@ -172,7 +181,7 @@ const OnboardingPage = () => {
               <Textarea
                 id="introduction"
                 placeholder="파크골프에 대한 열정이나 목표를 간단히 소개해주세요 (최소 10글자)"
-                value={onboardingUserInfo.introduction}
+                value={onboardingUserInfo.introduction || ""}
                 onChange={(e) =>
                   handleInputChange("introduction", e.target.value)
                 }

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Fetcher } from "../fetcher";
 import type { PostsResponse } from "../../types/post";
+import { QUERY_KEYS } from "@withpark/constants/queryKeys";
 
 interface UsePostsParams {
   page?: number;
@@ -16,7 +17,7 @@ export default function usePosts({
   search = "",
 }: UsePostsParams = {}) {
   return useQuery({
-    queryKey: ["posts", page, pageSize, sort, search],
+    queryKey: [...QUERY_KEYS.POST.lists(), page, pageSize, sort, search],
     queryFn: async () => {
       const params = new URLSearchParams({
         page: page.toString(),

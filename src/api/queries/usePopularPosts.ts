@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Fetcher } from "../fetcher";
 import type { PopularPostsResponse, PopularPeriod } from "../../types/post";
+import { QUERY_KEYS } from "@withpark/constants/queryKeys";
 import qs from "qs";
 
 interface UsePopularPostsParams {
@@ -15,7 +16,7 @@ export default function usePopularPosts({
   period = "all",
 }: UsePopularPostsParams = {}) {
   return useQuery({
-    queryKey: ["popularPosts", page, limit, period],
+    queryKey: [...QUERY_KEYS.POST.lists(), "popular", page, limit, period],
     queryFn: async () => {
       const filters: any = {};
 

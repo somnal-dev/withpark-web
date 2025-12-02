@@ -11,7 +11,7 @@ export default function usePost(documentId: string) {
         `posts/${documentId}?populate=*`
       );
 
-      return response.data;
+      return response;
     },
     enabled: !!documentId,
   });

@@ -21,7 +21,6 @@ const PostForm = ({ onClose, onSuccess }: PostFormProps) => {
     title: "",
     content: "",
   });
-  const [uploadedImages, setUploadedImages] = useState<number[]>([]);
   const { data: user, isLoading: isUserLoading } = useUserInfo();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -38,19 +37,14 @@ const PostForm = ({ onClose, onSuccess }: PostFormProps) => {
 
     try {
       const postData: CreatePostRequest = {
-        data: {
-          user: user.id,
-          title: formData.title.trim(),
-          content: formData.content.trim(),
-          images: uploadedImages.length > 0 ? uploadedImages : undefined,
-        },
+        title: formData.title.trim(),
+        content: formData.content.trim(),
       };
 
       await createPostMutation.mutateAsync(postData);
 
       // 폼 초기화
       setFormData({ title: "", content: "" });
-      setUploadedImages([]);
       onSuccess?.();
       onClose?.();
     } catch (error) {

@@ -5,8 +5,7 @@ import { DataResponse } from "@withpark/types/common";
 import { QUERY_KEYS } from "@withpark/constants/queryKeys";
 
 interface CreateCommentParams {
-  userId: number;
-  postDocumentId: string;
+  postId: number;
   content: string;
 }
 
@@ -15,16 +14,12 @@ export default function useCreateCommentMutation() {
 
   return useMutation({
     mutationFn: async ({
-      userId,
-      postDocumentId,
+      postId,
       content,
     }: CreateCommentParams) => {
       const requestData: CreateCommentRequest = {
-        data: {
-          content,
-          user: userId,
-          post: postDocumentId,
-        },
+        content,
+        postId,
       };
 
       const response = await Fetcher.post<DataResponse<any>>(`comments`, {
@@ -33,11 +28,11 @@ export default function useCreateCommentMutation() {
 
       return response.data;
     },
-    onSuccess: (response) => {
+    onSuccess: () => {
       // 댓글 목록과 게시글 목록을 무효화하여 댓글 수 업데이트
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.COMMENT.all });
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.POST.detail(response["data"]?.documentId ?? ""),
+        queryKey: QUERY_KEYS.POST.all,
       });
     },
   });

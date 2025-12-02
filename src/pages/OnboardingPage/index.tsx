@@ -25,14 +25,15 @@ const OnboardingPage = () => {
   const updateUserInfo = useUpdateUserInfoMutation();
 
   const [currentStep, setCurrentStep] = useState(0);
-  const [onboardingUserInfo, setOnboardingUserInfo] = useState<User>({
+  const [onboardingUserInfo, setOnboardingUserInfo] = useState<User & { photoUrl?: string }>({
     id: 0,
     documentId: "",
     username: "",
     nickname: "",
     photo: null,
+    photoUrl: undefined,
     introduction: "",
-    isOnboardingDone: false,
+    onboardingDone: false,
     createdAt: "",
     updatedAt: "",
     ...userInfo,
@@ -68,7 +69,7 @@ const OnboardingPage = () => {
     },
   ];
 
-  const handleInputChange = (field: keyof User, value: any) => {
+  const handleInputChange = (field: keyof (User & { photoUrl?: string }), value: any) => {
     setOnboardingUserInfo((prev) => ({
       ...prev,
       [field]: value,
@@ -93,8 +94,8 @@ const OnboardingPage = () => {
       data: {
         nickname: onboardingUserInfo.nickname,
         introduction: onboardingUserInfo.introduction,
-        photo: onboardingUserInfo.photo,
-        isOnboardingDone: true,
+        photoUrl: onboardingUserInfo.photoUrl,
+        onboardingDone: true,
       },
     });
 
@@ -155,8 +156,9 @@ const OnboardingPage = () => {
         return (
           <Styled.FormContainer>
             <ProfileImageUpload
-              imageUrl={onboardingUserInfo.photo?.formats?.thumbnail?.url ?? ""}
-              onImageChange={(photo) => handleInputChange("photo", photo)}
+              imageUrl={onboardingUserInfo.photoUrl || onboardingUserInfo.photo?.url || ""}
+              onImageChange={(photoUrl) => handleInputChange("photoUrl", photoUrl)}
+              userId={onboardingUserInfo.id}
               size="large"
             />
           </Styled.FormContainer>

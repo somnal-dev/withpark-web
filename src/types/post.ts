@@ -85,36 +85,24 @@ export interface CommentsResponse {
 
 // 게시글 생성/수정 요청 타입
 export interface CreatePostRequest {
-  data: {
-    title: string;
-    content: string;
-    user: number;
-    images?: number[]; // 이미지 ID 배열
-  };
+  title: string;
+  content: string;
 }
 
 export interface UpdatePostRequest {
-  data: {
-    title?: string;
-    content?: string;
-    images?: number[]; // 이미지 ID 배열
-    viewCount?: number;
-  };
+  title?: string;
+  content?: string;
+  viewCount?: number;
 }
 
 // 댓글 생성/수정 요청 타입
 export interface CreateCommentRequest {
-  data: {
-    user: number;
-    content: string;
-    post: string; // documentId
-  };
+  content: string;
+  postId: number;
 }
 
 export interface UpdateCommentRequest {
-  data: {
-    content: string;
-  };
+  content: string;
 }
 
 // 좋아요 응답 타입

@@ -19,7 +19,7 @@ import { KakaotalkIcon } from "@withpark/assets/icons/KakaoTalkIcon.tsx";
 import { NaverIcon } from "@withpark/assets/icons/NaverIcon.tsx";
 import { API_URL } from "@withpark/constants/config";
 
-const kakaoLoginUrl = `${API_URL}/connect/kakao`;
+const kakaoLoginUrl = `${API_URL}/oauth/kakao/authorize`;
 const naverLoginUrl = `${API_URL}/connect/naver`;
 
 const LoginPage = () => {

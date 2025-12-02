@@ -1,11 +1,12 @@
 import { ChangeEvent, useRef, useState } from "react";
 import Styled from "./ProfileImageUpload.styles";
 import useImageUploadMutation from "@withpark/api/mutations/useImageUploadMutation";
-import { Photo } from "@withpark/types/user";
+import useUpdateUserInfoMutation from "@withpark/api/mutations/useUpdateUserInfoMutation";
 
 interface ProfileImageUploadProps {
   imageUrl?: string;
-  onImageChange: (photo: Photo) => void;
+  onImageChange: (photoUrl: string) => void;
+  userId?: number;
   size?: "small" | "medium" | "large";
   placeholder?: string;
 }
@@ -13,6 +14,7 @@ interface ProfileImageUploadProps {
 const ProfileImageUpload = ({
   imageUrl,
   onImageChange,
+  userId,
   size = "medium",
   placeholder = "",
 }: ProfileImageUploadProps) => {
@@ -20,6 +22,7 @@ const ProfileImageUpload = ({
   const [isUploading, setIsUploading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const uploadMutation = useImageUploadMutation();
+  const updateUserInfoMutation = useUpdateUserInfoMutation();
 
   const src = `${imageUrl}`;
 
@@ -40,9 +43,18 @@ const ProfileImageUpload = ({
 
     try {
       const response = await uploadMutation.mutateAsync({ files: file });
-      // 부모 컴포넌트에 새 URL 전달 (첫 번째 이미지 사용)
-      if (response && response.length > 0) {
-        onImageChange(response[0]);
+      // 부모 컴포넌트에 새 URL 전달 (첫 번째 이미지의 URL만)
+      if (response && response.length > 0 && response[0].url) {
+        const photoUrl = response[0].url;
+        onImageChange(photoUrl);
+
+        // userId가 제공된 경우 즉시 사용자 정보 업데이트
+        if (userId) {
+          await updateUserInfoMutation.mutateAsync({
+            userId,
+            data: { photoUrl },
+          });
+        }
       }
     } catch (error) {
       console.error("이미지 업로드 실패:", error);

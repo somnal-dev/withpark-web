@@ -23,7 +23,7 @@ const PrivateRoute = () => {
     return <Navigate to={PATH.INTRO} replace />;
   }
 
-  if (!!user && !user?.isOnboardingDone) {
+  if (!!user && !user?.onboardingDone) {
     return <Navigate to={PATH.ONBOARDING} replace />;
   }
 

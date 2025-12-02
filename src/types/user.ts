@@ -70,27 +70,17 @@ export interface User extends BaseEntity {
   id: number;
   username: string;
   email?: string;
-  confirmed?: boolean;
-  blocked?: boolean;
   nickname: string;
   photo?: Photo | null;
   introduction?: string;
-  isOnboardingDone: boolean;
-  provider?: string;
-  role?: {
-    id: number;
-    documentId: string;
-    name: string;
-    description?: string;
-    type: string;
-  };
+  onboardingDone: boolean;
 }
 
 export interface UpdateUserRequest {
   nickname?: string;
   introduction?: string;
-  photo?: User["photo"];
-  isOnboardingDone?: boolean;
+  photoUrl?: string;
+  onboardingDone?: boolean;
 }
 
 export interface UploadProfilePhotoResponse {

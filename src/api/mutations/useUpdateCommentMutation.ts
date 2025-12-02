@@ -13,9 +13,7 @@ const updateComment = async ({
   content,
 }: UpdateCommentParams) => {
   const requestBody: UpdateCommentRequest = {
-    data: {
-      content,
-    },
+    content,
   };
 
   return Fetcher.put<any>(`comments/${commentDocumentId}`, {
@@ -31,6 +29,9 @@ const useUpdateCommentMutation = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.COMMENT.all,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.POST.all,
       });
     },
     onError: (error) => {

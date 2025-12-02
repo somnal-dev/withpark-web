@@ -88,7 +88,7 @@ const Navbar = () => {
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
                 >
                   <ProfileImage
-                    imgUrl={userInfo?.photo?.formats?.thumbnail?.url ?? ""}
+                    imgUrl={userInfo?.photo?.url ?? ""}
                   />
 
                   <span style={{ fontSize: "0.875rem", color: "#4a5568" }}>

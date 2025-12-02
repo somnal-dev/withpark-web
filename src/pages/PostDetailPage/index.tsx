@@ -32,9 +32,7 @@ const PostDetailPage = () => {
     if (!post || !postDocumentId || isViewCountIncreased) return;
 
     const newPost: UpdatePostRequest = {
-      data: {
-        viewCount: post.viewCount + 1,
-      },
+      viewCount: post.viewCount + 1,
     };
 
     updatePostViewCountMutation.mutate({
@@ -171,7 +169,7 @@ const PostDetailPage = () => {
         >
           {author?.photo && (
             <ProfileImage
-              imgUrl={author?.photo?.formats?.thumbnail?.url ?? ""}
+              imgUrl={author?.photo?.url ?? ""}
             />
           )}
 

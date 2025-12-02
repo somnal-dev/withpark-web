@@ -94,18 +94,14 @@ const OnboardingPage = () => {
   };
 
   const handleComplete = async () => {
-    const updateData = {
-      nickname: onboardingUserInfo.nickname,
-      introduction: onboardingUserInfo.introduction,
-      photoUrl: onboardingUserInfo.photoUrl,
-      onboardingDone: true,
-    };
-
-    console.log("🚀 온보딩 완료 - 전송할 데이터:", updateData);
-
     await updateUserInfo.mutateAsync({
       userId: onboardingUserInfo.id,
-      data: updateData,
+      data: {
+        nickname: onboardingUserInfo.nickname,
+        introduction: onboardingUserInfo.introduction,
+        photoUrl: onboardingUserInfo.photoUrl,
+        onboardingDone: true,
+      },
     });
 
     // 사용자 정보를 다시 가져온다.

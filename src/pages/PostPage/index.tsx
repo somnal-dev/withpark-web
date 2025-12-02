@@ -19,7 +19,7 @@ const PostPage = () => {
     error,
   } = usePosts({
     page: currentPage,
-    limit: 10,
+    pageSize: 10,
     search: actualSearchQuery,
   });
 

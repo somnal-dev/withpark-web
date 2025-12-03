@@ -17,8 +17,6 @@ const useUpdatePostViewCountMutation = () => {
         json: data,
       }),
     onSuccess: (response) => {
-      console.log("성공");
-
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.POST.all,
       });

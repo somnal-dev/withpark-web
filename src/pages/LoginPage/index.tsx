@@ -20,7 +20,7 @@ import { NaverIcon } from "@withpark/assets/icons/NaverIcon.tsx";
 import { API_URL } from "@withpark/constants/config";
 
 const kakaoLoginUrl = `${API_URL}/oauth/kakao/authorize`;
-const naverLoginUrl = `${API_URL}/connect/naver`;
+const naverLoginUrl = `${API_URL}/oauth/naver/authorize`;
 
 const LoginPage = () => {
   const [loading, setLoading] = useState<string | null>(null);

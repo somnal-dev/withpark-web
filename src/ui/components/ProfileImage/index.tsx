@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Styled from "./ProfileImage.styles";
+import { getAbsoluteImageUrl } from "../../../utils/imageUrl";
 
 type Props = {
   imgUrl: string;
@@ -17,7 +18,7 @@ const ProfileImage = ({ imgUrl }: Props) => {
     return <Styled.ProfileImagePlaceholder />;
   }
 
-  const src = `${imgUrl}`;
+  const src = getAbsoluteImageUrl(imgUrl);
 
   return (
     <Styled.ProfileImage src={src} alt="프로필 이미지" onError={handleError} />

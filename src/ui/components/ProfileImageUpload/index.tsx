@@ -2,6 +2,7 @@ import { ChangeEvent, useRef, useState } from "react";
 import Styled from "./ProfileImageUpload.styles";
 import useImageUploadMutation from "@withpark/api/mutations/useImageUploadMutation";
 import useUpdateUserInfoMutation from "@withpark/api/mutations/useUpdateUserInfoMutation";
+import { getAbsoluteImageUrl } from "../../../utils/imageUrl";
 
 interface ProfileImageUploadProps {
   imageUrl?: string;
@@ -24,7 +25,7 @@ const ProfileImageUpload = ({
   const uploadMutation = useImageUploadMutation();
   const updateUserInfoMutation = useUpdateUserInfoMutation();
 
-  const src = `${imageUrl}`;
+  const src = getAbsoluteImageUrl(imageUrl);
 
   const handlePhotoUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -45,13 +46,7 @@ const ProfileImageUpload = ({
       const response = await uploadMutation.mutateAsync({ files: file });
       // 부모 컴포넌트에 새 URL 전달 (첫 번째 이미지의 URL만)
       if (response && response.length > 0 && response[0].url) {
-        let photoUrl = response[0].url;
-
-        // 상대 경로인 경우 서버 URL과 조합
-        if (photoUrl.startsWith('/')) {
-          photoUrl = `${import.meta.env.VITE_SERVER_URL}${photoUrl}`;
-        }
-
+        const photoUrl = getAbsoluteImageUrl(response[0].url);
         onImageChange(photoUrl);
 
         // userId가 제공된 경우 즉시 사용자 정보 업데이트

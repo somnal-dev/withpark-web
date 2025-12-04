@@ -4,13 +4,7 @@ import Textarea from "../Textarea";
 import { useState } from "react";
 import useAlert from "@withpark/hooks/useAlert";
 import { useCloseAllAlerts } from "../Alert/context";
-
-const getImageUrl = (url: string | undefined | null): string | undefined => {
-  if (!url) return undefined;
-  return import.meta.env.PROD
-    ? url // 프로덕션에서는 Vercel 프록시를 통해 접근
-    : `${url}`; // 개발환경에서는 직접 연결
-};
+import { getAbsoluteImageUrl } from "../../../utils/imageUrl";
 
 interface BaseComment {
   id: number;
@@ -210,8 +204,8 @@ const CommentSection = <T extends BaseComment>({
                 >
                   {user.photo && (
                     <img
-                      src={getImageUrl(
-                        user.photo?.url ?? ""
+                      src={getAbsoluteImageUrl(
+                        user.photo?.url
                       )}
                       alt={user?.nickname ?? ""}
                       style={{

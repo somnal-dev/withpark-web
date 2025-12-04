@@ -110,7 +110,7 @@ const PostCard = ({ post, onPostClick }: PostCardProps) => {
             variant="secondary"
             size="small"
           >
-            {post.comments?.length || 0}
+            {post.commentCount || 0}
           </IconButton>
 
           <div
